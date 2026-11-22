@@ -93,6 +93,8 @@ interface AppContextType {
   logoutUser: () => void;
   isAuthModalOpen: boolean;
   setIsAuthModalOpen: (open: boolean) => void;
+  isDrawerOpen: boolean;
+  setIsDrawerOpen: (open: boolean) => void;
   userName: string;
   userPhone: string;
 }
@@ -100,8 +102,8 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
-  const [currentScreen, setCurrentScreen] = useState<ActiveScreen>('splash');
-  const [screenHistory, setScreenHistory] = useState<ActiveScreen[]>(['splash']);
+  const [currentScreen, setCurrentScreen] = useState<ActiveScreen>('home');
+  const [screenHistory, setScreenHistory] = useState<ActiveScreen[]>(['home']);
   
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(INITIAL_PRODUCTS[0]);
   const [selectedWorker, setSelectedWorker] = useState<Worker | null>(INITIAL_WORKERS[0]);
@@ -140,6 +142,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [userName, setUserName] = useState('Muzammil Shaik');
   const [userPhone, setUserPhone] = useState('+91 99887 76655');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const navigateTo = (screen: ActiveScreen) => {
     if (screen === currentScreen) return;
@@ -333,6 +336,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         logoutUser,
         isAuthModalOpen,
         setIsAuthModalOpen,
+        isDrawerOpen,
+        setIsDrawerOpen,
         userName,
         userPhone
       }}

@@ -1,4 +1,97 @@
-import { Product, Worker, WorkerBooking, ProductOrder, Address, AppNotification } from '../types';
+import {
+  Product,
+  Worker,
+  WorkerBooking,
+  ProductOrder,
+  Address,
+  AppNotification,
+  HomeCategoryCard,
+  HeroSlide
+} from '../types';
+
+export const HERO_SLIDES: HeroSlide[] = [
+  {
+    id: 'hero-1',
+    title: 'Transform Your Space with Elegance',
+    subtitle: 'Discover premium-quality marbles and tiles for your dream space.',
+    highlightText: 'Premium Marble & Tiles',
+    ctaText: 'Explore Collection',
+    image: '/assets/hero_banner.png',
+    badge: 'Direct Factory Prices',
+    targetCategory: 'Marble',
+    targetScreen: 'products'
+  },
+  {
+    id: 'hero-2',
+    title: 'Skilled Artisans at Your Site',
+    subtitle: 'Instant nearby booking of verified tile fitters, polishers & masons.',
+    highlightText: 'Certified Site Experts',
+    ctaText: 'Book Skilled Workers',
+    image: '/assets/worker_banner.png',
+    badge: 'Background Verified',
+    targetScreen: 'worker-categories'
+  },
+  {
+    id: 'hero-3',
+    title: 'Building Trust. Creating Futures.',
+    subtitle: 'Direct quarry-inspected Italian marble, granite slabs & luxury tiles.',
+    highlightText: 'Radhesh & Rudresh Quality',
+    ctaText: 'View All Slabs',
+    image: '/assets/splash_slabs.png',
+    badge: '100% Quality Assured',
+    targetCategory: 'All',
+    targetScreen: 'products'
+  }
+];
+
+export const HOME_CATEGORIES: HomeCategoryCard[] = [
+  {
+    id: 'Marble',
+    title: 'Marbles',
+    subtitle: 'Italian, Indian & Statuario Slabs',
+    image: '/assets/cat_marble.png',
+    itemCount: 42,
+    badge: 'Popular'
+  },
+  {
+    id: 'Tiles',
+    title: 'Tiles',
+    subtitle: 'Floor, Wall & Vitrified Designer Tiles',
+    image: '/assets/cat_tiles.png',
+    itemCount: 88,
+    badge: 'Trending'
+  },
+  {
+    id: 'Granite',
+    title: 'Granite',
+    subtitle: 'Black Galaxy, Moon White & Slabs',
+    image: '/assets/cat_granite.png',
+    itemCount: 35
+  },
+  {
+    id: 'Natural Stone',
+    title: 'Natural Stones',
+    subtitle: 'Onyx, Travertine & Sandstone',
+    image: '/assets/prod_beige_travertine.jpg',
+    itemCount: 24
+  },
+  {
+    id: 'Bathroom Collection',
+    title: 'Bathroom Collection',
+    subtitle: 'Anti-Skid Flooring & Vanity Slabs',
+    image: '/assets/prod_italian_white.png',
+    itemCount: 30,
+    badge: 'Waterproof'
+  },
+  {
+    id: 'Kitchen Collection',
+    title: 'Kitchen Collection',
+    subtitle: 'Heat & Stain Resistant Countertops',
+    image: '/assets/prod_black_galaxy.png',
+    itemCount: 28,
+    badge: 'Heavy Duty'
+  }
+];
 
 export const INITIAL_PRODUCTS: Product[] = [
   {
@@ -12,7 +105,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     availableStockSqFt: 2400,
     vendorName: 'Royal Marble Emporium',
     vendorLocation: 'Madhapur, Hyderabad',
-    type: 'Natural Marble',
+    type: 'Natural Imported Marble',
     finish: 'Mirror Polished',
     thickness: '18–20 mm',
     usage: 'Floor, Wall, Kitchen, Bathroom',
@@ -235,6 +328,98 @@ export const INITIAL_PRODUCTS: Product[] = [
       '/assets/cat_quartz.png'
     ],
     featured: true
+  },
+  // Bathroom Collection Specific Items
+  {
+    id: 'prod-11',
+    name: 'Anti-Skid Calacatta Bathroom Slab',
+    category: 'Bathroom Collection',
+    pricePerSqFt: 340,
+    rating: 4.9,
+    reviewCount: 82,
+    stockStatus: 'In Stock',
+    availableStockSqFt: 1400,
+    vendorName: 'Royal Marble Emporium',
+    vendorLocation: 'Madhapur, Hyderabad',
+    type: 'Honed Anti-Slip Marble',
+    finish: 'Satin Matte / Anti-Skid',
+    thickness: '18 mm',
+    usage: 'Shower Enclosures, Bathroom Flooring, Vanity Tops',
+    description: 'Specialized honed-finish Italian Calacatta marble treated with anti-slip micro-grooving for luxury bathroom floors and wet areas without slipping hazards.',
+    image: '/assets/prod_italian_white.png',
+    galleryImages: [
+      '/assets/prod_italian_white.png',
+      '/assets/prod_statuario.png'
+    ],
+    featured: true,
+    bestSeller: true
+  },
+  {
+    id: 'prod-12',
+    name: 'Waterproof Textured Wall Tile 2x1 ft',
+    category: 'Bathroom Collection',
+    pricePerSqFt: 92,
+    rating: 4.7,
+    reviewCount: 145,
+    stockStatus: 'In Stock',
+    availableStockSqFt: 3200,
+    vendorName: 'Kajaria Brand Galleria',
+    vendorLocation: 'Somajiguda, Hyderabad',
+    type: 'Ceramic Digital Wall Tile',
+    finish: 'Water Repellent Matte',
+    thickness: '8.5 mm',
+    usage: 'Bathroom Accent Walls, Powder Rooms',
+    description: '3D geometric relief tiles designed specifically for bathroom splash zones with zero water absorption and easy wipe cleaning.',
+    image: '/assets/cat_tiles.png',
+    galleryImages: [
+      '/assets/cat_tiles.png'
+    ]
+  },
+  // Kitchen Collection Specific Items
+  {
+    id: 'prod-13',
+    name: 'Stain-Proof Jet Black Kitchen Countertop',
+    category: 'Kitchen Collection',
+    pricePerSqFt: 310,
+    rating: 4.9,
+    reviewCount: 190,
+    stockStatus: 'In Stock',
+    availableStockSqFt: 2100,
+    vendorName: 'Deccan Natural Stones',
+    vendorLocation: 'Jubilee Hills, Hyderabad',
+    type: 'Heavy Duty Granite Slab',
+    finish: 'Mirror Polished Bullnose Edge',
+    thickness: '20 mm',
+    usage: 'Modular Kitchen Countertops, Island Benches, Backsplashes',
+    description: 'Ultra-dense Indian granite tested against hot pans, lemon juice, turmeric pastes, and oil splatters. Pre-sealed with nano-penetrating sealer.',
+    image: '/assets/prod_black_galaxy.png',
+    galleryImages: [
+      '/assets/prod_black_galaxy.png',
+      '/assets/cat_granite.png'
+    ],
+    featured: true,
+    bestSeller: true
+  },
+  {
+    id: 'prod-14',
+    name: 'Calacatta Gold Seamless Kitchen Quartz',
+    category: 'Kitchen Collection',
+    pricePerSqFt: 760,
+    rating: 4.8,
+    reviewCount: 64,
+    stockStatus: 'In Stock',
+    availableStockSqFt: 720,
+    vendorName: 'Silestone Quartz Gallery',
+    vendorLocation: 'Kondapur, Hyderabad',
+    type: 'Food-Grade Engineered Quartz',
+    finish: 'Velvet Silk',
+    thickness: '20 mm',
+    usage: 'Breakfast Counters, Kitchen Platforms',
+    description: 'Non-porous hygienic quartz certified safe for direct dough rolling and vegetable chopping. Gorgeous subtle golden veining on warm white.',
+    image: '/assets/cat_quartz.png',
+    galleryImages: [
+      '/assets/cat_quartz.png'
+    ]
   }
 ];
 
@@ -390,7 +575,7 @@ export const INITIAL_WORKERS: Worker[] = [
   {
     id: 'w-7',
     name: 'Santosh Yadav',
-    skill: 'Licensed Plumber',
+    skill: 'Licensed Site Plumber',
     category: 'Plumber',
     ratePerDay: 650,
     ratePerHour: 95,
@@ -412,7 +597,7 @@ export const INITIAL_WORKERS: Worker[] = [
   {
     id: 'w-8',
     name: 'Vikram Singh',
-    skill: 'Master Electrician',
+    skill: 'Master Site Electrician',
     category: 'Electrician',
     ratePerDay: 700,
     ratePerHour: 100,
@@ -443,20 +628,20 @@ export const INITIAL_WORKERS: Worker[] = [
     experienceYears: 7,
     completedJobs: 215,
     distanceKm: 2.9,
-    isOnline: false,
-    isAvailableNow: false,
+    isOnline: true,
+    isAvailableNow: true,
     photo: '/assets/worker_painter.png',
     serviceArea: 'Dilsukhnagar, LB Nagar, Kothapet',
     verified: true,
     portfolioImages: [],
     phone: '+91 98488 66778',
     about: 'Modular kitchen carcass framing, door frame jamb fixing over stone thresholds, wooden partition panels, and wardrobe fitting.',
-    estimatedArrivalMin: 60
+    estimatedArrivalMin: 40
   },
   {
     id: 'w-10',
     name: 'Mahesh Goud',
-    skill: 'General Construction Labor',
+    skill: 'Site Labor & Slab Shifting',
     category: 'Labor / Helper',
     ratePerDay: 500,
     ratePerHour: 75,
@@ -482,7 +667,7 @@ export const INITIAL_ORDERS: ProductOrder[] = [
     id: 'ORD-88241',
     items: [
       {
-        product: INITIAL_PRODUCTS[0], // Italian White Marble
+        product: INITIAL_PRODUCTS[0],
         areaSqFt: 100,
         subtotal: 32000
       }
@@ -503,7 +688,7 @@ export const INITIAL_ORDERS: ProductOrder[] = [
     id: 'ORD-88319',
     items: [
       {
-        product: INITIAL_PRODUCTS[1], // Black Galaxy Granite
+        product: INITIAL_PRODUCTS[1],
         areaSqFt: 100,
         subtotal: 28000
       }
@@ -633,18 +818,4 @@ export const INITIAL_NOTIFICATIONS: AppNotification[] = [
     timestamp: '2 days ago',
     read: true
   }
-];
-
-export const WORKER_CATEGORY_METADATA = [
-  { name: 'Mason', icon: 'Hammer', count: 18, desc: 'Brickwork, PCC base & plastering' },
-  { name: 'Tile Fitter', icon: 'Grid', count: 34, desc: 'Vitrified, ceramic & designer tiles' },
-  { name: 'Marble Fitter', icon: 'Layers', count: 26, desc: 'Italian & Indian slab laying' },
-  { name: 'Marble Polisher', icon: 'Sparkles', count: 21, desc: 'Diamond pad mirror crystallization' },
-  { name: 'Granite Fitter', icon: 'Maximize', count: 19, desc: 'Kitchen countertops, edge molding' },
-  { name: 'Painter', icon: 'Paintbrush', count: 42, desc: 'Interior, exterior, texture painting' },
-  { name: 'Plumber', icon: 'Wrench', count: 29, desc: 'Concealed CPVC, sanitary fittings' },
-  { name: 'Electrician', icon: 'Zap', count: 37, desc: 'Wiring, fixtures, switches & LEDs' },
-  { name: 'Carpenter', icon: 'PenTool', count: 22, desc: 'Woodwork, doorframes, kitchen carcass' },
-  { name: 'Labor / Helper', icon: 'Truck', count: 50, desc: 'Slab shifting, mortar mixing & cleaning' },
-  { name: 'Other Services', icon: 'MoreHorizontal', count: 15, desc: 'Waterproofing, core cutting & fabrication' }
 ];

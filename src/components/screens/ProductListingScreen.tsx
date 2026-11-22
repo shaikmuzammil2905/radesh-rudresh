@@ -10,7 +10,9 @@ import {
   SlidersHorizontal,
   Search,
   Check,
-  X
+  X,
+  ChevronRight,
+  Eye
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import { Header } from '../common/Header';
@@ -34,7 +36,16 @@ export const ProductListingScreen: React.FC = () => {
   const [stockFilter, setStockFilter] = useState<StockStatus | 'All'>('All');
   const [showFilterDrawer, setShowFilterDrawer] = useState(false);
 
-  const categories: ProductCategory[] = ['All', 'Marble', 'Granite', 'Tiles', 'Quartz', 'Natural Stone'];
+  const categories: ProductCategory[] = [
+    'All',
+    'Marble',
+    'Granite',
+    'Tiles',
+    'Quartz',
+    'Natural Stone',
+    'Bathroom Collection',
+    'Kitchen Collection'
+  ];
 
   const filteredProducts = INITIAL_PRODUCTS.filter((product) => {
     const matchesCategory =
@@ -59,16 +70,33 @@ export const ProductListingScreen: React.FC = () => {
   };
 
   return (
-    <div className="pb-20 bg-slate-50 min-h-screen">
+    <div className="pb-24 bg-slate-50 min-h-screen">
       {/* Top Header matching Screen 3: Back, Marbles & Tiles, Heart, Cart */}
       <Header
-        title="Marbles & Tiles"
+        title={selectedCategory === 'All' ? 'Marbles & Tiles' : selectedCategory}
         showBack={true}
         showWishlist={true}
         showCart={true}
       />
 
-      {/* Category Tabs matching Screen 3: All, Marble, Granite, Tiles, Quartz */}
+      {/* Breadcrumb Navigation */}
+      <div className="bg-white px-4 py-2 border-b border-gray-100 flex items-center gap-1.5 text-[11px] text-gray-500">
+        <button
+          onClick={() => navigateTo('home')}
+          className="hover:text-brand-500 font-medium"
+        >
+          Home
+        </button>
+        <ChevronRight className="w-3 h-3 text-gray-400" />
+        <span className="font-bold text-brand-600 line-clamp-1">
+          {selectedCategory === 'All' ? 'All Products' : selectedCategory}
+        </span>
+        <span className="text-gray-400 text-[10px] ml-auto">
+          ({filteredProducts.length} items)
+        </span>
+      </div>
+
+      {/* Category Tabs: All, Marble, Granite, Tiles, Quartz, Natural Stone, Bathroom, Kitchen */}
       <div className="bg-white px-4 py-2.5 border-b border-gray-100 sticky top-[57px] z-30 shadow-2xs">
         <div className="flex gap-2 overflow-x-auto no-scrollbar py-0.5">
           {categories.map((cat) => {
@@ -77,7 +105,7 @@ export const ProductListingScreen: React.FC = () => {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-200 ${
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-200 ${
                   isActive
                     ? 'bg-brand-500 text-white shadow-xs scale-102'
                     : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
@@ -96,10 +124,10 @@ export const ProductListingScreen: React.FC = () => {
           <Search className="w-3.5 h-3.5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search stone name, finish..."
+            placeholder="Search in this category..."
             value={globalSearchQuery}
             onChange={(e) => setGlobalSearchQuery(e.target.value)}
-            className="w-full bg-white text-xs pl-8 pr-3 py-1.5 rounded-xl border border-gray-200 focus:outline-hidden focus:border-brand-500"
+            className="w-full bg-white text-xs pl-8 pr-3 py-1.5 rounded-xl border border-gray-200 focus:outline-hidden focus:border-brand-500 shadow-2xs"
           />
         </div>
 
@@ -107,7 +135,7 @@ export const ProductListingScreen: React.FC = () => {
           value={sortOption}
           onChange={(e) => setSortOption(e.target.value as any)}
           aria-label="Sort products"
-          className="bg-white border border-gray-200 text-xs font-semibold text-gray-700 rounded-xl px-2.5 py-1.5 focus:outline-hidden focus:border-brand-500"
+          className="bg-white border border-gray-200 text-xs font-semibold text-gray-700 rounded-xl px-2.5 py-1.5 focus:outline-hidden focus:border-brand-500 shadow-2xs"
         >
           <option value="popular">Most Popular</option>
           <option value="price-low">Price: Low to High</option>
@@ -118,7 +146,7 @@ export const ProductListingScreen: React.FC = () => {
         <button
           onClick={() => setShowFilterDrawer(!showFilterDrawer)}
           aria-label="Filter products"
-          className={`p-2 rounded-xl border transition-colors ${
+          className={`p-2 rounded-xl border transition-colors shadow-2xs ${
             stockFilter !== 'All'
               ? 'bg-brand-50 border-brand-500 text-brand-600'
               : 'bg-white border-gray-200 text-gray-700'
@@ -151,7 +179,7 @@ export const ProductListingScreen: React.FC = () => {
       {/* Product Results Grid (2 Columns as per Screen 3) */}
       <div className="px-4 py-2">
         <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
-          <span>Showing <strong>{filteredProducts.length}</strong> items</span>
+          <span>Showing <strong>{filteredProducts.length}</strong> products</span>
           {stockFilter !== 'All' && (
             <button
               onClick={() => setStockFilter('All')}
@@ -163,7 +191,7 @@ export const ProductListingScreen: React.FC = () => {
         </div>
 
         {filteredProducts.length === 0 ? (
-          <div className="bg-white rounded-2xl p-8 text-center border border-gray-200/80 my-4">
+          <div className="bg-white rounded-2xl p-8 text-center border border-gray-200/80 my-4 shadow-2xs">
             <p className="text-gray-500 text-sm">No products found matching your filter criteria.</p>
             <button
               onClick={() => {
@@ -215,13 +243,18 @@ export const ProductListingScreen: React.FC = () => {
                     </button>
 
                     {/* Stock status tag */}
+                    {product.stockStatus === 'In Stock' && (
+                      <span className="absolute bottom-2 left-2 bg-emerald-500 text-white text-[8.5px] font-black px-1.5 py-0.5 rounded-sm shadow-2xs">
+                        In Stock
+                      </span>
+                    )}
                     {product.stockStatus === 'Limited Stock' && (
-                      <span className="absolute bottom-2 left-2 bg-amber-500 text-white text-[8.5px] font-black px-1.5 py-0.5 rounded-sm">
-                        Limited Stock
+                      <span className="absolute bottom-2 left-2 bg-amber-500 text-white text-[8.5px] font-black px-1.5 py-0.5 rounded-sm shadow-2xs">
+                        Limited
                       </span>
                     )}
                     {product.stockStatus === 'Out of Stock' && (
-                      <span className="absolute bottom-2 left-2 bg-red-500 text-white text-[8.5px] font-black px-1.5 py-0.5 rounded-sm">
+                      <span className="absolute bottom-2 left-2 bg-red-500 text-white text-[8.5px] font-black px-1.5 py-0.5 rounded-sm shadow-2xs">
                         Out of Stock
                       </span>
                     )}
@@ -250,19 +283,29 @@ export const ProductListingScreen: React.FC = () => {
                       </div>
                     </div>
 
-                    {/* Add to Cart Outline Button */}
-                    <button
-                      onClick={() => !isOutOfStock && addToCart(product, 100)}
-                      disabled={isOutOfStock}
-                      className={`mt-2.5 w-full flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-xl text-[10.5px] font-bold transition-all active:scale-95 border ${
-                        isOutOfStock
-                          ? 'border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed'
-                          : 'border-brand-500 text-brand-500 hover:bg-brand-500 hover:text-white shadow-2xs'
-                      }`}
-                    >
-                      <Plus className="w-3 h-3 stroke-[2.5]" />
-                      <span>{isOutOfStock ? 'Out of Stock' : 'Add to Cart'}</span>
-                    </button>
+                    {/* Action Buttons: View Details & Add to Cart */}
+                    <div className="mt-2.5 flex flex-col gap-1.5">
+                      <button
+                        onClick={() => handleProductSelect(product)}
+                        className="w-full flex items-center justify-center gap-1 py-1 px-2 rounded-xl text-[10px] font-bold text-gray-700 bg-gray-50 hover:bg-gray-100 transition active:scale-95 border border-gray-200"
+                      >
+                        <Eye className="w-3 h-3 text-gray-500" />
+                        <span>View Details</span>
+                      </button>
+
+                      <button
+                        onClick={() => !isOutOfStock && addToCart(product, 100)}
+                        disabled={isOutOfStock}
+                        className={`w-full flex items-center justify-center gap-1 py-1.5 px-2 rounded-xl text-[10.5px] font-bold transition-all active:scale-95 border ${
+                          isOutOfStock
+                            ? 'border-gray-200 text-gray-400 bg-gray-50 cursor-not-allowed'
+                            : 'border-brand-500 bg-brand-500 hover:bg-brand-600 text-white shadow-2xs'
+                        }`}
+                      >
+                        <Plus className="w-3 h-3 stroke-[2.5]" />
+                        <span>{isOutOfStock ? 'Out of Stock' : 'Add to Cart'}</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               );

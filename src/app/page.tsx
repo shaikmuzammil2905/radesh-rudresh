@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { useApp } from '@/context/AppContext';
-import { MobileFrame } from '@/components/common/MobileFrame';
 import { BottomNav } from '@/components/common/BottomNav';
+import { DrawerMenu } from '@/components/common/DrawerMenu';
 import { AuthModal } from '@/components/common/AuthModal';
 
 // Screens
@@ -68,12 +68,13 @@ export default function AppMain() {
   };
 
   return (
-    <MobileFrame>
-      <main className="min-h-full">
+    <div className="w-full max-w-md mx-auto min-h-screen bg-white relative flex flex-col shadow-none sm:shadow-xl sm:border-x sm:border-gray-100 overflow-x-hidden">
+      <main className="flex-1">
         {renderCurrentScreen()}
       </main>
       <BottomNav />
+      <DrawerMenu />
       <AuthModal />
-    </MobileFrame>
+    </div>
   );
 }

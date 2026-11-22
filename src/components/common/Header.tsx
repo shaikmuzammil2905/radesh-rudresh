@@ -26,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({
   showHelp = false,
   variant = 'standard'
 }) => {
-  const { cartCount, navigateTo, goBack, wishlist } = useApp();
+  const { cartCount, navigateTo, goBack, wishlist, setIsDrawerOpen } = useApp();
 
   const handleBack = () => {
     if (onBack) {
@@ -40,7 +40,7 @@ export const Header: React.FC<HeaderProps> = ({
     return (
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 px-4 py-2.5 flex items-center justify-between shadow-xs">
         <button
-          onClick={() => navigateTo('menu')}
+          onClick={() => setIsDrawerOpen(true)}
           aria-label="Open menu"
           className="p-2 -ml-2 text-gray-800 hover:text-brand-500 rounded-full active:scale-95 transition-all"
         >

@@ -1,11 +1,19 @@
-export type ProductCategory = 'All' | 'Marble' | 'Granite' | 'Tiles' | 'Quartz' | 'Natural Stone';
+export type ProductCategory = 
+  | 'All' 
+  | 'Marble' 
+  | 'Granite' 
+  | 'Tiles' 
+  | 'Quartz' 
+  | 'Natural Stone'
+  | 'Bathroom Collection'
+  | 'Kitchen Collection';
 
 export type StockStatus = 'In Stock' | 'Limited Stock' | 'Out of Stock' | 'Available on Request';
 
 export interface Product {
   id: string;
   name: string;
-  category: 'Marble' | 'Granite' | 'Tiles' | 'Quartz' | 'Natural Stone';
+  category: ProductCategory;
   pricePerSqFt: number;
   rating: number;
   reviewCount: number;
@@ -128,6 +136,27 @@ export interface AppNotification {
   timestamp: string;
   read: boolean;
   referenceId?: string;
+}
+
+export interface HomeCategoryCard {
+  id: ProductCategory;
+  title: string;
+  subtitle: string;
+  image: string;
+  itemCount: number;
+  badge?: string;
+}
+
+export interface HeroSlide {
+  id: string;
+  title: string;
+  subtitle: string;
+  highlightText: string;
+  ctaText: string;
+  image: string;
+  badge: string;
+  targetCategory?: ProductCategory;
+  targetScreen?: ActiveScreen;
 }
 
 export type ActiveScreen = 
