@@ -14,33 +14,33 @@ export const HERO_SLIDES: HeroSlide[] = [
     id: 'hero-1',
     title: 'Transform Your Space with Elegance',
     subtitle: 'Discover premium-quality marbles and tiles for your dream space.',
-    highlightText: 'Premium Marble & Tiles',
+    highlightText: 'PREMIUM MARBLE & TILES',
     ctaText: 'Explore Collection',
-    image: '/assets/hero_banner.png',
-    badge: 'Direct Factory Prices',
+    image: '/assets/hero_slide_1.png',
+    badge: 'DIRECT FACTORY PRICES',
     targetCategory: 'Marble',
     targetScreen: 'products'
   },
   {
     id: 'hero-2',
-    title: 'Skilled Artisans at Your Site',
-    subtitle: 'Instant nearby booking of verified tile fitters, polishers & masons.',
-    highlightText: 'Certified Site Experts',
-    ctaText: 'Book Skilled Workers',
-    image: '/assets/worker_banner.png',
-    badge: 'Background Verified',
-    targetScreen: 'worker-categories'
+    title: 'Luxury Italian & Imported Slabs',
+    subtitle: 'Hand-selected bookmatched Statuario, Calacatta & Onyx for signature interiors.',
+    highlightText: 'EXCLUSIVE QUARRY IMPORTS',
+    ctaText: 'Explore Collection',
+    image: '/assets/hero_slide_2.png',
+    badge: 'DIRECT FACTORY PRICES',
+    targetCategory: 'Marble',
+    targetScreen: 'products'
   },
   {
     id: 'hero-3',
-    title: 'Building Trust. Creating Futures.',
-    subtitle: 'Direct quarry-inspected Italian marble, granite slabs & luxury tiles.',
-    highlightText: 'Radhesh & Rudresh Quality',
-    ctaText: 'View All Slabs',
-    image: '/assets/splash_slabs.png',
-    badge: '100% Quality Assured',
-    targetCategory: 'All',
-    targetScreen: 'products'
+    title: 'Skilled Artisans & Instant Fitting',
+    subtitle: 'Book certified master tile fitters, polishers & masons right to your site.',
+    highlightText: 'ON-DEMAND SITE EXPERTS',
+    ctaText: 'Book Skilled Workers',
+    image: '/assets/hero_slide_3.png',
+    badge: 'BACKGROUND VERIFIED',
+    targetScreen: 'worker-categories'
   }
 ];
 
@@ -49,47 +49,47 @@ export const HOME_CATEGORIES: HomeCategoryCard[] = [
     id: 'Marble',
     title: 'Marbles',
     subtitle: 'Italian, Indian & Statuario Slabs',
-    image: '/assets/cat_marble.png',
+    image: '/assets/cat_marbles_grand.png',
     itemCount: 42,
-    badge: 'Popular'
+    badge: 'POPULAR'
   },
   {
     id: 'Tiles',
     title: 'Tiles',
     subtitle: 'Floor, Wall & Vitrified Designer Tiles',
-    image: '/assets/cat_tiles.png',
+    image: '/assets/cat_tiles_grand.png',
     itemCount: 88,
-    badge: 'Trending'
+    badge: 'TRENDING'
   },
   {
     id: 'Granite',
     title: 'Granite',
     subtitle: 'Black Galaxy, Moon White & Slabs',
-    image: '/assets/cat_granite.png',
+    image: '/assets/cat_granite_grand.png',
     itemCount: 35
   },
   {
     id: 'Natural Stone',
     title: 'Natural Stones',
     subtitle: 'Onyx, Travertine & Sandstone',
-    image: '/assets/prod_beige_travertine.jpg',
+    image: '/assets/cat_natural_stones_grand.png',
     itemCount: 24
   },
   {
     id: 'Bathroom Collection',
     title: 'Bathroom Collection',
     subtitle: 'Anti-Skid Flooring & Vanity Slabs',
-    image: '/assets/prod_italian_white.png',
+    image: '/assets/cat_bathroom_grand.png',
     itemCount: 30,
-    badge: 'Waterproof'
+    badge: 'WATERPROOF'
   },
   {
     id: 'Kitchen Collection',
     title: 'Kitchen Collection',
     subtitle: 'Heat & Stain Resistant Countertops',
-    image: '/assets/prod_black_galaxy.png',
+    image: '/assets/cat_kitchen_grand.png',
     itemCount: 28,
-    badge: 'Heavy Duty'
+    badge: 'HEAVY DUTY'
   }
 ];
 

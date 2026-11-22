@@ -149,7 +149,7 @@ export const HomeScreen: React.FC = () => {
           onMouseLeave={() => setIsPaused(false)}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
-          className="relative rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-gray-950 h-52 sm:h-56 select-none group"
+          className="relative rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-gray-950 h-56 sm:h-60 select-none group"
         >
           {HERO_SLIDES.map((slide, index) => {
             const isActive = index === activeSlide;
@@ -166,17 +166,17 @@ export const HomeScreen: React.FC = () => {
                   className="w-full h-full object-cover object-center transform scale-102 transition-transform duration-1000 ease-out"
                 />
                 {/* Deep gradient overlay for crystal clear text readability */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/65 to-black/20 p-4 sm:p-5 flex flex-col justify-center">
-                  <span className="inline-block bg-brand-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full w-max mb-1.5 uppercase tracking-wider shadow-2xs">
+                <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/65 to-black/25 p-4 sm:p-5 flex flex-col justify-center">
+                  <span className="inline-block bg-brand-500 text-white text-[9.5px] font-black px-2.5 py-0.5 rounded-sm w-max mb-1 uppercase tracking-wider shadow-2xs">
                     {slide.badge}
                   </span>
-                  <div className="text-[11px] font-bold text-pink-300 uppercase tracking-wide">
+                  <div className="text-[10px] font-extrabold text-pink-300 uppercase tracking-wider mt-0.5">
                     {slide.highlightText}
                   </div>
-                  <h2 className="text-white text-base sm:text-lg font-black leading-snug max-w-[230px] mt-0.5">
+                  <h2 className="text-white text-lg font-black leading-tight max-w-[240px] mt-0.5 drop-shadow-sm">
                     {slide.title}
                   </h2>
-                  <p className="text-gray-200 text-xs mt-1 font-medium max-w-[220px] line-clamp-2 leading-relaxed">
+                  <p className="text-gray-200 text-xs mt-1 font-medium max-w-[230px] line-clamp-2 leading-relaxed">
                     {slide.subtitle}
                   </p>
                   <button
@@ -201,14 +201,14 @@ export const HomeScreen: React.FC = () => {
           })}
 
           {/* Carousel Pagination Dots */}
-          <div className="absolute bottom-3 right-4 z-20 flex items-center gap-1.5">
+          <div className="absolute bottom-3 right-3.5 z-20 flex items-center gap-1.5">
             {HERO_SLIDES.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setActiveSlide(i)}
                 aria-label={`Go to slide ${i + 1}`}
                 className={`h-1.5 rounded-full transition-all ${
-                  i === activeSlide ? 'w-5 bg-brand-500' : 'w-1.5 bg-white/60 hover:bg-white'
+                  i === activeSlide ? 'w-5 bg-brand-500' : 'w-1.5 bg-white/70 hover:bg-white'
                 }`}
               />
             ))}
@@ -267,7 +267,7 @@ export const HomeScreen: React.FC = () => {
         <section aria-labelledby="categories-heading" className="space-y-2.5">
           <div className="flex items-center justify-between">
             <div>
-              <h2 id="categories-heading" className="font-black text-sm text-gray-900 tracking-tight">
+              <h2 id="categories-heading" className="font-black text-sm sm:text-base text-gray-900 tracking-tight">
                 Our Categories
               </h2>
               <p className="text-[11px] text-gray-500">
@@ -292,7 +292,7 @@ export const HomeScreen: React.FC = () => {
               <div
                 key={cat.id}
                 onClick={() => handleCategoryClick(cat.id)}
-                className="relative rounded-2xl overflow-hidden aspect-4/3 cursor-pointer shadow-2xs hover:shadow-md transition-all duration-300 group active:scale-95 border border-gray-100"
+                className="relative rounded-2xl overflow-hidden aspect-[4/3.2] cursor-pointer shadow-2xs hover:shadow-md transition-all duration-300 group active:scale-95 border border-gray-100"
               >
                 {/* Background Category Image */}
                 <img
@@ -302,22 +302,22 @@ export const HomeScreen: React.FC = () => {
                 />
 
                 {/* Dark Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent p-3 flex flex-col justify-between">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent p-3 flex flex-col justify-between">
                   <div className="flex justify-between items-start">
                     {cat.badge ? (
-                      <span className="bg-brand-500 text-white text-[8.5px] font-black px-1.5 py-0.5 rounded-sm uppercase tracking-wider">
+                      <span className="bg-brand-500 text-white text-[8px] font-black px-2 py-0.5 rounded-xs uppercase tracking-wider shadow-2xs">
                         {cat.badge}
                       </span>
                     ) : (
                       <span />
                     )}
-                    <div className="w-6 h-6 rounded-full bg-white/20 backdrop-blur-xs flex items-center justify-center text-white group-hover:bg-brand-500 transition-colors">
+                    <div className="w-6 h-6 rounded-full bg-white/25 backdrop-blur-xs flex items-center justify-center text-white group-hover:bg-brand-500 transition-colors ml-auto">
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                     </div>
                   </div>
 
                   <div>
-                    <h3 className="text-white text-xs font-black tracking-tight drop-shadow-xs">
+                    <h3 className="text-white text-xs sm:text-sm font-black tracking-tight drop-shadow-xs">
                       {cat.title}
                     </h3>
                     <p className="text-gray-300 text-[9.5px] font-medium line-clamp-1 mt-0.5">
