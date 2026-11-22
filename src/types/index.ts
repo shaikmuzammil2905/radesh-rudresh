@@ -1,0 +1,150 @@
+export type ProductCategory = 'All' | 'Marble' | 'Granite' | 'Tiles' | 'Quartz' | 'Natural Stone';
+
+export type StockStatus = 'In Stock' | 'Limited Stock' | 'Out of Stock' | 'Available on Request';
+
+export interface Product {
+  id: string;
+  name: string;
+  category: 'Marble' | 'Granite' | 'Tiles' | 'Quartz' | 'Natural Stone';
+  pricePerSqFt: number;
+  rating: number;
+  reviewCount: number;
+  stockStatus: StockStatus;
+  availableStockSqFt: number;
+  vendorName: string;
+  vendorLocation: string;
+  type: string;
+  finish: string;
+  thickness: string;
+  usage: string;
+  description: string;
+  image: string;
+  galleryImages: string[];
+  featured?: boolean;
+  bestSeller?: boolean;
+}
+
+export type WorkerCategory = 
+  | 'Mason'
+  | 'Tile Fitter'
+  | 'Marble Fitter'
+  | 'Marble Polisher'
+  | 'Granite Fitter'
+  | 'Painter'
+  | 'Plumber'
+  | 'Electrician'
+  | 'Carpenter'
+  | 'Labor / Helper'
+  | 'Other Services';
+
+export interface Worker {
+  id: string;
+  name: string;
+  skill: string;
+  category: WorkerCategory;
+  ratePerDay: number;
+  ratePerHour: number;
+  rating: number;
+  reviewCount: number;
+  experienceYears: number;
+  completedJobs: number;
+  distanceKm: number;
+  isOnline: boolean;
+  isAvailableNow: boolean;
+  photo: string;
+  serviceArea: string;
+  verified: boolean;
+  portfolioImages: string[];
+  phone: string;
+  about: string;
+  estimatedArrivalMin?: number;
+}
+
+export type BookingStatus = 'Requested' | 'Accepted' | 'On the Way' | 'In Progress' | 'Completed' | 'Cancelled';
+
+export interface WorkerBooking {
+  id: string;
+  workerId: string;
+  workerName: string;
+  workerSkill: string;
+  workerPhoto: string;
+  requirementType: 'Per Day' | 'Per Hour' | 'Project Based';
+  numberOfWorkers: number;
+  date: string;
+  timeSlot: string;
+  siteAddress: string;
+  jobDescription?: string;
+  ratePerUnit: number;
+  totalAmount: number;
+  status: BookingStatus;
+  createdAt: string;
+  trackingStep?: number;
+}
+
+export type OrderStatus = 'Placed' | 'Confirmed' | 'Packed' | 'Dispatched' | 'Delivered' | 'Cancelled';
+
+export interface CartItem {
+  product: Product;
+  areaSqFt: number;
+}
+
+export interface ProductOrder {
+  id: string;
+  items: {
+    product: Product;
+    areaSqFt: number;
+    subtotal: number;
+  }[];
+  siteAddress: string;
+  contactName: string;
+  contactPhone: string;
+  paymentMethod: 'UPI' | 'Credit/Debit Card' | 'Net Banking' | 'Cash on Delivery';
+  subtotal: number;
+  deliveryCharges: number;
+  totalAmount: number;
+  status: OrderStatus;
+  createdAt: string;
+  estimatedDelivery: string;
+  trackingStep?: number;
+}
+
+export interface Address {
+  id: string;
+  name: string;
+  label: 'Home' | 'Site' | 'Office' | 'Warehouse';
+  fullAddress: string;
+  city: string;
+  state: string;
+  pincode: string;
+  phone: string;
+  isDefault?: boolean;
+}
+
+export interface AppNotification {
+  id: string;
+  title: string;
+  message: string;
+  type: 'order' | 'booking' | 'offer' | 'system';
+  timestamp: string;
+  read: boolean;
+  referenceId?: string;
+}
+
+export type ActiveScreen = 
+  | 'splash'
+  | 'home'
+  | 'products'
+  | 'product-detail'
+  | 'cart'
+  | 'checkout'
+  | 'worker-categories'
+  | 'nearby-workers'
+  | 'worker-profile'
+  | 'book-worker'
+  | 'booking-confirmation'
+  | 'orders'
+  | 'menu'
+  | 'profile'
+  | 'addresses'
+  | 'notifications'
+  | 'support';
