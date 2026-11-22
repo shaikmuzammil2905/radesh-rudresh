@@ -159,6 +159,18 @@ export interface HeroSlide {
   targetScreen?: ActiveScreen;
 }
 
+export interface CustomerReview {
+  id: string;
+  authorName: string;
+  authorRole: string;
+  authorLocation: string;
+  rating: number;
+  date: string;
+  comment: string;
+  avatar: string;
+  stoneUsed: string;
+}
+
 export type ActiveScreen = 
   | 'splash'
   | 'home'

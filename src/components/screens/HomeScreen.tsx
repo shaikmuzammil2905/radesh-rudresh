@@ -24,7 +24,7 @@ import {
 import { useApp } from '@/context/AppContext';
 import { Header } from '../common/Header';
 import { LocationModal } from '../common/LocationModal';
-import { HERO_SLIDES, HOME_CATEGORIES, INITIAL_PRODUCTS, INITIAL_WORKERS } from '@/data/mockData';
+import { HERO_SLIDES, HOME_CATEGORIES, INITIAL_PRODUCTS, INITIAL_WORKERS, CUSTOMER_REVIEWS } from '@/data/mockData';
 import { ProductCategory, Product, Worker } from '@/types';
 
 export const HomeScreen: React.FC = () => {
@@ -392,6 +392,8 @@ export const HomeScreen: React.FC = () => {
           <div className="grid grid-cols-2 gap-3">
             {INITIAL_PRODUCTS.slice(0, 4).map((product) => {
               const wishlisted = isWishlisted(product.id);
+              const isLimited = product.stockStatus === 'Limited Stock';
+
               return (
                 <div
                   key={product.id}
@@ -420,8 +422,8 @@ export const HomeScreen: React.FC = () => {
                         }`}
                       />
                     </button>
-                    {product.stockStatus === 'Limited Stock' && (
-                      <span className="absolute bottom-2 left-2 bg-amber-500 text-white text-[8.5px] font-black px-1.5 py-0.5 rounded-sm">
+                    {isLimited && (
+                      <span className="absolute bottom-2 left-2 bg-amber-500 text-white text-[9px] font-black px-2 py-0.5 rounded-sm uppercase tracking-wider shadow-2xs">
                         Limited
                       </span>
                     )}
@@ -449,7 +451,7 @@ export const HomeScreen: React.FC = () => {
 
                     <button
                       onClick={() => addToCart(product, 100)}
-                      className="mt-2.5 w-full flex items-center justify-center gap-1.5 py-1.5 px-2 border border-brand-500 text-brand-500 hover:bg-brand-500 hover:text-white rounded-xl text-[10.5px] font-bold transition-all active:scale-95"
+                      className="mt-2.5 w-full flex items-center justify-center gap-1.5 py-1.5 px-2 border border-brand-500 text-brand-500 hover:bg-brand-500 hover:text-white rounded-xl text-[10.5px] font-bold transition-all active:scale-95 shadow-2xs"
                     >
                       <Plus className="w-3 h-3 stroke-[2.5]" />
                       <span>Add to Cart</span>
@@ -463,15 +465,15 @@ export const HomeScreen: React.FC = () => {
 
         {/* SECTION 7: WORKER BOOKING PROMOTIONAL SECTION */}
         <section aria-labelledby="worker-booking-heading" className="space-y-3">
-          <div className="bg-gradient-to-br from-pink-500 to-rose-600 rounded-2xl p-4 text-white shadow-sm flex items-center justify-between">
+          <div className="bg-gradient-to-br from-pink-500 to-rose-600 rounded-3xl p-4 text-white shadow-sm flex items-center justify-between">
             <div className="max-w-[210px]">
-              <span className="bg-white/20 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                Instant Site Dispatch
+              <span className="bg-white/20 text-white text-[9px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider inline-block">
+                INSTANT SITE DISPATCH
               </span>
-              <h3 id="worker-booking-heading" className="font-black text-sm mt-1 leading-snug">
+              <h3 id="worker-booking-heading" className="font-black text-sm mt-1.5 leading-snug">
                 Need a Marble or Tile Fitter Today?
               </h3>
-              <p className="text-[11px] text-pink-100 mt-0.5 max-w-[190px]">
+              <p className="text-[11px] text-pink-100 mt-1 max-w-[190px] leading-relaxed">
                 Book verified master technicians near your construction site with live ETA.
               </p>
               <button
@@ -479,17 +481,17 @@ export const HomeScreen: React.FC = () => {
                   setSelectedWorkerCategory('All');
                   navigateTo('nearby-workers');
                 }}
-                className="mt-2.5 inline-flex items-center gap-1.5 bg-white text-brand-600 hover:bg-pink-50 px-3.5 py-1.5 rounded-full text-xs font-bold transition shadow-xs active:scale-95"
+                className="mt-3 inline-flex items-center gap-1.5 bg-white text-brand-600 hover:bg-pink-50 px-4 py-2 rounded-full text-xs font-bold transition shadow-xs active:scale-95"
               >
                 <span>View Nearby Workers</span>
-                <ArrowRight className="w-3 h-3" />
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
-            <div className="w-20 h-20 shrink-0 rounded-2xl overflow-hidden border-2 border-white/30 shadow-md">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-2xl overflow-hidden border-2 border-white/40 shadow-lg bg-pink-100">
               <img
-                src="/assets/worker_tile_fitter.png"
+                src="/assets/worker_banner_artisan.png"
                 alt="Skilled Worker"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-top"
               />
             </div>
           </div>
@@ -521,7 +523,7 @@ export const HomeScreen: React.FC = () => {
                       <img
                         src={worker.photo}
                         alt={worker.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover object-top"
                       />
                       {worker.isOnline && (
                         <span className="absolute bottom-0.5 right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-white" />
@@ -531,7 +533,7 @@ export const HomeScreen: React.FC = () => {
                       <div className="flex items-center gap-1.5">
                         <h4 className="font-bold text-xs text-gray-900">{worker.name}</h4>
                         {worker.verified && (
-                          <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
                         )}
                       </div>
                       <p className="text-[10.5px] font-semibold text-brand-500">{worker.skill}</p>
@@ -559,7 +561,7 @@ export const HomeScreen: React.FC = () => {
                         setSelectedWorker(worker);
                         navigateTo('book-worker');
                       }}
-                      className="mt-1 px-2.5 py-1 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-[9.5px] font-bold shadow-2xs"
+                      className="mt-1 px-3 py-1 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-[10px] font-bold shadow-2xs"
                     >
                       Book
                     </button>
@@ -570,16 +572,74 @@ export const HomeScreen: React.FC = () => {
           </div>
         </section>
 
-        {/* Customer Trust & Guarantee Banner */}
+        {/* Customer Trust & Guarantee Banner matching Reference */}
         <div className="bg-slate-100/70 p-3.5 rounded-2xl border border-gray-200/60 text-center">
           <div className="flex items-center justify-center gap-2 text-brand-500 font-black text-xs uppercase tracking-wider mb-1">
             <ShieldCheck className="w-4 h-4" />
-            <span>Radhesh & Rudresh Quality Guarantee</span>
+            <span>RADHESH & RUDRESH QUALITY GUARANTEE</span>
           </div>
           <p className="text-[10.5px] text-gray-600">
             Every marble slab is quarry-inspected and every technician is skill-tested with background verification.
           </p>
         </div>
+
+        {/* SECTION 8: VERIFIED CUSTOMER REVIEWS */}
+        <section aria-labelledby="reviews-heading" className="space-y-2.5">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 id="reviews-heading" className="font-black text-sm text-gray-900 tracking-tight">
+                Verified Customer Reviews
+              </h2>
+              <p className="text-[11px] text-gray-500">
+                What site engineers and homeowners say about our quality
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-2.5">
+            {CUSTOMER_REVIEWS.map((rev) => (
+              <div
+                key={rev.id}
+                className="bg-white rounded-2xl p-3.5 border border-gray-100 shadow-2xs space-y-2"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-full overflow-hidden bg-brand-50 border border-brand-200 shrink-0">
+                      <img
+                        src={rev.avatar}
+                        alt={rev.authorName}
+                        className="w-full h-full object-cover object-top"
+                      />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-xs text-gray-900">{rev.authorName}</h4>
+                      <p className="text-[10px] text-gray-500">
+                        {rev.authorRole} • {rev.authorLocation}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-0.5 text-amber-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3 h-3 fill-amber-400" />
+                    ))}
+                  </div>
+                </div>
+
+                <p className="text-xs text-gray-600 leading-relaxed italic">
+                  "{rev.comment}"
+                </p>
+
+                <div className="pt-1.5 border-t border-gray-50 flex items-center justify-between text-[10px]">
+                  <span className="text-brand-600 font-bold bg-brand-50 px-2 py-0.5 rounded-md">
+                    {rev.stoneUsed}
+                  </span>
+                  <span className="text-gray-400">{rev.date}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
 
       {/* Location Modal */}

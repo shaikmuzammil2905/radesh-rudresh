@@ -6,7 +6,8 @@ import {
   Address,
   AppNotification,
   HomeCategoryCard,
-  HeroSlide
+  HeroSlide,
+  CustomerReview
 } from '../types';
 
 export const HERO_SLIDES: HeroSlide[] = [
@@ -110,12 +111,12 @@ export const INITIAL_PRODUCTS: Product[] = [
     thickness: '18–20 mm',
     usage: 'Floor, Wall, Kitchen, Bathroom',
     description: 'Directly imported Italian White Marble known for its gentle grey veining and milky white crystalline base. Perfectly suited for high-end flooring, feature walls, and lavish bathroom vanities.',
-    image: '/assets/prod_italian_white.png',
+    image: '/assets/prod_italian_white_grand.png',
     galleryImages: [
-      '/assets/prod_italian_white.png',
-      '/assets/prod_statuario.png',
-      '/assets/splash_slabs.png',
-      '/assets/hero_banner.png'
+      '/assets/prod_italian_white_grand.png',
+      '/assets/prod_statuario_grand.png',
+      '/assets/cat_marbles_grand.png',
+      '/assets/hero_slide_1.png'
     ],
     featured: true,
     bestSeller: true
@@ -136,11 +137,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     thickness: '18–20 mm',
     usage: 'Kitchen Countertop, Stairs, Flooring',
     description: 'Iconic Black Galaxy Granite featuring a dense midnight black background embellished with bright golden and bronze reflective specks. Unmatched durability and scratch resistance.',
-    image: '/assets/prod_black_galaxy.png',
+    image: '/assets/prod_black_galaxy_grand.png',
     galleryImages: [
-      '/assets/prod_black_galaxy.png',
-      '/assets/prod_italian_white.png',
-      '/assets/splash_slabs.png'
+      '/assets/prod_black_galaxy_grand.png',
+      '/assets/prod_italian_white_grand.png',
+      '/assets/cat_granite_grand.png'
     ],
     featured: true,
     bestSeller: true
@@ -161,11 +162,11 @@ export const INITIAL_PRODUCTS: Product[] = [
     thickness: '20 mm',
     usage: 'Luxury Flooring, Villa Living Rooms, Accents',
     description: 'The pinnacle of interior luxury. Statuario marble displays bold, expressive charcoal veins tracing across a bright luminous ivory backdrop. Hand-selected book-matched slabs.',
-    image: '/assets/prod_statuario.png',
+    image: '/assets/prod_statuario_grand.png',
     galleryImages: [
-      '/assets/prod_statuario.png',
-      '/assets/prod_italian_white.png',
-      '/assets/hero_banner.png'
+      '/assets/prod_statuario_grand.png',
+      '/assets/prod_italian_white_grand.png',
+      '/assets/hero_slide_2.png'
     ],
     featured: true
   },
@@ -185,10 +186,10 @@ export const INITIAL_PRODUCTS: Product[] = [
     thickness: '18 mm',
     usage: 'Flooring, Staircases, Wall Cladding',
     description: 'Celebrated Spanish beige marble characterized by uniform warm tones and subtle golden-brown cinnamon veins. Brings warmth and grandeur to residential spaces.',
-    image: '/assets/prod_crema_marfil.png',
+    image: '/assets/prod_crema_marfil_grand.png',
     galleryImages: [
-      '/assets/prod_crema_marfil.png',
-      '/assets/prod_italian_white.png'
+      '/assets/prod_crema_marfil_grand.png',
+      '/assets/prod_italian_white_grand.png'
     ],
     featured: false,
     bestSeller: true
@@ -438,13 +439,13 @@ export const INITIAL_WORKERS: Worker[] = [
     distanceKm: 1.2,
     isOnline: true,
     isAvailableNow: true,
-    photo: '/assets/worker_tile_fitter.png',
+    photo: '/assets/worker_ramesh_kumar.png',
     serviceArea: 'Madhapur, Hitec City, Gachibowli, Kondapur',
     verified: true,
     portfolioImages: [
-      '/assets/worker_tile_fitter.png',
-      '/assets/prod_italian_white.png',
-      '/assets/hero_banner.png'
+      '/assets/worker_ramesh_kumar.png',
+      '/assets/prod_italian_white_grand.png',
+      '/assets/hero_slide_1.png'
     ],
     phone: '+91 98480 12345',
     about: 'Specialized in large format vitrified tiles (4x2 and 6x4), epoxy grouting, laser leveling, and precision wall cladding. Over 4 years of residential and commercial fitting.',
@@ -464,12 +465,12 @@ export const INITIAL_WORKERS: Worker[] = [
     distanceKm: 2.5,
     isOnline: true,
     isAvailableNow: true,
-    photo: '/assets/worker_tile_fitter.png',
+    photo: '/assets/worker_suresh_verma.png',
     serviceArea: 'Jubilee Hills, Banjara Hills, Somajiguda',
     verified: true,
     portfolioImages: [
-      '/assets/prod_statuario.png',
-      '/assets/prod_italian_white.png'
+      '/assets/prod_statuario_grand.png',
+      '/assets/prod_italian_white_grand.png'
     ],
     phone: '+91 98481 98765',
     about: 'Expert craftsman for Italian marble dry-lay, bookmatching veins, chemical anchoring, and leveling with zero lippage. Trusted by top interior architects in Hyderabad.',
@@ -489,12 +490,12 @@ export const INITIAL_WORKERS: Worker[] = [
     distanceKm: 3.1,
     isOnline: true,
     isAvailableNow: true,
-    photo: '/assets/worker_painter.png',
+    photo: '/assets/worker_mohammed_arif.png',
     serviceArea: 'Banjara Hills, Mehdipatnam, Begumpet',
     verified: true,
     portfolioImages: [
-      '/assets/prod_italian_white.png',
-      '/assets/prod_crema_marfil.png'
+      '/assets/prod_italian_white_grand.png',
+      '/assets/prod_crema_marfil_grand.png'
     ],
     phone: '+91 98482 45678',
     about: 'Specialist in 7-stage Italian diamond pad polishing, Klindex crystallization, Italian silux coating, and restoration of old, dull marble floors to pristine mirror reflection.',
@@ -817,5 +818,41 @@ export const INITIAL_NOTIFICATIONS: AppNotification[] = [
     type: 'offer',
     timestamp: '2 days ago',
     read: true
+  }
+];
+
+export const CUSTOMER_REVIEWS: CustomerReview[] = [
+  {
+    id: 'rev-1',
+    authorName: 'Arjun K. Reddy',
+    authorRole: 'Villa Owner & Architect',
+    authorLocation: 'Jubilee Hills, Hyderabad',
+    rating: 5.0,
+    date: '18 Nov 2026',
+    comment: 'The bookmatched Italian Statuario marble was delivered directly to our villa site in pristine condition. Suresh Verma, who did the marble dry-lay and leveling, is a master artisan!',
+    avatar: '/assets/worker_suresh_verma.png',
+    stoneUsed: 'Statuario Italian Marble'
+  },
+  {
+    id: 'rev-2',
+    authorName: 'Pooja Sundaram',
+    authorRole: 'Interior Designer',
+    authorLocation: 'Gachibowli, Hyderabad',
+    rating: 5.0,
+    date: '14 Nov 2026',
+    comment: 'The Black Galaxy Granite platform with bullnose molding for our modular kitchen project looks stunning. Zero transit damage and the worker arrived within 30 minutes of booking.',
+    avatar: '/assets/cat_marbles_grand.png',
+    stoneUsed: 'Black Galaxy Granite'
+  },
+  {
+    id: 'rev-3',
+    authorName: 'Syed Mansoor Ali',
+    authorRole: 'Civil Contractor',
+    authorLocation: 'Madhapur, Hyderabad',
+    rating: 4.9,
+    date: '10 Nov 2026',
+    comment: 'Radhesh & Rudresh is now our default supplier for all our 2BHK and 3BHK commercial floorings. The instant worker booking feature saved us multiple days of project delays.',
+    avatar: '/assets/worker_ramesh_kumar.png',
+    stoneUsed: 'Italian White & Vitrified Tiles'
   }
 ];
