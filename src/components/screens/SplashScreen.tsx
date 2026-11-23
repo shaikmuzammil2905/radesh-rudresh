@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useApp } from '@/context/AppContext';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 export const SplashScreen: React.FC = () => {
   const { navigateTo } = useApp();
@@ -24,69 +24,77 @@ export const SplashScreen: React.FC = () => {
   }, [navigateTo]);
 
   return (
-    <div className="relative min-h-[700px] h-full flex flex-col justify-between bg-white overflow-hidden select-none">
-      {/* Top subtle ambient glow */}
-      <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-b from-pink-50/70 via-rose-50/30 to-transparent pointer-events-none" />
+    <div 
+      onClick={() => navigateTo('home')}
+      className="relative min-h-screen h-full flex flex-col justify-between bg-white overflow-hidden select-none cursor-pointer"
+      title="Tap anywhere to enter"
+    >
+      {/* Top subtle ambient luxury glow */}
+      <div className="absolute top-0 left-0 right-0 h-72 bg-gradient-to-b from-pink-50/80 via-rose-50/30 to-transparent pointer-events-none" />
 
       {/* Main Branding Section with Official Corporate Logo */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 pt-10 pb-4 z-10">
-        <div className="w-72 max-w-[85vw] relative flex items-center justify-center transition-all duration-700 transform hover:scale-105">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 pt-12 pb-6 z-10">
+        <div className="w-80 max-w-[88vw] relative flex items-center justify-center transition-all duration-700 transform hover:scale-[1.02]">
           <img
             src="/assets/brand_logo_transparent.png"
             alt="Radhesh & Rudresh - Infra Developers Pvt. Ltd."
-            className="w-full h-auto object-contain filter drop-shadow-sm"
+            className="w-full h-auto object-contain filter drop-shadow-md"
           />
         </div>
 
-        {/* Progress loader */}
-        <div className="w-52 h-1.5 bg-gray-100 rounded-full mt-7 overflow-hidden shadow-inner">
+        {/* Grand Progress Loader */}
+        <div className="w-56 h-1.5 bg-gray-100 rounded-full mt-8 overflow-hidden shadow-inner">
           <div
-            className="h-full bg-gradient-to-r from-brand-500 to-pink-500 transition-all duration-200 rounded-full"
+            className="h-full bg-gradient-to-r from-brand-500 via-pink-500 to-rose-600 transition-all duration-200 rounded-full shadow-xs"
             style={{ width: `${progress}%` }}
           />
         </div>
 
-        <div className="text-[11px] font-medium text-gray-500 mt-2.5 tracking-wider text-center flex items-center gap-1.5">
-          <Sparkles className="w-3 h-3 text-brand-500 animate-pulse" />
+        {/* Dynamic Status Copy */}
+        <div className="text-[11.5px] font-semibold text-gray-500 mt-3.5 tracking-wider text-center flex items-center gap-1.5">
+          <Sparkles className="w-3.5 h-3.5 text-brand-500 animate-pulse" />
           <span>
-            {progress < 40
-              ? 'Loading premium marble slabs...'
-              : progress < 80
-              ? 'Connecting trusted stone craftsmen...'
+            {progress < 35
+              ? 'Curating luxury quarry collections...'
+              : progress < 75
+              ? 'Connecting certified stone artisans...'
               : 'Welcome to Radhesh & Rudresh'}
           </span>
         </div>
-
-        <button
-          onClick={() => navigateTo('home')}
-          className="mt-5 flex items-center gap-2 px-5 py-2 rounded-full bg-brand-50 hover:bg-brand-100 text-brand-600 text-xs font-bold transition-all active:scale-95 shadow-2xs cursor-pointer"
-        >
-          <span>Skip to App</span>
-          <ArrowRight className="w-3.5 h-3.5" />
-        </button>
       </div>
 
-      {/* Bottom Pink Wave & Marble Slabs Exhibition */}
-      <div className="relative w-full z-10">
-        {/* Pink wave curve */}
+      {/* Grand Bottom Architectural Waves */}
+      <div className="relative w-full z-10 pointer-events-none">
+        {/* Soft Pink Background Wave */}
         <div className="w-full relative">
           <svg
-            viewBox="0 0 500 150"
+            viewBox="0 0 500 120"
             preserveAspectRatio="none"
-            className="w-full h-24 text-brand-500 fill-current opacity-95 -mb-1"
+            className="w-full h-16 text-pink-200/50 fill-current -mb-10"
           >
-            <path d="M0.00,49.98 C149.99,150.00 349.81,-49.98 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" />
+            <path d="M0.00,30.00 C150.00,80.00 350.00,-10.00 500.00,35.00 L500.00,120.00 L0.00,120.00 Z" />
           </svg>
         </div>
 
-        {/* Bottom marble slabs container */}
-        <div className="bg-brand-500 px-4 pb-8 pt-1 flex justify-center items-center">
-          <div className="relative -mt-16 w-64 max-w-full drop-shadow-2xl">
-            <img
-              src="/assets/splash_slabs.png"
-              alt="Marble Slabs Exhibition"
-              className="w-full h-auto object-contain rounded-lg"
-            />
+        {/* Main Brand Magenta Wave */}
+        <div className="w-full relative">
+          <svg
+            viewBox="0 0 500 140"
+            preserveAspectRatio="none"
+            className="w-full h-24 text-brand-500 fill-current opacity-95 -mb-1"
+          >
+            <path d="M0.00,45.00 C140.00,110.00 330.00,-20.00 500.00,45.00 L500.00,140.00 L0.00,140.00 Z" />
+          </svg>
+        </div>
+
+        {/* Grand Bottom Brand Banner */}
+        <div className="bg-gradient-to-r from-brand-500 via-pink-600 to-brand-600 px-6 pt-1 pb-7 flex flex-col items-center justify-center text-white">
+          <div className="flex items-center gap-2 opacity-95">
+            <span className="w-6 h-[1px] bg-white/40" />
+            <span className="text-[10px] font-bold tracking-[0.22em] uppercase text-pink-50">
+              Luxury Marbles &middot; Tiles &middot; Master Artisans
+            </span>
+            <span className="w-6 h-[1px] bg-white/40" />
           </div>
         </div>
       </div>
