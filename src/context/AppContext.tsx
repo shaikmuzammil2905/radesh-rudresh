@@ -102,8 +102,8 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
-  const [currentScreen, setCurrentScreen] = useState<ActiveScreen>('home');
-  const [screenHistory, setScreenHistory] = useState<ActiveScreen[]>(['home']);
+  const [currentScreen, setCurrentScreen] = useState<ActiveScreen>('splash');
+  const [screenHistory, setScreenHistory] = useState<ActiveScreen[]>(['splash']);
   
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(INITIAL_PRODUCTS[0]);
   const [selectedWorker, setSelectedWorker] = useState<Worker | null>(INITIAL_WORKERS[0]);

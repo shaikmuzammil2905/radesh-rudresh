@@ -197,8 +197,12 @@ export const DrawerMenu: React.FC = () => {
             <span>24x7 Help & Support</span>
           </button>
 
-          <div className="pt-2 text-center text-[10px] text-gray-400">
-            <span className="font-bold text-brand-500 block">RADHESH & RUDRESH</span>
+          <div 
+            onClick={() => handleNav('splash')}
+            className="pt-2 text-center text-[10px] text-gray-400 cursor-pointer hover:opacity-80 transition group"
+            title="Click to view brand splash screen"
+          >
+            <span className="font-bold text-brand-500 block group-hover:underline">RADHESH & RUDRESH</span>
             <span>BUILDING TRUST. CREATING FUTURES.</span>
           </div>
         </div>

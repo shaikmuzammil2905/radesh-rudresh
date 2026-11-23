@@ -15,7 +15,8 @@ import {
   LogOut,
   ChevronRight,
   Phone,
-  Building
+  Building,
+  Sparkles
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import { Header } from '../common/Header';
@@ -86,6 +87,11 @@ export const MenuScreen: React.FC = () => {
           label: 'About Radhesh & Rudresh',
           icon: Building,
           action: () => navigateTo('support')
+        },
+        {
+          label: 'View Brand Splash Screen',
+          icon: Sparkles,
+          action: () => navigateTo('splash')
         },
         {
           label: 'Terms & Conditions',
