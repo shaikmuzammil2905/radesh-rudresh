@@ -1,0 +1,986 @@
+{
+  "products": [
+    {
+      "id": "prod-1",
+      "name": "Italian White Marble",
+      "category": "Marble",
+      "pricePerSqFt": 320,
+      "rating": 4.8,
+      "reviewCount": 210,
+      "stockStatus": "In Stock",
+      "availableStockSqFt": 2400,
+      "vendorName": "Royal Marble Emporium",
+      "vendorLocation": "Madhapur, Hyderabad",
+      "type": "Natural Imported Marble",
+      "finish": "Mirror Polished",
+      "thickness": "18–20 mm",
+      "usage": "Floor, Wall, Kitchen, Bathroom",
+      "description": "Directly imported Italian White Marble known for its gentle grey veining and milky white crystalline base. Perfectly suited for high-end flooring, feature walls, and lavish bathroom vanities.",
+      "image": "/assets/prod_italian_white_grand.png",
+      "galleryImages": [
+        "/assets/prod_italian_white_grand.png",
+        "/assets/prod_statuario_grand.png",
+        "/assets/cat_marbles_grand.png",
+        "/assets/hero_slide_1.png"
+      ],
+      "featured": true,
+      "bestSeller": true
+    },
+    {
+      "id": "prod-2",
+      "name": "Black Galaxy Granite",
+      "category": "Granite",
+      "pricePerSqFt": 280,
+      "rating": 4.7,
+      "reviewCount": 168,
+      "stockStatus": "In Stock",
+      "availableStockSqFt": 1850,
+      "vendorName": "Deccan Natural Stones",
+      "vendorLocation": "Jubilee Hills, Hyderabad",
+      "type": "Natural Granite",
+      "finish": "High Gloss Polished",
+      "thickness": "18–20 mm",
+      "usage": "Kitchen Countertop, Stairs, Flooring",
+      "description": "Iconic Black Galaxy Granite featuring a dense midnight black background embellished with bright golden and bronze reflective specks. Unmatched durability and scratch resistance.",
+      "image": "/assets/prod_black_galaxy_grand.png",
+      "galleryImages": [
+        "/assets/prod_black_galaxy_grand.png",
+        "/assets/prod_italian_white_grand.png",
+        "/assets/cat_granite_grand.png"
+      ],
+      "featured": true,
+      "bestSeller": true
+    },
+    {
+      "id": "prod-3",
+      "name": "Statuario Marble",
+      "category": "Marble",
+      "pricePerSqFt": 650,
+      "rating": 4.9,
+      "reviewCount": 96,
+      "stockStatus": "Limited Stock",
+      "availableStockSqFt": 480,
+      "vendorName": "Carrara Luxe Imports",
+      "vendorLocation": "Banjara Hills, Hyderabad",
+      "type": "Prestige Italian Marble",
+      "finish": "Polished / Honed",
+      "thickness": "20 mm",
+      "usage": "Luxury Flooring, Villa Living Rooms, Accents",
+      "description": "The pinnacle of interior luxury. Statuario marble displays bold, expressive charcoal veins tracing across a bright luminous ivory backdrop. Hand-selected book-matched slabs.",
+      "image": "/assets/prod_statuario_grand.png",
+      "galleryImages": [
+        "/assets/prod_statuario_grand.png",
+        "/assets/prod_italian_white_grand.png",
+        "/assets/hero_slide_2.png"
+      ],
+      "featured": true
+    },
+    {
+      "id": "prod-4",
+      "name": "Crema Marfil Marble",
+      "category": "Marble",
+      "pricePerSqFt": 480,
+      "rating": 4.8,
+      "reviewCount": 132,
+      "stockStatus": "In Stock",
+      "availableStockSqFt": 1300,
+      "vendorName": "Mediterranean Stone Co.",
+      "vendorLocation": "Kukatpally, Hyderabad",
+      "type": "Imported Marble",
+      "finish": "Polished",
+      "thickness": "18 mm",
+      "usage": "Flooring, Staircases, Wall Cladding",
+      "description": "Celebrated Spanish beige marble characterized by uniform warm tones and subtle golden-brown cinnamon veins. Brings warmth and grandeur to residential spaces.",
+      "image": "/assets/prod_crema_marfil_grand.png",
+      "galleryImages": [
+        "/assets/prod_crema_marfil_grand.png",
+        "/assets/prod_italian_white_grand.png"
+      ],
+      "featured": false,
+      "bestSeller": true
+    },
+    {
+      "id": "prod-5",
+      "name": "Makrana Pure White Marble",
+      "category": "Marble",
+      "pricePerSqFt": 520,
+      "rating": 4.9,
+      "reviewCount": 154,
+      "stockStatus": "In Stock",
+      "availableStockSqFt": 1600,
+      "vendorName": "Rajasthan Heritage Marbles",
+      "vendorLocation": "Secunderabad, Telangana",
+      "type": "Pure Calcite Marble",
+      "finish": "Super Gloss Polished",
+      "thickness": "18–20 mm",
+      "usage": "Flooring, Mandir / Puja Rooms, Heritage Villas",
+      "description": "The legendary Makrana white marble known for its pure calcium composition that retains its pristine luster for decades without yellowing or degradation.",
+      "image": "/assets/prod_makrana_white.jpg",
+      "galleryImages": [
+        "/assets/prod_makrana_white.jpg",
+        "/assets/prod_statuario.png"
+      ],
+      "featured": true
+    },
+    {
+      "id": "prod-6",
+      "name": "Rainforest Green Marble",
+      "category": "Marble",
+      "pricePerSqFt": 390,
+      "rating": 4.6,
+      "reviewCount": 78,
+      "stockStatus": "Limited Stock",
+      "availableStockSqFt": 350,
+      "vendorName": "Aravali Exotics Stone Hub",
+      "vendorLocation": "Gachibowli, Hyderabad",
+      "type": "Serpentine Marble",
+      "finish": "Antique Leather Finish",
+      "thickness": "20 mm",
+      "usage": "Feature Walls, Fireplaces, Bar Counters",
+      "description": "A striking exotic stone displaying intricate tree-branch veining in deep moss green and earthen terracotta tones. Adds dramatic architectural focal points.",
+      "image": "/assets/prod_rainforest_green.jpg",
+      "galleryImages": [
+        "/assets/prod_rainforest_green.jpg",
+        "/assets/prod_black_galaxy.png"
+      ],
+      "featured": false
+    },
+    {
+      "id": "prod-7",
+      "name": "Honey Onyx Translucent Slab",
+      "category": "Natural Stone",
+      "pricePerSqFt": 890,
+      "rating": 5,
+      "reviewCount": 42,
+      "stockStatus": "Available on Request",
+      "availableStockSqFt": 180,
+      "vendorName": "Elite Onyx Studio",
+      "vendorLocation": "Hitec City, Hyderabad",
+      "type": "Translucent Onyx",
+      "finish": "Honed & Polished",
+      "thickness": "16–18 mm",
+      "usage": "Backlit Walls, Luxury Countertops, Reception Desks",
+      "description": "Rare backlit honey onyx stone with flowing bands of amber, cream, and caramel. Transmits ambient LED lighting for a breathtaking glowing aesthetic.",
+      "image": "/assets/prod_honey_onyx.jpg",
+      "galleryImages": [
+        "/assets/prod_honey_onyx.jpg"
+      ],
+      "featured": true
+    },
+    {
+      "id": "prod-8",
+      "name": "Beige Travertine Stone",
+      "category": "Natural Stone",
+      "pricePerSqFt": 420,
+      "rating": 4.7,
+      "reviewCount": 88,
+      "stockStatus": "In Stock",
+      "availableStockSqFt": 950,
+      "vendorName": "Tuscan Stone Imports",
+      "vendorLocation": "Begumpet, Hyderabad",
+      "type": "Sedimentary Limestone",
+      "finish": "Filled & Honed",
+      "thickness": "20 mm",
+      "usage": "Exterior Cladding, Pool Decks, Bathroom Walls",
+      "description": "Naturally porous Italian limestone with warm earthen striations, filled and honed for moisture-resistant endurance and timeless European elegance.",
+      "image": "/assets/prod_beige_travertine.jpg",
+      "galleryImages": [
+        "/assets/prod_beige_travertine.jpg"
+      ],
+      "featured": false
+    },
+    {
+      "id": "prod-9",
+      "name": "Designer Glazed Vitrified Tiles (GVT)",
+      "category": "Tiles",
+      "pricePerSqFt": 85,
+      "rating": 4.8,
+      "reviewCount": 310,
+      "stockStatus": "In Stock",
+      "availableStockSqFt": 4200,
+      "vendorName": "Kajaria Brand Galleria",
+      "vendorLocation": "Somajiguda, Hyderabad",
+      "type": "Digital Glazed Vitrified",
+      "finish": "High Gloss Nanotech",
+      "thickness": "9 mm (600x1200 mm)",
+      "usage": "Living Room Flooring, Commercial, Bathrooms",
+      "description": "Large format 4x2 ft vitrified tiles reproducing bookmatched Italian marble patterns with high stain resistance and zero porosity.",
+      "image": "/assets/cat_tiles.png",
+      "galleryImages": [
+        "/assets/cat_tiles.png",
+        "/assets/prod_italian_white.png"
+      ],
+      "featured": false,
+      "bestSeller": true
+    },
+    {
+      "id": "prod-10",
+      "name": "Engineered Calacatta Quartz",
+      "category": "Quartz",
+      "pricePerSqFt": 720,
+      "rating": 4.9,
+      "reviewCount": 115,
+      "stockStatus": "In Stock",
+      "availableStockSqFt": 850,
+      "vendorName": "Silestone Quartz Gallery",
+      "vendorLocation": "Kondapur, Hyderabad",
+      "type": "93% Natural Quartz Mineral",
+      "finish": "Polished Silk",
+      "thickness": "18 mm",
+      "usage": "Heavy-Duty Kitchen Sinks, Counters, Island Tops",
+      "description": "Zero maintenance engineered quartz resistant to turmeric stains, lemon acids, and knife scratches while preserving the organic beauty of Calacatta marble.",
+      "image": "/assets/cat_quartz.png",
+      "galleryImages": [
+        "/assets/cat_quartz.png"
+      ],
+      "featured": true
+    },
+    {
+      "id": "prod-11",
+      "name": "Anti-Skid Calacatta Bathroom Slab",
+      "category": "Bathroom Collection",
+      "pricePerSqFt": 340,
+      "rating": 4.9,
+      "reviewCount": 82,
+      "stockStatus": "In Stock",
+      "availableStockSqFt": 1400,
+      "vendorName": "Royal Marble Emporium",
+      "vendorLocation": "Madhapur, Hyderabad",
+      "type": "Honed Anti-Slip Marble",
+      "finish": "Satin Matte / Anti-Skid",
+      "thickness": "18 mm",
+      "usage": "Shower Enclosures, Bathroom Flooring, Vanity Tops",
+      "description": "Specialized honed-finish Italian Calacatta marble treated with anti-slip micro-grooving for luxury bathroom floors and wet areas without slipping hazards.",
+      "image": "/assets/prod_italian_white.png",
+      "galleryImages": [
+        "/assets/prod_italian_white.png",
+        "/assets/prod_statuario.png"
+      ],
+      "featured": true,
+      "bestSeller": true
+    },
+    {
+      "id": "prod-12",
+      "name": "Waterproof Textured Wall Tile 2x1 ft",
+      "category": "Bathroom Collection",
+      "pricePerSqFt": 92,
+      "rating": 4.7,
+      "reviewCount": 145,
+      "stockStatus": "In Stock",
+      "availableStockSqFt": 3200,
+      "vendorName": "Kajaria Brand Galleria",
+      "vendorLocation": "Somajiguda, Hyderabad",
+      "type": "Ceramic Digital Wall Tile",
+      "finish": "Water Repellent Matte",
+      "thickness": "8.5 mm",
+      "usage": "Bathroom Accent Walls, Powder Rooms",
+      "description": "3D geometric relief tiles designed specifically for bathroom splash zones with zero water absorption and easy wipe cleaning.",
+      "image": "/assets/cat_tiles.png",
+      "galleryImages": [
+        "/assets/cat_tiles.png"
+      ]
+    },
+    {
+      "id": "prod-13",
+      "name": "Stain-Proof Jet Black Kitchen Countertop",
+      "category": "Kitchen Collection",
+      "pricePerSqFt": 310,
+      "rating": 4.9,
+      "reviewCount": 190,
+      "stockStatus": "In Stock",
+      "availableStockSqFt": 2100,
+      "vendorName": "Deccan Natural Stones",
+      "vendorLocation": "Jubilee Hills, Hyderabad",
+      "type": "Heavy Duty Granite Slab",
+      "finish": "Mirror Polished Bullnose Edge",
+      "thickness": "20 mm",
+      "usage": "Modular Kitchen Countertops, Island Benches, Backsplashes",
+      "description": "Ultra-dense Indian granite tested against hot pans, lemon juice, turmeric pastes, and oil splatters. Pre-sealed with nano-penetrating sealer.",
+      "image": "/assets/prod_black_galaxy.png",
+      "galleryImages": [
+        "/assets/prod_black_galaxy.png",
+        "/assets/cat_granite.png"
+      ],
+      "featured": true,
+      "bestSeller": true
+    },
+    {
+      "id": "prod-14",
+      "name": "Calacatta Gold Seamless Kitchen Quartz",
+      "category": "Kitchen Collection",
+      "pricePerSqFt": 760,
+      "rating": 4.8,
+      "reviewCount": 64,
+      "stockStatus": "In Stock",
+      "availableStockSqFt": 720,
+      "vendorName": "Silestone Quartz Gallery",
+      "vendorLocation": "Kondapur, Hyderabad",
+      "type": "Food-Grade Engineered Quartz",
+      "finish": "Velvet Silk",
+      "thickness": "20 mm",
+      "usage": "Breakfast Counters, Kitchen Platforms",
+      "description": "Non-porous hygienic quartz certified safe for direct dough rolling and vegetable chopping. Gorgeous subtle golden veining on warm white.",
+      "image": "/assets/cat_quartz.png",
+      "galleryImages": [
+        "/assets/cat_quartz.png"
+      ]
+    }
+  ],
+  "workers": [
+    {
+      "id": "w-1",
+      "name": "Ramesh Kumar",
+      "skill": "Master Tile Fitter",
+      "category": "Tile Fitter",
+      "ratePerDay": 800,
+      "ratePerHour": 120,
+      "rating": 4.8,
+      "reviewCount": 126,
+      "experienceYears": 4,
+      "completedJobs": 248,
+      "distanceKm": 1.2,
+      "isOnline": true,
+      "isAvailableNow": true,
+      "photo": "/assets/worker_ramesh_kumar.png",
+      "serviceArea": "Madhapur, Hitec City, Gachibowli, Kondapur",
+      "verified": true,
+      "portfolioImages": [
+        "/assets/worker_ramesh_kumar.png",
+        "/assets/prod_italian_white_grand.png",
+        "/assets/hero_slide_1.png"
+      ],
+      "phone": "+91 98480 12345",
+      "about": "Specialized in large format vitrified tiles (4x2 and 6x4), epoxy grouting, laser leveling, and precision wall cladding. Over 4 years of residential and commercial fitting.",
+      "estimatedArrivalMin": 25
+    },
+    {
+      "id": "w-2",
+      "name": "Suresh Verma",
+      "skill": "Senior Marble Fitter",
+      "category": "Marble Fitter",
+      "ratePerDay": 950,
+      "ratePerHour": 140,
+      "rating": 4.9,
+      "reviewCount": 214,
+      "experienceYears": 6,
+      "completedJobs": 380,
+      "distanceKm": 2.5,
+      "isOnline": true,
+      "isAvailableNow": true,
+      "photo": "/assets/worker_suresh_verma.png",
+      "serviceArea": "Jubilee Hills, Banjara Hills, Somajiguda",
+      "verified": true,
+      "portfolioImages": [
+        "/assets/prod_statuario_grand.png",
+        "/assets/prod_italian_white_grand.png"
+      ],
+      "phone": "+91 98481 98765",
+      "about": "Expert craftsman for Italian marble dry-lay, bookmatching veins, chemical anchoring, and leveling with zero lippage. Trusted by top interior architects in Hyderabad.",
+      "estimatedArrivalMin": 35
+    },
+    {
+      "id": "w-3",
+      "name": "Mohammed Arif",
+      "skill": "Expert Marble Polisher",
+      "category": "Marble Polisher",
+      "ratePerDay": 750,
+      "ratePerHour": 110,
+      "rating": 4.8,
+      "reviewCount": 189,
+      "experienceYears": 5,
+      "completedJobs": 310,
+      "distanceKm": 3.1,
+      "isOnline": true,
+      "isAvailableNow": true,
+      "photo": "/assets/worker_mohammed_arif.png",
+      "serviceArea": "Banjara Hills, Mehdipatnam, Begumpet",
+      "verified": true,
+      "portfolioImages": [
+        "/assets/prod_italian_white_grand.png",
+        "/assets/prod_crema_marfil_grand.png"
+      ],
+      "phone": "+91 98482 45678",
+      "about": "Specialist in 7-stage Italian diamond pad polishing, Klindex crystallization, Italian silux coating, and restoration of old, dull marble floors to pristine mirror reflection.",
+      "estimatedArrivalMin": 40
+    },
+    {
+      "id": "w-4",
+      "name": "Rajesh Naidu",
+      "skill": "Experienced Mason",
+      "category": "Mason",
+      "ratePerDay": 850,
+      "ratePerHour": 130,
+      "rating": 4.7,
+      "reviewCount": 160,
+      "experienceYears": 8,
+      "completedJobs": 420,
+      "distanceKm": 1.8,
+      "isOnline": true,
+      "isAvailableNow": true,
+      "photo": "/assets/worker_tile_fitter.png",
+      "serviceArea": "Kukatpally, Miyapur, Nizampet",
+      "verified": true,
+      "portfolioImages": [
+        "/assets/prod_makrana_white.jpg"
+      ],
+      "phone": "+91 98483 55667",
+      "about": "Brick masonry, PCC base screeding for marble/tile laying, plastering, stone threshold fixing, and structural modifications for residential renovations.",
+      "estimatedArrivalMin": 30
+    },
+    {
+      "id": "w-5",
+      "name": "Prakash Reddy",
+      "skill": "Granite Countertop Specialist",
+      "category": "Granite Fitter",
+      "ratePerDay": 900,
+      "ratePerHour": 135,
+      "rating": 4.8,
+      "reviewCount": 94,
+      "experienceYears": 4,
+      "completedJobs": 175,
+      "distanceKm": 4.2,
+      "isOnline": true,
+      "isAvailableNow": false,
+      "photo": "/assets/worker_tile_fitter.png",
+      "serviceArea": "Gachibowli, Financial District, Nanakramguda",
+      "verified": true,
+      "portfolioImages": [
+        "/assets/prod_black_galaxy.png"
+      ],
+      "phone": "+91 98484 22334",
+      "about": "Precision granite kitchen platform fitting, sink cutouts, half/full bullnose chamfering, and staircase riser alignment.",
+      "estimatedArrivalMin": 50
+    },
+    {
+      "id": "w-6",
+      "name": "Ajay Sharma",
+      "skill": "Interior & Texture Painter",
+      "category": "Painter",
+      "ratePerDay": 700,
+      "ratePerHour": 100,
+      "rating": 4.7,
+      "reviewCount": 112,
+      "experienceYears": 4,
+      "completedJobs": 198,
+      "distanceKm": 3.8,
+      "isOnline": true,
+      "isAvailableNow": true,
+      "photo": "/assets/worker_painter.png",
+      "serviceArea": "Ameerpet, Punjagutta, Somajiguda",
+      "verified": true,
+      "portfolioImages": [
+        "/assets/worker_painter.png"
+      ],
+      "phone": "+91 98485 77889",
+      "about": "Professional interior painting, wall putty smoothing, primer coating, Royal luxury sheen emulsion, and waterproof damp-proof treatment.",
+      "estimatedArrivalMin": 45
+    },
+    {
+      "id": "w-7",
+      "name": "Santosh Yadav",
+      "skill": "Licensed Site Plumber",
+      "category": "Plumber",
+      "ratePerDay": 650,
+      "ratePerHour": 95,
+      "rating": 4.6,
+      "reviewCount": 88,
+      "experienceYears": 5,
+      "completedJobs": 160,
+      "distanceKm": 2,
+      "isOnline": true,
+      "isAvailableNow": true,
+      "photo": "/assets/worker_tile_fitter.png",
+      "serviceArea": "Secunderabad, Malkajgiri, Alwal",
+      "verified": true,
+      "portfolioImages": [],
+      "phone": "+91 98486 33445",
+      "about": "Bathroom concealed CPVC plumbing, diverter installation, sanitary ware fixtures, drainage trap alignment before tile laying.",
+      "estimatedArrivalMin": 30
+    },
+    {
+      "id": "w-8",
+      "name": "Vikram Singh",
+      "skill": "Master Site Electrician",
+      "category": "Electrician",
+      "ratePerDay": 700,
+      "ratePerHour": 100,
+      "rating": 4.9,
+      "reviewCount": 142,
+      "experienceYears": 6,
+      "completedJobs": 290,
+      "distanceKm": 1.5,
+      "isOnline": true,
+      "isAvailableNow": true,
+      "photo": "/assets/worker_tile_fitter.png",
+      "serviceArea": "Madhapur, Jubilee Hills, Kavuri Hills",
+      "verified": true,
+      "portfolioImages": [],
+      "phone": "+91 98487 11223",
+      "about": "Concealed wiring, DB dressing, cove lighting under stone ledges, marble wall switchboard cutout installations, and inverter setups.",
+      "estimatedArrivalMin": 20
+    },
+    {
+      "id": "w-9",
+      "name": "Anand Rao",
+      "skill": "Fine Wood Carpenter",
+      "category": "Carpenter",
+      "ratePerDay": 850,
+      "ratePerHour": 125,
+      "rating": 4.8,
+      "reviewCount": 105,
+      "experienceYears": 7,
+      "completedJobs": 215,
+      "distanceKm": 2.9,
+      "isOnline": true,
+      "isAvailableNow": true,
+      "photo": "/assets/worker_painter.png",
+      "serviceArea": "Dilsukhnagar, LB Nagar, Kothapet",
+      "verified": true,
+      "portfolioImages": [],
+      "phone": "+91 98488 66778",
+      "about": "Modular kitchen carcass framing, door frame jamb fixing over stone thresholds, wooden partition panels, and wardrobe fitting.",
+      "estimatedArrivalMin": 40
+    },
+    {
+      "id": "w-10",
+      "name": "Mahesh Goud",
+      "skill": "Site Labor & Slab Shifting",
+      "category": "Labor / Helper",
+      "ratePerDay": 500,
+      "ratePerHour": 75,
+      "rating": 4.5,
+      "reviewCount": 67,
+      "experienceYears": 2,
+      "completedJobs": 130,
+      "distanceKm": 1,
+      "isOnline": true,
+      "isAvailableNow": true,
+      "photo": "/assets/worker_tile_fitter.png",
+      "serviceArea": "All areas in Hyderabad West",
+      "verified": true,
+      "portfolioImages": [],
+      "phone": "+91 98489 99001",
+      "about": "Heavy marble slab lifting and shifting, mortar mixing, tile loading/unloading, site debris cleanup and helper assistance.",
+      "estimatedArrivalMin": 15
+    }
+  ],
+  "heroSlides": [
+    {
+      "id": "hero-1",
+      "title": "Transform Your Space with Elegance",
+      "subtitle": "Discover premium-quality marbles and tiles for your dream space.",
+      "highlightText": "PREMIUM MARBLE & TILES",
+      "ctaText": "Explore Collection",
+      "image": "/assets/hero_slide_1.png",
+      "badge": "DIRECT FACTORY PRICES",
+      "targetCategory": "Marble",
+      "targetScreen": "products"
+    },
+    {
+      "id": "hero-2",
+      "title": "Luxury Italian & Imported Slabs",
+      "subtitle": "Hand-selected bookmatched Statuario, Calacatta & Onyx for signature interiors.",
+      "highlightText": "EXCLUSIVE QUARRY IMPORTS",
+      "ctaText": "Explore Collection",
+      "image": "/assets/hero_slide_2.png",
+      "badge": "DIRECT FACTORY PRICES",
+      "targetCategory": "Marble",
+      "targetScreen": "products"
+    },
+    {
+      "id": "hero-3",
+      "title": "Skilled Artisans & Instant Fitting",
+      "subtitle": "Book certified master tile fitters, polishers & masons right to your site.",
+      "highlightText": "ON-DEMAND SITE EXPERTS",
+      "ctaText": "Book Skilled Workers",
+      "image": "/assets/hero_slide_3.png",
+      "badge": "BACKGROUND VERIFIED",
+      "targetScreen": "worker-categories"
+    }
+  ],
+  "categories": [
+    {
+      "id": "Marble",
+      "title": "Marbles",
+      "subtitle": "Italian, Indian & Statuario Slabs",
+      "image": "/assets/cat_marbles_grand.png",
+      "itemCount": 42,
+      "badge": "POPULAR"
+    },
+    {
+      "id": "Tiles",
+      "title": "Tiles",
+      "subtitle": "Floor, Wall & Vitrified Designer Tiles",
+      "image": "/assets/cat_tiles_grand.png",
+      "itemCount": 88,
+      "badge": "TRENDING"
+    },
+    {
+      "id": "Granite",
+      "title": "Granite",
+      "subtitle": "Black Galaxy, Moon White & Slabs",
+      "image": "/assets/cat_granite_grand.png",
+      "itemCount": 35
+    },
+    {
+      "id": "Natural Stone",
+      "title": "Natural Stones",
+      "subtitle": "Onyx, Travertine & Sandstone",
+      "image": "/assets/cat_natural_stones_grand.png",
+      "itemCount": 24
+    },
+    {
+      "id": "Bathroom Collection",
+      "title": "Bathroom Collection",
+      "subtitle": "Anti-Skid Flooring & Vanity Slabs",
+      "image": "/assets/cat_bathroom_grand.png",
+      "itemCount": 30,
+      "badge": "WATERPROOF"
+    },
+    {
+      "id": "Kitchen Collection",
+      "title": "Kitchen Collection",
+      "subtitle": "Heat & Stain Resistant Countertops",
+      "image": "/assets/cat_kitchen_grand.png",
+      "itemCount": 28,
+      "badge": "HEAVY DUTY"
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-1",
+      "title": "Jubilee Hills Luxury Villa Residence",
+      "client": "G.V. Construction & Architects",
+      "location": "Jubilee Hills, Road No. 36, Hyderabad",
+      "category": "Villa",
+      "image": "/assets/hero_slide_1.png",
+      "galleryImages": [
+        "/assets/hero_slide_1.png",
+        "/assets/cat_marbles_grand.png"
+      ],
+      "description": "Complete Italian Statuario marble bookmatched flooring with custom onyx accent walls and precision waterjet cutting.",
+      "completionYear": "2025",
+      "featured": true
+    },
+    {
+      "id": "proj-2",
+      "title": "HITEC City Corporate Headquarters",
+      "client": "Infra Horizon Tech Park",
+      "location": "Madhapur, HITEC City, Hyderabad",
+      "category": "Commercial",
+      "image": "/assets/hero_slide_2.png",
+      "galleryImages": [
+        "/assets/hero_slide_2.png",
+        "/assets/prod_black_galaxy_grand.png"
+      ],
+      "description": "Black Galaxy granite lobby cladding and heavy-traffic vitrified floor tiles engineered for 5,000+ daily footfall.",
+      "completionYear": "2024",
+      "featured": true
+    },
+    {
+      "id": "proj-3",
+      "title": "Banjara Hills Royal Penthouse",
+      "client": "Private Luxury Residence",
+      "location": "Banjara Hills, Hyderabad",
+      "category": "Residential",
+      "image": "/assets/hero_slide_3.png",
+      "galleryImages": [
+        "/assets/hero_slide_3.png",
+        "/assets/prod_crema_marfil_grand.png"
+      ],
+      "description": "Crema Marfil marble bathrooms and custom quartz kitchen islands installed by master craftsmen.",
+      "completionYear": "2025",
+      "featured": true
+    }
+  ],
+  "gallery": [
+    {
+      "id": "gal-1",
+      "title": "Italian White Statuario Bookmatched Wall",
+      "category": "Marble",
+      "image": "/assets/cat_marbles_grand.png",
+      "description": "Continuous vein bookmatched Statuario marble slab.",
+      "tags": [
+        "Italian Marble",
+        "Bookmatched",
+        "Luxury"
+      ]
+    },
+    {
+      "id": "gal-2",
+      "title": "Black Galaxy Granite Island Countertop",
+      "category": "Granite",
+      "image": "/assets/cat_granite_grand.png",
+      "description": "Mirror-polished Black Galaxy granite with gold specks.",
+      "tags": [
+        "Granite",
+        "Kitchen",
+        "Heat Resistant"
+      ]
+    },
+    {
+      "id": "gal-3",
+      "title": "Designer Non-Slip Bathroom Floor & Wall Slabs",
+      "category": "Bathroom",
+      "image": "/assets/cat_bathroom_grand.png",
+      "description": "Waterproof anti-skid floor tiles and seamless vanity panels.",
+      "tags": [
+        "Waterproof",
+        "Bathroom",
+        "Anti-Skid"
+      ]
+    },
+    {
+      "id": "gal-4",
+      "title": "Stain-Proof Quartz Heavy Duty Kitchen Slab",
+      "category": "Kitchen",
+      "image": "/assets/cat_kitchen_grand.png",
+      "description": "Engineered high-durability quartz countertop.",
+      "tags": [
+        "Kitchen",
+        "Heavy Duty",
+        "Stain Proof"
+      ]
+    },
+    {
+      "id": "gal-5",
+      "title": "Natural Onyx & Beige Travertine Backlit Wall",
+      "category": "Natural Stone",
+      "image": "/assets/cat_natural_stones_grand.png",
+      "description": "Translucent backlit natural honey onyx.",
+      "tags": [
+        "Onyx",
+        "Backlit",
+        "Natural Stone"
+      ]
+    }
+  ],
+  "reviews": [
+    {
+      "id": "rev-1",
+      "authorName": "Arjun K. Reddy",
+      "authorRole": "Villa Owner & Architect",
+      "authorLocation": "Jubilee Hills, Hyderabad",
+      "rating": 5,
+      "date": "18 Nov 2026",
+      "comment": "The bookmatched Italian Statuario marble was delivered directly to our villa site in pristine condition. Suresh Verma, who did the marble dry-lay and leveling, is a master artisan!",
+      "avatar": "/assets/worker_suresh_verma.png",
+      "stoneUsed": "Statuario Italian Marble"
+    },
+    {
+      "id": "rev-2",
+      "authorName": "Pooja Sundaram",
+      "authorRole": "Interior Designer",
+      "authorLocation": "Gachibowli, Hyderabad",
+      "rating": 5,
+      "date": "14 Nov 2026",
+      "comment": "The Black Galaxy Granite platform with bullnose molding for our modular kitchen project looks stunning. Zero transit damage and the worker arrived within 30 minutes of booking.",
+      "avatar": "/assets/cat_marbles_grand.png",
+      "stoneUsed": "Black Galaxy Granite"
+    },
+    {
+      "id": "rev-3",
+      "authorName": "Syed Mansoor Ali",
+      "authorRole": "Civil Contractor",
+      "authorLocation": "Madhapur, Hyderabad",
+      "rating": 4.9,
+      "date": "10 Nov 2026",
+      "comment": "Radhesh & Rudresh is now our default supplier for all our 2BHK and 3BHK commercial floorings. The instant worker booking feature saved us multiple days of project delays.",
+      "avatar": "/assets/worker_ramesh_kumar.png",
+      "stoneUsed": "Italian White & Vitrified Tiles"
+    }
+  ],
+  "enquiries": [
+    {
+      "id": "enq-1",
+      "name": "Vikramaditya Reddy",
+      "phone": "+91 98490 12345",
+      "email": "vikram.reddy@hyderabadproperties.com",
+      "subject": "Supply of 5,000 Sq.Ft. Statuario Marble for G+2 Bungalow",
+      "message": "We require 5,000 sq.ft. prime quality Italian Statuario marble slabs for our upcoming bungalow project in Jubilee Hills. Please share best factory rates.",
+      "status": "New",
+      "createdAt": "2026-11-24T03:02:15.487Z",
+      "notes": "High priority commercial lead."
+    },
+    {
+      "id": "enq-2",
+      "name": "Srinivas Rao",
+      "phone": "+91 99890 87654",
+      "email": "srinivas.rao@architects.in",
+      "subject": "Booking 4 Master Marble Polishers for 10 Days",
+      "message": "Need 4 verified master Italian marble fitters and polishers for site near Gachibowli starting next Monday.",
+      "status": "Contacted",
+      "createdAt": "2026-11-23T07:02:15.489Z",
+      "notes": "Quotation sent via WhatsApp. Follow up on Tuesday."
+    },
+    {
+      "id": "enq-3",
+      "name": "Ananya Sharma",
+      "phone": "+91 94401 54321",
+      "subject": "Kitchen Countertop Quartz Slab Samples",
+      "message": "Looking for heat and stain resistant quartz slabs in pure white finish. Please send catalog and sample piece.",
+      "status": "In Progress",
+      "createdAt": "2026-11-22T07:02:15.489Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "ORD-88241",
+      "items": [
+        {
+          "product": {
+            "id": "prod-1",
+            "name": "Italian White Marble",
+            "category": "Marble",
+            "pricePerSqFt": 320,
+            "rating": 4.8,
+            "reviewCount": 210,
+            "stockStatus": "In Stock",
+            "availableStockSqFt": 2400,
+            "vendorName": "Royal Marble Emporium",
+            "vendorLocation": "Madhapur, Hyderabad",
+            "type": "Natural Imported Marble",
+            "finish": "Mirror Polished",
+            "thickness": "18–20 mm",
+            "usage": "Floor, Wall, Kitchen, Bathroom",
+            "description": "Directly imported Italian White Marble known for its gentle grey veining and milky white crystalline base. Perfectly suited for high-end flooring, feature walls, and lavish bathroom vanities.",
+            "image": "/assets/prod_italian_white_grand.png",
+            "galleryImages": [
+              "/assets/prod_italian_white_grand.png",
+              "/assets/prod_statuario_grand.png",
+              "/assets/cat_marbles_grand.png",
+              "/assets/hero_slide_1.png"
+            ],
+            "featured": true,
+            "bestSeller": true
+          },
+          "areaSqFt": 100,
+          "subtotal": 32000
+        }
+      ],
+      "siteAddress": "Flat 402, Aditya Empress Towers, Shaikpet, Hyderabad - 500008",
+      "contactName": "Muzammil Shaik",
+      "contactPhone": "+91 99887 76655",
+      "paymentMethod": "UPI",
+      "subtotal": 32000,
+      "deliveryCharges": 0,
+      "totalAmount": 32000,
+      "status": "Delivered",
+      "createdAt": "18 Nov 2026, 11:30 AM",
+      "estimatedDelivery": "20 Nov 2026",
+      "trackingStep": 4
+    },
+    {
+      "id": "ORD-88319",
+      "items": [
+        {
+          "product": {
+            "id": "prod-2",
+            "name": "Black Galaxy Granite",
+            "category": "Granite",
+            "pricePerSqFt": 280,
+            "rating": 4.7,
+            "reviewCount": 168,
+            "stockStatus": "In Stock",
+            "availableStockSqFt": 1850,
+            "vendorName": "Deccan Natural Stones",
+            "vendorLocation": "Jubilee Hills, Hyderabad",
+            "type": "Natural Granite",
+            "finish": "High Gloss Polished",
+            "thickness": "18–20 mm",
+            "usage": "Kitchen Countertop, Stairs, Flooring",
+            "description": "Iconic Black Galaxy Granite featuring a dense midnight black background embellished with bright golden and bronze reflective specks. Unmatched durability and scratch resistance.",
+            "image": "/assets/prod_black_galaxy_grand.png",
+            "galleryImages": [
+              "/assets/prod_black_galaxy_grand.png",
+              "/assets/prod_italian_white_grand.png",
+              "/assets/cat_granite_grand.png"
+            ],
+            "featured": true,
+            "bestSeller": true
+          },
+          "areaSqFt": 100,
+          "subtotal": 28000
+        }
+      ],
+      "siteAddress": "Plot 45, Road No. 12, Jubilee Hills, Hyderabad - 500033",
+      "contactName": "Muzammil Shaik",
+      "contactPhone": "+91 99887 76655",
+      "paymentMethod": "Credit/Debit Card",
+      "subtotal": 28000,
+      "deliveryCharges": 500,
+      "totalAmount": 28500,
+      "status": "Dispatched",
+      "createdAt": "21 Nov 2026, 03:45 PM",
+      "estimatedDelivery": "23 Nov 2026",
+      "trackingStep": 3
+    }
+  ],
+  "bookings": [
+    {
+      "id": "RRW268734",
+      "workerId": "w-1",
+      "workerName": "Tile Fitter (Ramesh Kumar)",
+      "workerSkill": "Master Tile Fitter",
+      "workerPhoto": "/assets/worker_tile_fitter.png",
+      "requirementType": "Per Day",
+      "numberOfWorkers": 1,
+      "date": "Sat, 22 Nov 2026",
+      "timeSlot": "9:00 AM – 6:00 PM",
+      "siteAddress": "Villa 18, Palm Meadows, Gachibowli, Hyderabad - 500032",
+      "jobDescription": "Tile fitting for 2BHK, approximately 1000 sq.ft.",
+      "ratePerUnit": 800,
+      "totalAmount": 800,
+      "status": "Completed",
+      "createdAt": "20 Nov 2026, 10:15 AM",
+      "trackingStep": 4
+    },
+    {
+      "id": "RRW269105",
+      "workerId": "w-6",
+      "workerName": "Painter (Ajay Sharma)",
+      "workerSkill": "Interior & Texture Painter",
+      "workerPhoto": "/assets/worker_painter.png",
+      "requirementType": "Per Day",
+      "numberOfWorkers": 2,
+      "date": "Wed, 25 Nov 2026",
+      "timeSlot": "9:00 AM – 6:00 PM",
+      "siteAddress": "Flat 402, Aditya Empress Towers, Shaikpet, Hyderabad - 500008",
+      "jobDescription": "Interior primer and 2 coats luxury emulsion for 3 rooms.",
+      "ratePerUnit": 700,
+      "totalAmount": 1400,
+      "status": "Accepted",
+      "createdAt": "22 Nov 2026, 02:20 PM",
+      "trackingStep": 1
+    }
+  ],
+  "payments": [],
+  "settings": {
+    "companyName": "RADHESH & RUDRESH",
+    "subtitle": "INFRA DEVELOPERS PVT. LTD.",
+    "tagline": "BUILDING TRUST. CREATING FUTURES.",
+    "phone": "+91 98490 29050",
+    "whatsapp": "+91 98490 29050",
+    "email": "contact@radheshrudresh.com",
+    "address": "Plot No. 42, Marble Industrial Zone, Near Outer Ring Road, Hyderabad, Telangana – 500072",
+    "gstNumber": "36AAACR1234F1Z8",
+    "googleMapsUrl": "https://maps.google.com/?q=Hyderabad,Telangana",
+    "heroHeadline": "Premium Marbles & Tiles",
+    "heroSubheadline": "Hand-picked luxury stones and verified master craftsmen direct to your construction site.",
+    "socialLinks": {
+      "instagram": "https://instagram.com/radheshrudresh",
+      "facebook": "https://facebook.com/radheshrudresh",
+      "youtube": "https://youtube.com/@radheshrudresh",
+      "linkedin": "https://linkedin.com/company/radhesh-rudresh"
+    }
+  },
+  "auditLogs": [
+    {
+      "id": "log-1",
+      "action": "SYSTEM_INIT",
+      "details": "Dynamic CMS initialized with default quarry catalog and master artisans.",
+      "user": "System",
+      "timestamp": "2026-11-24T07:02:15.489Z"
+    }
+  ]
+}

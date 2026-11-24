@@ -159,6 +159,22 @@ export const DrawerMenu: React.FC = () => {
               </div>
               <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
             </button>
+
+            {/* Admin CMS Portal Link */}
+            <a
+              href="/admin/dashboard"
+              target="_blank"
+              rel="noreferrer"
+              className="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-100 font-bold text-slate-800 transition bg-slate-50 border border-slate-200/80 mt-1"
+            >
+              <div className="flex items-center gap-3">
+                <ShieldCheck className="w-4 h-4 text-brand-500" />
+                <span>Admin CMS Panel</span>
+              </div>
+              <span className="text-[9px] bg-brand-500 text-white px-2 py-0.5 rounded-full font-bold">
+                Enterprise
+              </span>
+            </a>
           </div>
 
           {/* Quick Categories Bar */}

@@ -32,6 +32,19 @@ export const ProductListingScreen: React.FC = () => {
     setGlobalSearchQuery
   } = useApp();
 
+  const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS);
+
+  React.useEffect(() => {
+    fetch('/api/cms/products')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success && data.products && data.products.length > 0) {
+          setProducts(data.products);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   const [sortOption, setSortOption] = useState<'popular' | 'price-low' | 'price-high' | 'rating'>('popular');
   const [stockFilter, setStockFilter] = useState<StockStatus | 'All'>('All');
   const [showFilterDrawer, setShowFilterDrawer] = useState(false);
@@ -47,7 +60,7 @@ export const ProductListingScreen: React.FC = () => {
     'Kitchen Collection'
   ];
 
-  const filteredProducts = INITIAL_PRODUCTS.filter((product) => {
+  const filteredProducts = products.filter((product) => {
     const matchesCategory =
       selectedCategory === 'All' || product.category === selectedCategory;
     const matchesSearch =

@@ -171,6 +171,82 @@ export interface CustomerReview {
   stoneUsed: string;
 }
 
+export interface Project {
+  id: string;
+  title: string;
+  client: string;
+  location: string;
+  category: 'Commercial' | 'Residential' | 'Villa' | 'Hospitality';
+  image: string;
+  galleryImages: string[];
+  description: string;
+  completionYear: string;
+  featured?: boolean;
+}
+
+export interface GalleryItem {
+  id: string;
+  title: string;
+  category: string;
+  image: string;
+  description?: string;
+  tags: string[];
+}
+
+export interface Enquiry {
+  id: string;
+  name: string;
+  phone: string;
+  email?: string;
+  subject: string;
+  message: string;
+  status: 'New' | 'Contacted' | 'In Progress' | 'Converted' | 'Closed';
+  notes?: string;
+  createdAt: string;
+}
+
+export interface PaymentRecord {
+  id: string;
+  razorpayOrderId: string;
+  razorpayPaymentId?: string;
+  amount: number;
+  currency: string;
+  status: 'captured' | 'failed' | 'pending';
+  customerName: string;
+  customerPhone: string;
+  referenceType: 'order' | 'booking';
+  referenceId: string;
+  createdAt: string;
+}
+
+export interface SiteSettings {
+  companyName: string;
+  subtitle: string;
+  tagline: string;
+  phone: string;
+  whatsapp: string;
+  email: string;
+  address: string;
+  gstNumber: string;
+  googleMapsUrl: string;
+  heroHeadline: string;
+  heroSubheadline: string;
+  socialLinks: {
+    instagram: string;
+    facebook: string;
+    youtube: string;
+    linkedin: string;
+  };
+}
+
+export interface AuditLog {
+  id: string;
+  action: string;
+  details: string;
+  user: string;
+  timestamp: string;
+}
+
 export type ActiveScreen = 
   | 'splash'
   | 'home'

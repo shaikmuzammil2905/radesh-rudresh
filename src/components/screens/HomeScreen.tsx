@@ -25,7 +25,7 @@ import { useApp } from '@/context/AppContext';
 import { Header } from '../common/Header';
 import { LocationModal } from '../common/LocationModal';
 import { HERO_SLIDES, HOME_CATEGORIES, INITIAL_PRODUCTS, INITIAL_WORKERS, CUSTOMER_REVIEWS } from '@/data/mockData';
-import { ProductCategory, Product, Worker } from '@/types';
+import { ProductCategory, Product, Worker, HeroSlide, HomeCategoryCard } from '@/types';
 
 export const HomeScreen: React.FC = () => {
   const {
@@ -47,14 +47,52 @@ export const HomeScreen: React.FC = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
 
+  // Dynamic CMS State
+  const [heroSlides, setHeroSlides] = useState<HeroSlide[]>(HERO_SLIDES);
+  const [categories, setCategories] = useState<HomeCategoryCard[]>(HOME_CATEGORIES);
+  const [bestSellers, setBestSellers] = useState<Product[]>(INITIAL_PRODUCTS.slice(0, 4));
+  const [topWorkers, setTopWorkers] = useState<Worker[]>(INITIAL_WORKERS.slice(0, 3));
+
+  // Dynamic CMS Synchronization with Backend
+  useEffect(() => {
+    fetch('/api/cms/pages')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success) {
+          if (data.slides && data.slides.length > 0) setHeroSlides(data.slides);
+          if (data.categories && data.categories.length > 0) setCategories(data.categories);
+        }
+      })
+      .catch(() => {});
+
+    fetch('/api/cms/products')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success && data.products && data.products.length > 0) {
+          const featured = data.products.filter((p: Product) => p.bestSeller || p.featured);
+          setBestSellers(featured.length > 0 ? featured.slice(0, 4) : data.products.slice(0, 4));
+        }
+      })
+      .catch(() => {});
+
+    fetch('/api/cms/workers')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success && data.workers && data.workers.length > 0) {
+          setTopWorkers(data.workers.slice(0, 3));
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   // Auto-rotate hero slider
   useEffect(() => {
     if (isPaused) return;
     const timer = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+      setActiveSlide((prev) => (prev + 1) % heroSlides.length);
     }, 4500);
     return () => clearInterval(timer);
-  }, [isPaused]);
+  }, [isPaused, heroSlides.length]);
 
   // Touch swipe support for Hero Carousel
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -66,9 +104,9 @@ export const HomeScreen: React.FC = () => {
     const touchEnd = e.changedTouches[0].clientX;
     const diff = touchStart - touchEnd;
     if (diff > 50) {
-      setActiveSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+      setActiveSlide((prev) => (prev + 1) % heroSlides.length);
     } else if (diff < -50) {
-      setActiveSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+      setActiveSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
     }
     setTouchStart(null);
   };
@@ -151,7 +189,7 @@ export const HomeScreen: React.FC = () => {
           onTouchEnd={handleTouchEnd}
           className="relative rounded-2xl overflow-hidden shadow-sm border border-gray-100 bg-gray-950 h-56 sm:h-60 select-none group"
         >
-          {HERO_SLIDES.map((slide, index) => {
+          {heroSlides.map((slide, index) => {
             const isActive = index === activeSlide;
             return (
               <div
@@ -202,7 +240,7 @@ export const HomeScreen: React.FC = () => {
 
           {/* Carousel Pagination Dots */}
           <div className="absolute bottom-3 right-3.5 z-20 flex items-center gap-1.5">
-            {HERO_SLIDES.map((_, i) => (
+            {heroSlides.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setActiveSlide(i)}
@@ -288,7 +326,7 @@ export const HomeScreen: React.FC = () => {
 
           {/* 6 Responsive Image-Based Category Cards in 2 Columns */}
           <div className="grid grid-cols-2 gap-3">
-            {HOME_CATEGORIES.map((cat) => (
+            {categories.map((cat) => (
               <div
                 key={cat.id}
                 onClick={() => handleCategoryClick(cat.id)}
@@ -390,7 +428,7 @@ export const HomeScreen: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            {INITIAL_PRODUCTS.slice(0, 4).map((product) => {
+            {bestSellers.map((product) => {
               const wishlisted = isWishlisted(product.id);
               const isLimited = product.stockStatus === 'Limited Stock';
 
@@ -512,7 +550,7 @@ export const HomeScreen: React.FC = () => {
             </div>
 
             <div className="space-y-2.5">
-              {INITIAL_WORKERS.slice(0, 3).map((worker) => (
+              {topWorkers.map((worker) => (
                 <div
                   key={worker.id}
                   onClick={() => handleWorkerClick(worker)}

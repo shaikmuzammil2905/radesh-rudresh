@@ -36,6 +36,18 @@ export const NearbyWorkersScreen: React.FC = () => {
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [selectedMapWorker, setSelectedMapWorker] = useState<Worker>(INITIAL_WORKERS[0]);
+  const [workers, setWorkers] = useState<Worker[]>(INITIAL_WORKERS);
+
+  React.useEffect(() => {
+    fetch('/api/cms/workers')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success && data.workers && data.workers.length > 0) {
+          setWorkers(data.workers);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const categories: (WorkerCategory | 'All')[] = [
     'All',
@@ -51,7 +63,7 @@ export const NearbyWorkersScreen: React.FC = () => {
     'Labor / Helper'
   ];
 
-  const filteredWorkers = INITIAL_WORKERS.filter((worker) => {
+  const filteredWorkers = workers.filter((worker) => {
     const matchesCategory =
       selectedWorkerCategory === 'All' ||
       worker.category === selectedWorkerCategory;

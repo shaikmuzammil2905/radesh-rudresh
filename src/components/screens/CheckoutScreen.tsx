@@ -40,41 +40,140 @@ export const CheckoutScreen: React.FC = () => {
   const delivery = cartTotalAmount > 25000 || cartTotalAmount === 0 ? 0 : 500;
   const grandTotal = cartTotalAmount + gst + delivery;
 
-  const handlePlaceOrder = (e: React.FormEvent) => {
+  const completeOrderPlacement = (method: string, paymentRef: string) => {
+    // Confetti blast
+    confetti({
+      particleCount: 90,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+
+    const orderItems = cart.map((item) => ({
+      product: item.product,
+      areaSqFt: item.areaSqFt,
+      subtotal: item.areaSqFt * item.product.pricePerSqFt
+    }));
+
+    addOrder({
+      items: orderItems,
+      siteAddress: `${selectedAddress.fullAddress}, ${selectedAddress.city} - ${selectedAddress.pincode}`,
+      contactName,
+      contactPhone,
+      paymentMethod: method as any,
+      subtotal: cartTotalAmount,
+      deliveryCharges: delivery,
+      totalAmount: grandTotal,
+      estimatedDelivery: '28 Nov 2026'
+    });
+
+    setIsSubmitting(false);
+    navigateTo('orders');
+  };
+
+  const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     if (cart.length === 0) return;
 
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      // Confetti blast
-      confetti({
-        particleCount: 80,
-        spread: 60,
-        origin: { y: 0.6 }
+    if (paymentMethod === 'Cash on Delivery') {
+      setTimeout(() => {
+        completeOrderPlacement('Cash on Delivery', 'COD-PENDING');
+      }, 800);
+      return;
+    }
+
+    try {
+      // 1. Create order on server via Razorpay API
+      const res = await fetch('/api/razorpay/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: grandTotal,
+          receipt: `rcpt_${Date.now()}`,
+          notes: {
+            customer: contactName,
+            phone: contactPhone,
+          },
+        }),
       });
 
-      const orderItems = cart.map((item) => ({
-        product: item.product,
-        areaSqFt: item.areaSqFt,
-        subtotal: item.areaSqFt * item.product.pricePerSqFt
-      }));
+      const orderData = await res.json();
+      if (!orderData.success) {
+        throw new Error(orderData.message || 'Payment initiation failed');
+      }
 
-      addOrder({
-        items: orderItems,
-        siteAddress: `${selectedAddress.fullAddress}, ${selectedAddress.city} - ${selectedAddress.pincode}`,
-        contactName,
-        contactPhone,
-        paymentMethod,
-        subtotal: cartTotalAmount,
-        deliveryCharges: delivery,
-        totalAmount: grandTotal,
-        estimatedDelivery: '25 Nov 2026'
-      });
+      const options = {
+        key: orderData.keyId,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: 'Radhesh & Rudresh Infra Developers',
+        description: 'Marble Slabs Supply Order',
+        image: '/assets/rr_monogram.png',
+        order_id: orderData.orderId,
+        prefill: {
+          name: contactName,
+          contact: contactPhone,
+          email: 'sales@radheshrudresh.com',
+        },
+        theme: {
+          color: '#E91E63',
+        },
+        handler: async function (response: any) {
+          // 2. Verify signature on backend
+          try {
+            const verifyRes = await fetch('/api/razorpay/verify-payment', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                ...response,
+                amount: grandTotal,
+                customerName: contactName,
+                customerPhone: contactPhone,
+                referenceType: 'order',
+                referenceId: orderData.orderId,
+              }),
+            });
+            const verifyData = await verifyRes.json();
+            if (verifyData.success) {
+              completeOrderPlacement('Razorpay Online', response.razorpay_payment_id);
+            } else {
+              alert('Payment signature verification failed.');
+              setIsSubmitting(false);
+            }
+          } catch (err) {
+            alert('Verification network error');
+            setIsSubmitting(false);
+          }
+        },
+        modal: {
+          ondismiss: function () {
+            setIsSubmitting(false);
+          },
+        },
+      };
 
-      setIsSubmitting(false);
-      navigateTo('orders');
-    }, 1200);
+      if (typeof window !== 'undefined' && (window as any).Razorpay) {
+        const rzp = new (window as any).Razorpay(options);
+        rzp.open();
+      } else {
+        const script = document.createElement('script');
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+        script.onload = () => {
+          const rzp = new (window as any).Razorpay(options);
+          rzp.open();
+        };
+        script.onerror = () => {
+          alert('Could not initialize Razorpay modal. Placing order as site deposit.');
+          completeOrderPlacement('Site Deposit Token', 'OFFLINE');
+        };
+        document.body.appendChild(script);
+      }
+    } catch (err: any) {
+      console.error(err);
+      alert(err?.message || 'Payment initiation failed. Placing order as offline token.');
+      completeOrderPlacement('Site Deposit Token', 'OFFLINE');
+    }
   };
 
   return (
