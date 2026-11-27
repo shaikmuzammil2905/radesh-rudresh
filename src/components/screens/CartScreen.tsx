@@ -53,7 +53,7 @@ export const CartScreen: React.FC = () => {
   }
 
   return (
-    <div className="pb-32 bg-slate-50 min-h-screen">
+    <div className="pb-36 bg-slate-50 min-h-screen">
       <Header title="Shopping Cart" showBack={true} showCart={false} />
 
       <div className="p-4 space-y-4">
@@ -209,15 +209,15 @@ export const CartScreen: React.FC = () => {
       </div>
 
       {/* Sticky Proceed to Checkout Button */}
-      <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/95 backdrop-blur-md border-t border-gray-200 p-3 z-40 shadow-lg">
-        <div className="flex items-center justify-between mb-2 px-1">
+      <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/95 backdrop-blur-md border-t border-gray-200 p-3.5 z-50 shadow-lg">
+        <div className="flex items-center justify-between gap-3 px-1">
           <div>
-            <span className="text-[10px] text-gray-500 uppercase font-semibold">Total Amount</span>
-            <div className="text-base font-black text-gray-900">₹{grandTotal.toLocaleString()}</div>
+            <span className="text-[10px] text-gray-500 uppercase font-semibold block">Total Amount</span>
+            <div className="text-base font-black text-brand-500 leading-tight">₹{grandTotal.toLocaleString()}</div>
           </div>
           <button
             onClick={() => navigateTo('checkout')}
-            className="flex-1 ml-4 py-3 px-5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-black text-xs transition-all active:scale-95 shadow-md flex items-center justify-center gap-2"
+            className="flex-1 py-3.5 px-5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-black text-xs transition-all active:scale-95 shadow-md flex items-center justify-center gap-2 cursor-pointer"
           >
             <span>Proceed to Checkout</span>
             <ArrowRight className="w-4 h-4" />

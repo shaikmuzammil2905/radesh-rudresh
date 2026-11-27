@@ -8,8 +8,16 @@ import { ActiveScreen } from '@/types';
 export const BottomNav: React.FC = () => {
   const { currentScreen, navigateTo } = useApp();
 
-  // Hidden on splash, booking-confirmation, checkout, and book-worker screens where primary bottom CTA exists
-  const hideOnScreens: ActiveScreen[] = ['splash', 'booking-confirmation', 'book-worker', 'checkout'];
+  // Hidden on screens where a primary fixed bottom CTA exists
+  const hideOnScreens: ActiveScreen[] = [
+    'splash',
+    'booking-confirmation',
+    'book-worker',
+    'checkout',
+    'cart',
+    'product-detail',
+    'worker-profile'
+  ];
   if (hideOnScreens.includes(currentScreen)) {
     return null;
   }
