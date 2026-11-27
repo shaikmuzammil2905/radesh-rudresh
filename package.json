@@ -23,10 +23,12 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1176.0",
     "@aws-sdk/s3-request-presigner": "^3.1176.0",
+    "@types/mapbox-gl": "^3.4.1",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
     "framer-motion": "^14.14.0",
     "lucide-react": "^1.77.0",
+    "mapbox-gl": "^3.36.0",
     "next": "^14.2.15",
     "razorpay": "^2.9.8",
     "react": "^18.3.1",

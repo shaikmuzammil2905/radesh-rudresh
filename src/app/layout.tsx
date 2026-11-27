@@ -26,6 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <script src="https://checkout.razorpay.com/v1/checkout.js" async />
+        <link href="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css" rel="stylesheet" />
       </head>
       <body className="min-h-screen bg-slate-100 flex justify-center selection:bg-brand-500 selection:text-white">
         <AppProvider>

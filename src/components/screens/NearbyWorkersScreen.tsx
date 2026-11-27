@@ -19,6 +19,7 @@ import {
 import { useApp } from '@/context/AppContext';
 import { Header } from '../common/Header';
 import { LocationModal } from '../common/LocationModal';
+import { MapboxWorkerMap } from '../common/MapboxWorkerMap';
 import { INITIAL_WORKERS } from '@/data/mockData';
 import { Worker, WorkerCategory } from '@/types';
 
@@ -305,82 +306,13 @@ export const NearbyWorkersScreen: React.FC = () => {
           )}
         </div>
       ) : (
-        /* Map View Mode with Simulated GPS Radar & Worker Markers */
-        <div className="relative h-[650px] w-full bg-slate-200 overflow-hidden select-none">
-          {/* Simulated Map Canvas with Streets & Landmarks */}
-          <div className="absolute inset-0 bg-[#E5E9EC] opacity-90">
-            {/* Grid street lines */}
-            <svg className="w-full h-full opacity-35" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
-                  <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#CBD5E1" strokeWidth="2" />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid)" />
-              {/* Main Highway lines */}
-              <line x1="0" y1="180" x2="450" y2="180" stroke="#FBBF24" strokeWidth="8" />
-              <line x1="160" y1="0" x2="160" y2="650" stroke="#FBBF24" strokeWidth="8" />
-              <line x1="40" y1="420" x2="420" y2="420" stroke="#FFFFFF" strokeWidth="12" />
-            </svg>
-          </div>
-
-          {/* User Site Marker (Center) */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
-            <div className="relative">
-              <div className="w-12 h-12 rounded-full bg-brand-500/20 animate-ping absolute inset-0" />
-              <div className="w-10 h-10 rounded-full bg-brand-500 border-3 border-white shadow-xl flex items-center justify-center text-white relative z-10">
-                <MapPin className="w-5 h-5 fill-white" />
-              </div>
-            </div>
-            <div className="bg-white/95 px-2.5 py-1 rounded-full shadow-md border border-gray-200 text-[10px] font-black text-gray-900 mt-1 whitespace-nowrap">
-              Your Site Location
-            </div>
-          </div>
-
-          {/* Worker Map Pins */}
-          {filteredWorkers.map((worker, index) => {
-            // Distribute markers around the center
-            const angles = [45, 120, 210, 300, 30, 160, 250, 330];
-            const angle = (angles[index % angles.length] * Math.PI) / 180;
-            const radius = 90 + (index % 3) * 45;
-            const x = Math.cos(angle) * radius;
-            const y = Math.sin(angle) * radius;
-            const isSelected = selectedMapWorker.id === worker.id;
-
-            return (
-              <div
-                key={worker.id}
-                onClick={() => setSelectedMapWorker(worker)}
-                style={{
-                  transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
-                  top: '50%',
-                  left: '50%'
-                }}
-                className="absolute z-20 cursor-pointer transition-transform hover:scale-110 active:scale-95"
-              >
-                <div
-                  className={`relative flex items-center gap-1.5 p-1 rounded-full shadow-lg border-2 transition-all ${
-                    isSelected
-                      ? 'bg-brand-500 border-white ring-4 ring-brand-300'
-                      : 'bg-white border-brand-500'
-                  }`}
-                >
-                  <img
-                    src={worker.photo}
-                    alt={worker.name}
-                    className="w-7 h-7 rounded-full object-cover"
-                  />
-                  <span
-                    className={`text-[9px] font-bold pr-1.5 ${
-                      isSelected ? 'text-white' : 'text-gray-900'
-                    }`}
-                  >
-                    ₹{worker.ratePerDay}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+        /* Map View Mode with Live Mapbox GL GPS Radar & Worker Markers */
+        <div className="relative h-[650px] w-full bg-slate-100 overflow-hidden select-none">
+          <MapboxWorkerMap
+            workers={filteredWorkers}
+            selectedWorker={selectedMapWorker}
+            onSelectWorker={(worker) => setSelectedMapWorker(worker)}
+          />
 
           {/* Selected Worker Bottom Float Card */}
           {selectedMapWorker && (
