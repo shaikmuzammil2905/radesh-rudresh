@@ -252,6 +252,42 @@ export interface AuditLog {
   timestamp: string;
 }
 
+export type PartnerType = 'Worker' | 'Rider';
+
+export interface Partner {
+  id: string;
+  type: PartnerType;
+  name: string;
+  phone: string;
+  email: string;
+  password?: string;
+  city: string;
+  serviceArea: string;
+  photo: string;
+  idProofUrl?: string; // Stored in AWS S3
+  verified: boolean;
+  isOnline: boolean;
+  status: 'Pending' | 'Approved' | 'Suspended';
+  rating: number;
+  completedJobs: number;
+  totalEarnings: number;
+  createdAt: string;
+
+  // Worker specific
+  category?: WorkerCategory;
+  skill?: string;
+  ratePerDay?: number;
+  ratePerHour?: number;
+  experienceYears?: number;
+  about?: string;
+
+  // Rider specific
+  vehicleType?: 'Crane Truck' | 'Heavy Trailer' | 'Tata 407 Tempo' | 'Pickup Truck' | 'Electric Cargo';
+  vehicleNumber?: string;
+  drivingLicenseNumber?: string;
+  maxCapacityTons?: number;
+}
+
 export type ActiveScreen = 
   | 'splash'
   | 'home'

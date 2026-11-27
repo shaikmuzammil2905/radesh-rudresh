@@ -160,6 +160,22 @@ export const DrawerMenu: React.FC = () => {
               <ChevronRight className="w-3.5 h-3.5 text-gray-400" />
             </button>
 
+            {/* Partner Portal Link (Workers & Riders) */}
+            <a
+              href="/partner"
+              target="_blank"
+              rel="noreferrer"
+              className="w-full flex items-center justify-between p-2.5 rounded-xl hover:bg-slate-100 font-bold text-slate-800 transition bg-slate-50 border border-slate-200/80 mt-1"
+            >
+              <div className="flex items-center gap-3">
+                <Users className="w-4 h-4 text-brand-500" />
+                <span>Partner Portal (Workers & Riders)</span>
+              </div>
+              <span className="text-[9px] bg-slate-900 text-white px-2 py-0.5 rounded-full font-bold">
+                Join Network
+              </span>
+            </a>
+
             {/* Admin CMS Portal Link */}
             <a
               href="/admin/dashboard"

@@ -14,6 +14,7 @@ import {
   AuditLog,
   ProductOrder,
   WorkerBooking,
+  Partner,
 } from '@/types';
 import {
   INITIAL_PRODUCTS,
@@ -37,6 +38,7 @@ interface CMSDatabase {
   orders: ProductOrder[];
   bookings: WorkerBooking[];
   payments: PaymentRecord[];
+  partners: Partner[];
   settings: SiteSettings;
   auditLogs: AuditLog[];
 }
@@ -189,6 +191,57 @@ const INITIAL_AUDIT_LOGS: AuditLog[] = [
   },
 ];
 
+const INITIAL_PARTNERS: Partner[] = [
+  {
+    id: 'partner-w1',
+    type: 'Worker',
+    name: 'Ramesh Kumar',
+    phone: '+91 98491 11222',
+    email: 'ramesh.kumar@radheshrudresh.com',
+    password: 'password123',
+    city: 'Hyderabad',
+    serviceArea: 'Jubilee Hills, Banjara Hills',
+    photo: '/assets/artisan_1.png',
+    idProofUrl: 'https://rudra-infra.s3.ap-south-2.amazonaws.com/kyc/ramesh_aadhar.pdf',
+    verified: true,
+    isOnline: true,
+    status: 'Approved',
+    rating: 4.9,
+    completedJobs: 142,
+    totalEarnings: 120700,
+    createdAt: '2026-01-10T10:00:00.000Z',
+    category: 'Marble Fitter',
+    skill: 'Italian Marble Laying & Inlay Work',
+    ratePerDay: 850,
+    ratePerHour: 150,
+    experienceYears: 12,
+    about: 'Specialist in bookmatched Statuario and diamond edge polishing with 12+ years experience across luxury villas.',
+  },
+  {
+    id: 'partner-r1',
+    type: 'Rider',
+    name: 'Syed Imran',
+    phone: '+91 99882 33445',
+    email: 'imran.delivery@radheshrudresh.com',
+    password: 'password123',
+    city: 'Hyderabad',
+    serviceArea: 'All Hyderabad & Secunderabad',
+    photo: '/assets/artisan_2.png',
+    idProofUrl: 'https://rudra-infra.s3.ap-south-2.amazonaws.com/kyc/imran_dl.pdf',
+    verified: true,
+    isOnline: true,
+    status: 'Approved',
+    rating: 4.8,
+    completedJobs: 98,
+    totalEarnings: 84500,
+    createdAt: '2026-02-15T14:30:00.000Z',
+    vehicleType: 'Tata 407 Tempo',
+    vehicleNumber: 'TS 09 UA 4521',
+    drivingLicenseNumber: 'TS0920190048123',
+    maxCapacityTons: 3.5,
+  },
+];
+
 // In-memory cache
 let inMemoryDB: CMSDatabase | null = null;
 
@@ -199,6 +252,9 @@ function loadDatabase(): CMSDatabase {
     if (fs.existsSync(DB_FILE_PATH)) {
       const data = fs.readFileSync(DB_FILE_PATH, 'utf-8');
       inMemoryDB = JSON.parse(data);
+      if (inMemoryDB && !inMemoryDB.partners) {
+        inMemoryDB.partners = INITIAL_PARTNERS;
+      }
       return inMemoryDB!;
     }
   } catch (err) {
@@ -218,6 +274,7 @@ function loadDatabase(): CMSDatabase {
     orders: INITIAL_ORDERS,
     bookings: INITIAL_BOOKINGS,
     payments: [],
+    partners: INITIAL_PARTNERS,
     settings: INITIAL_SETTINGS,
     auditLogs: INITIAL_AUDIT_LOGS,
   };
@@ -503,4 +560,96 @@ export function addAuditLog(action: string, details: string, user: string = 'Adm
     db.auditLogs = db.auditLogs.slice(0, 200);
   }
   return log;
+}
+
+// ---------------- PARTNERS (WORKERS & RIDERS) ----------------
+export function getPartners(): Partner[] {
+  return loadDatabase().partners;
+}
+
+export function getPartnerById(id: string): Partner | undefined {
+  return loadDatabase().partners.find((p) => p.id === id);
+}
+
+export function getPartnerByPhone(phone: string): Partner | undefined {
+  const clean = phone.replace(/\D/g, '');
+  return loadDatabase().partners.find((p) => p.phone.replace(/\D/g, '').includes(clean));
+}
+
+export function savePartner(partner: Partner): Partner {
+  const db = loadDatabase();
+  const index = db.partners.findIndex((p) => p.id === partner.id);
+  if (index >= 0) {
+    db.partners[index] = partner;
+    addAuditLog('UPDATE_PARTNER', `Updated partner details: ${partner.name} (${partner.type})`);
+  } else {
+    db.partners.unshift(partner);
+    addAuditLog('REGISTER_PARTNER', `New partner registered: ${partner.name} (${partner.type})`);
+
+    // If it's an approved worker, also sync into workers list
+    if (partner.type === 'Worker') {
+      const workerExists = db.workers.some((w) => w.id === partner.id || w.phone === partner.phone);
+      if (!workerExists) {
+        db.workers.unshift({
+          id: partner.id,
+          name: partner.name,
+          skill: partner.skill || 'Skilled Artisan',
+          category: partner.category || 'Mason',
+          ratePerDay: partner.ratePerDay || 750,
+          ratePerHour: partner.ratePerHour || 120,
+          rating: partner.rating || 5.0,
+          reviewCount: 1,
+          experienceYears: partner.experienceYears || 5,
+          completedJobs: partner.completedJobs || 0,
+          distanceKm: 2.5,
+          isOnline: partner.isOnline,
+          isAvailableNow: partner.isOnline,
+          photo: partner.photo || '/assets/artisan_1.png',
+          serviceArea: partner.serviceArea || partner.city,
+          verified: partner.verified,
+          portfolioImages: [partner.photo || '/assets/artisan_1.png'],
+          phone: partner.phone,
+          about: partner.about || `${partner.category} partner registered on Radhesh & Rudresh network.`,
+        });
+      }
+    }
+  }
+  saveDatabase(db);
+  return partner;
+}
+
+export function updatePartnerStatus(
+  id: string,
+  status: 'Pending' | 'Approved' | 'Suspended',
+  verified?: boolean
+): Partner | null {
+  const db = loadDatabase();
+  const index = db.partners.findIndex((p) => p.id === id);
+  if (index < 0) return null;
+  db.partners[index].status = status;
+  if (verified !== undefined) {
+    db.partners[index].verified = verified;
+  }
+  const wIndex = db.workers.findIndex((w) => w.id === id || w.phone === db.partners[index].phone);
+  if (wIndex >= 0) {
+    db.workers[wIndex].verified = db.partners[index].verified;
+  }
+  addAuditLog('UPDATE_PARTNER_STATUS', `Partner ${id} status set to ${status}`);
+  saveDatabase(db);
+  return db.partners[index];
+}
+
+export function updatePartnerDuty(id: string, isOnline: boolean): Partner | null {
+  const db = loadDatabase();
+  const index = db.partners.findIndex((p) => p.id === id);
+  if (index < 0) return null;
+  db.partners[index].isOnline = isOnline;
+
+  const wIndex = db.workers.findIndex((w) => w.id === id || w.phone === db.partners[index].phone);
+  if (wIndex >= 0) {
+    db.workers[wIndex].isOnline = isOnline;
+    db.workers[wIndex].isAvailableNow = isOnline;
+  }
+  saveDatabase(db);
+  return db.partners[index];
 }

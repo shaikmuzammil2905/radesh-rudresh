@@ -17,6 +17,7 @@ import {
   ExternalLink,
   LogOut,
   ShoppingBag,
+  Truck,
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -32,6 +33,7 @@ export const AdminSidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
     { label: 'Homepage CMS', href: '/admin/pages', icon: Layers },
     { label: 'Products & Marble', href: '/admin/products', icon: Sparkles },
     { label: 'Master Artisans', href: '/admin/services', icon: Users },
+    { label: 'Partners & Fleet', href: '/admin/partners', icon: Truck },
     { label: 'Projects & Portfolio', href: '/admin/projects', icon: Briefcase },
     { label: 'Stone Gallery', href: '/admin/gallery', icon: ImageIcon },
     { label: 'Media Library (S3)', href: '/admin/media', icon: HardDrive },
