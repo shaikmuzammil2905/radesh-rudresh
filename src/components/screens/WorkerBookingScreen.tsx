@@ -12,10 +12,14 @@ import {
   ChevronDown,
   ShieldCheck,
   CheckCircle2,
-  ChevronRight
+  ChevronRight,
+  CreditCard,
+  Zap,
+  Lock
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import { Header } from '../common/Header';
+import confetti from 'canvas-confetti';
 
 export const WorkerBookingScreen: React.FC = () => {
   const {
@@ -23,7 +27,9 @@ export const WorkerBookingScreen: React.FC = () => {
     selectedAddress,
     addBooking,
     navigateTo,
-    goBack
+    goBack,
+    userName,
+    userPhone
   } = useApp();
 
   const [requirementType, setRequirementType] = useState<'Per Day' | 'Per Hour' | 'Project Based'>('Per Day');
@@ -31,6 +37,7 @@ export const WorkerBookingScreen: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState('Sat, 22 Nov 2026');
   const [selectedTimeSlot, setSelectedTimeSlot] = useState('9:00 AM – 6:00 PM');
   const [jobDescription, setJobDescription] = useState('Tile fitting for 2BHK, approx. 1000 sq.ft.');
+  const [paymentOption, setPaymentOption] = useState<'advance' | 'full' | 'site'>('advance');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!selectedWorker) {
@@ -55,39 +62,153 @@ export const WorkerBookingScreen: React.FC = () => {
     : 2500; // Project estimated base
 
   const totalAmount = ratePerUnit * numberOfWorkers;
+  const advanceAmount = 500;
+  const payableAmount = paymentOption === 'advance' ? advanceAmount : paymentOption === 'full' ? totalAmount : 0;
 
-  const handleBookNow = (e: React.FormEvent) => {
+  const handleBookNow = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      addBooking({
-        workerId: selectedWorker.id,
-        workerName: `${selectedWorker.category} (${selectedWorker.name})`,
-        workerSkill: selectedWorker.skill,
-        workerPhoto: selectedWorker.photo,
-        requirementType,
-        numberOfWorkers,
-        date: selectedDate,
-        timeSlot: selectedTimeSlot,
-        siteAddress: `${selectedAddress.fullAddress}, ${selectedAddress.city}`,
-        jobDescription,
-        ratePerUnit,
-        totalAmount
+    if (paymentOption === 'site') {
+      setTimeout(() => {
+        addBooking({
+          workerId: selectedWorker.id,
+          workerName: `${selectedWorker.category} (${selectedWorker.name})`,
+          workerSkill: selectedWorker.skill,
+          workerPhoto: selectedWorker.photo,
+          requirementType,
+          numberOfWorkers,
+          date: selectedDate,
+          timeSlot: selectedTimeSlot,
+          siteAddress: `${selectedAddress.fullAddress}, ${selectedAddress.city}`,
+          jobDescription,
+          ratePerUnit,
+          totalAmount,
+          paymentMethod: 'Pay on Site',
+          paymentStatus: 'Pending',
+        });
+
+        setIsSubmitting(false);
+        navigateTo('booking-confirmation');
+      }, 700);
+      return;
+    }
+
+    // Razorpay Online Payment Flow
+    try {
+      const res = await fetch('/api/razorpay/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: payableAmount,
+          receipt: `wk_${Date.now()}`,
+          notes: {
+            worker: selectedWorker.name,
+            service: selectedWorker.category,
+            paymentType: paymentOption === 'advance' ? 'Advance Token (₹500)' : 'Full Day Rate',
+          },
+        }),
       });
 
+      const orderData = await res.json();
+      if (!orderData.success) {
+        throw new Error(orderData.message || 'Payment order creation failed');
+      }
+
+      const options = {
+        key: orderData.keyId,
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: 'Radhesh & Rudresh Infra Developers',
+        description: paymentOption === 'advance'
+          ? `₹${advanceAmount} Booking Token - ${selectedWorker.category}`
+          : `Full Shift Booking - ${selectedWorker.category}`,
+        image: '/assets/rr_monogram.png',
+        order_id: orderData.orderId,
+        prefill: {
+          name: userName || 'Site Customer',
+          contact: userPhone || '+91 99887 76655',
+          email: 'sales@radheshrudresh.com',
+        },
+        theme: {
+          color: '#E91E63',
+        },
+        handler: async function (response: any) {
+          try {
+            const verifyRes = await fetch('/api/razorpay/verify-payment', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                ...response,
+                amount: payableAmount,
+                customerName: userName || 'Site Customer',
+                customerPhone: userPhone || '+91 99887 76655',
+                referenceType: 'booking',
+                referenceId: orderData.orderId,
+              }),
+            });
+
+            const verifyData = await verifyRes.json();
+            if (verifyData.success) {
+              confetti({
+                particleCount: 90,
+                spread: 70,
+                origin: { y: 0.6 }
+              });
+
+              addBooking({
+                workerId: selectedWorker.id,
+                workerName: `${selectedWorker.category} (${selectedWorker.name})`,
+                workerSkill: selectedWorker.skill,
+                workerPhoto: selectedWorker.photo,
+                requirementType,
+                numberOfWorkers,
+                date: selectedDate,
+                timeSlot: selectedTimeSlot,
+                siteAddress: `${selectedAddress.fullAddress}, ${selectedAddress.city}`,
+                jobDescription,
+                ratePerUnit,
+                totalAmount,
+                paymentMethod: 'Razorpay Online',
+                paymentId: response.razorpay_payment_id,
+                paymentStatus: paymentOption === 'advance' ? 'Advance Paid' : 'Paid',
+              });
+
+              setIsSubmitting(false);
+              navigateTo('booking-confirmation');
+            } else {
+              alert('Payment verification failed.');
+              setIsSubmitting(false);
+            }
+          } catch (err) {
+            console.error(err);
+            alert('Verification network error');
+            setIsSubmitting(false);
+          }
+        },
+        modal: {
+          ondismiss: function () {
+            setIsSubmitting(false);
+          },
+        },
+      };
+
+      const razorpayInstance = new (window as any).Razorpay(options);
+      razorpayInstance.open();
+    } catch (err: any) {
+      console.error(err);
+      alert('Could not open Razorpay payment: ' + (err.message || 'Error'));
       setIsSubmitting(false);
-      navigateTo('booking-confirmation');
-    }, 800);
+    }
   };
 
   return (
-    <div className="pb-32 bg-slate-50 min-h-screen">
+    <div className="pb-36 bg-slate-50 min-h-screen">
       {/* Top Header matching Screen 6: Back, Book Worker */}
       <Header title="Book Worker" showBack={true} showCart={false} />
 
       <form onSubmit={handleBookNow} className="p-4 space-y-4">
-        {/* Selected Worker Header Card matching Screen 6 */}
+        {/* Selected Worker Header Card */}
         <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-2xs flex gap-3.5 items-center">
           <div className="relative w-16 h-16 rounded-xl overflow-hidden bg-gray-100 border border-gray-200 shrink-0">
             <img
@@ -115,7 +236,7 @@ export const WorkerBookingScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Select Requirement Pills matching Screen 6 */}
+        {/* Select Requirement Pills */}
         <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-2xs space-y-2">
           <h3 className="font-bold text-xs text-gray-900">Select Requirement</h3>
           <div className="grid grid-cols-3 gap-2">
@@ -139,7 +260,7 @@ export const WorkerBookingScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Number of Workers Stepper matching Screen 6 */}
+        {/* Number of Workers Stepper */}
         <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-2xs flex items-center justify-between">
           <div>
             <h3 className="font-bold text-xs text-gray-900">No. of Workers</h3>
@@ -166,7 +287,7 @@ export const WorkerBookingScreen: React.FC = () => {
           </div>
         </div>
 
-        {/* Select Date & Time matching Screen 6 */}
+        {/* Select Date & Time */}
         <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-2xs space-y-3">
           <h3 className="font-bold text-xs text-gray-900">Select Date & Time</h3>
 
@@ -232,7 +353,7 @@ export const WorkerBookingScreen: React.FC = () => {
           </p>
         </div>
 
-        {/* Job Description (Optional) matching Screen 6 */}
+        {/* Job Description (Optional) */}
         <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-2xs space-y-1.5">
           <h3 className="font-bold text-xs text-gray-900">Job Description (Optional)</h3>
           <textarea
@@ -244,21 +365,120 @@ export const WorkerBookingScreen: React.FC = () => {
           />
         </div>
 
+        {/* Payment Mode Selection with Razorpay */}
+        <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-2xs space-y-2.5">
+          <div className="flex items-center justify-between">
+            <h3 className="font-bold text-xs text-gray-900 flex items-center gap-1.5">
+              <CreditCard className="w-3.5 h-3.5 text-brand-500" />
+              <span>Payment Options</span>
+            </h3>
+            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full flex items-center gap-1">
+              <Lock className="w-2.5 h-2.5" /> Razorpay Secured
+            </span>
+          </div>
+
+          <div className="space-y-2">
+            {/* Option 1: Advance Token */}
+            <div
+              onClick={() => setPaymentOption('advance')}
+              className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
+                paymentOption === 'advance'
+                  ? 'border-brand-500 bg-brand-50/40 ring-1 ring-brand-500'
+                  : 'border-gray-200 bg-white hover:bg-gray-50'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                  paymentOption === 'advance' ? 'border-brand-500 bg-brand-500' : 'border-gray-300'
+                }`}>
+                  {paymentOption === 'advance' && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-gray-900 flex items-center gap-1.5">
+                    <span>Pay Advance Token Online</span>
+                    <span className="text-[9px] bg-brand-100 text-brand-700 px-1.5 py-0.2 rounded font-black">POPULAR</span>
+                  </div>
+                  <div className="text-[10.5px] text-gray-500">
+                    Guaranteed priority dispatch. Rest ₹{(totalAmount - advanceAmount).toLocaleString()} payable after job completion.
+                  </div>
+                </div>
+              </div>
+              <span className="text-xs font-black text-brand-600 shrink-0">₹{advanceAmount}</span>
+            </div>
+
+            {/* Option 2: Full Online Payment */}
+            <div
+              onClick={() => setPaymentOption('full')}
+              className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
+                paymentOption === 'full'
+                  ? 'border-brand-500 bg-brand-50/40 ring-1 ring-brand-500'
+                  : 'border-gray-200 bg-white hover:bg-gray-50'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                  paymentOption === 'full' ? 'border-brand-500 bg-brand-500' : 'border-gray-300'
+                }`}>
+                  {paymentOption === 'full' && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-gray-900">Pay Full Amount via Razorpay</div>
+                  <div className="text-[10.5px] text-gray-500">100% cashless, UPI / Cards / NetBanking</div>
+                </div>
+              </div>
+              <span className="text-xs font-black text-gray-900 shrink-0">₹{totalAmount.toLocaleString()}</span>
+            </div>
+
+            {/* Option 3: Pay on Site */}
+            <div
+              onClick={() => setPaymentOption('site')}
+              className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
+                paymentOption === 'site'
+                  ? 'border-brand-500 bg-brand-50/40 ring-1 ring-brand-500'
+                  : 'border-gray-200 bg-white hover:bg-gray-50'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${
+                  paymentOption === 'site' ? 'border-brand-500 bg-brand-500' : 'border-gray-300'
+                }`}>
+                  {paymentOption === 'site' && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-gray-900">Pay on Site / Cash</div>
+                  <div className="text-[10.5px] text-gray-500">Pay total ₹{totalAmount.toLocaleString()} directly after site inspection</div>
+                </div>
+              </div>
+              <span className="text-[11px] font-semibold text-gray-500 shrink-0">₹0 now</span>
+            </div>
+          </div>
+        </div>
+
         {/* Estimated Price Transparency Card */}
         <div className="bg-brand-50/50 p-3.5 rounded-2xl border border-brand-100 flex items-center justify-between text-xs">
           <div>
-            <span className="font-bold text-gray-800 block">Total Estimated Charges</span>
+            <span className="font-bold text-gray-800 block">
+              {paymentOption === 'advance' ? 'Payable Online Now (Token)' : paymentOption === 'full' ? 'Total Payable Now' : 'Total Service Charges'}
+            </span>
             <span className="text-[10.5px] text-gray-500">
               ₹{ratePerUnit} × {numberOfWorkers} worker{numberOfWorkers > 1 ? 's' : ''} ({requirementType})
             </span>
           </div>
           <div className="text-right">
-            <span className="text-base font-black text-brand-500">₹{totalAmount.toLocaleString()}</span>
-            <span className="text-[9px] text-gray-500 block">Pay on site / completion</span>
+            <span className="text-base font-black text-brand-500">
+              ₹{(paymentOption === 'site' ? totalAmount : payableAmount).toLocaleString()}
+            </span>
+            <span className="text-[9px] text-gray-500 block">
+              {paymentOption === 'advance'
+                ? `Balance ₹${(totalAmount - advanceAmount).toLocaleString()} on site`
+                : paymentOption === 'full'
+                ? 'Fully paid online'
+                : 'Pay on site / completion'}
+            </span>
           </div>
         </div>
 
-        {/* Sticky Pink "Book Now" Button matching Screen 6 */}
+        {/* Sticky Pink "Book Now" Button */}
         <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/95 backdrop-blur-md border-t border-gray-200 p-3 z-40 shadow-lg">
           <button
             type="submit"
@@ -266,9 +486,11 @@ export const WorkerBookingScreen: React.FC = () => {
             className="w-full py-3.5 px-6 rounded-xl bg-brand-500 hover:bg-brand-600 active:scale-98 text-white font-black text-xs transition-all shadow-md flex items-center justify-center gap-2"
           >
             {isSubmitting ? (
-              <span className="animate-pulse">Confirming Booking...</span>
+              <span className="animate-pulse">Processing Booking...</span>
+            ) : paymentOption === 'site' ? (
+              <span>Confirm Booking (Pay on Site)</span>
             ) : (
-              <span>Book Now</span>
+              <span>Pay ₹{payableAmount.toLocaleString()} via Razorpay & Confirm</span>
             )}
           </button>
         </div>

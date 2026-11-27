@@ -87,6 +87,9 @@ export interface WorkerBooking {
   status: BookingStatus;
   createdAt: string;
   trackingStep?: number;
+  paymentMethod?: string;
+  paymentId?: string;
+  paymentStatus?: 'Pending' | 'Paid' | 'Advance Paid';
 }
 
 export type OrderStatus = 'Placed' | 'Confirmed' | 'Packed' | 'Dispatched' | 'Delivered' | 'Cancelled';
@@ -106,7 +109,7 @@ export interface ProductOrder {
   siteAddress: string;
   contactName: string;
   contactPhone: string;
-  paymentMethod: 'UPI' | 'Credit/Debit Card' | 'Net Banking' | 'Cash on Delivery';
+  paymentMethod: 'UPI' | 'Credit/Debit Card' | 'Net Banking' | 'Cash on Delivery' | 'Razorpay Online';
   subtotal: number;
   deliveryCharges: number;
   totalAmount: number;
@@ -114,6 +117,8 @@ export interface ProductOrder {
   createdAt: string;
   estimatedDelivery: string;
   trackingStep?: number;
+  paymentId?: string;
+  paymentStatus?: 'Pending' | 'Paid' | 'Advance Paid';
 }
 
 export interface Address {

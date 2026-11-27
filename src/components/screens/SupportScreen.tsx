@@ -10,13 +10,103 @@ import {
   ChevronDown,
   Building2,
   ShieldCheck,
-  CheckCircle2
+  CheckCircle2,
+  Upload,
+  Cloud,
+  FileText,
+  Loader2,
+  X,
+  Send,
+  Sparkles
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
 import { Header } from '../common/Header';
 
 export const SupportScreen: React.FC = () => {
+  const { userName, userPhone } = useApp();
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  // Enquiry Form State
+  const [name, setName] = useState(userName || '');
+  const [phone, setPhone] = useState(userPhone || '');
+  const [email, setEmail] = useState('');
+  const [projectType, setProjectType] = useState('Italian Marble Flooring');
+  const [message, setMessage] = useState('');
+  const [uploadedS3Url, setUploadedS3Url] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submittedSuccess, setSubmittedSuccess] = useState(false);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    setUploadError(null);
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('folder', 'enquiries/blueprints');
+
+    try {
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (data.success && data.url) {
+        setUploadedS3Url(data.url);
+      } else {
+        setUploadError(data.message || 'Upload failed');
+      }
+    } catch (err: any) {
+      setUploadError(err.message || 'Error uploading file to AWS S3');
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleEnquirySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name || !phone) {
+      alert('Please enter your name and phone number');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const fullMessage = `[Project: ${projectType}] ${message}${
+        uploadedS3Url ? ` | AWS S3 Blueprint Attachment: ${uploadedS3Url}` : ''
+      }`;
+
+      const res = await fetch('/api/cms/enquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          phone,
+          email: email || 'not-provided@client.com',
+          message: fullMessage,
+          status: 'New',
+        }),
+      });
+
+      if (res.ok) {
+        setSubmittedSuccess(true);
+        setMessage('');
+        setUploadedS3Url('');
+      } else {
+        alert('Could not submit enquiry. Please try again.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Submission error. Please check connection.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const faqs = [
     {
@@ -69,6 +159,155 @@ export const SupportScreen: React.FC = () => {
             <div className="font-bold text-xs text-gray-900">WhatsApp Concierge</div>
             <div className="text-[10px] text-gray-500">Live chat in 2 mins</div>
           </button>
+        </div>
+
+        {/* Request Site Consultation & Estimate Form (AWS S3 Powered) */}
+        <div className="bg-white rounded-2xl p-4 border border-gray-100 shadow-2xs space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-brand-500" />
+              <h3 className="font-bold text-xs text-gray-900 uppercase tracking-wider">
+                Request Free Site Consultation
+              </h3>
+            </div>
+            <span className="text-[10px] font-bold bg-brand-50 text-brand-600 px-2 py-0.5 rounded-full flex items-center gap-1">
+              <Cloud className="w-2.5 h-2.5" /> AWS S3 Storage
+            </span>
+          </div>
+          <p className="text-[11px] text-gray-500">
+            Upload your floor plan or site photos to get a direct estimation from our architectural consultants.
+          </p>
+
+          {submittedSuccess ? (
+            <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl space-y-2 text-center">
+              <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto" />
+              <h4 className="text-xs font-bold text-emerald-900">Consultation Request Received!</h4>
+              <p className="text-[11px] text-emerald-700">
+                Our site engineer will review your blueprint and contact you within 2 hours.
+              </p>
+              <button
+                type="button"
+                onClick={() => setSubmittedSuccess(false)}
+                className="mt-2 text-xs font-bold text-emerald-600 underline"
+              >
+                Submit another inquiry
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleEnquirySubmit} className="space-y-3">
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="text-[10px] font-bold text-gray-600 uppercase block mb-1">Your Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="e.g. Rahul Sharma"
+                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-gray-800 focus:bg-white focus:border-brand-500 focus:outline-hidden"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] font-bold text-gray-600 uppercase block mb-1">Phone Number</label>
+                  <input
+                    type="tel"
+                    required
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="+91 98765 43210"
+                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-gray-800 focus:bg-white focus:border-brand-500 focus:outline-hidden"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[10px] font-bold text-gray-600 uppercase block mb-1">Service Required</label>
+                <select
+                  value={projectType}
+                  onChange={(e) => setProjectType(e.target.value)}
+                  className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-semibold text-gray-800 focus:bg-white focus:border-brand-500 focus:outline-hidden"
+                >
+                  <option value="Italian Marble Flooring">Italian Marble Flooring & Laying</option>
+                  <option value="Granite Kitchen Countertops">Granite Kitchen Countertops</option>
+                  <option value="Vitrified Tile Fitting">Vitrified Tile Fitting (2BHK / 3BHK / Villa)</option>
+                  <option value="Master Artisan Day Booking">Master Artisan Day Booking</option>
+                  <option value="Commercial Infrastructure Supply">Commercial Infrastructure Supply</option>
+                  <option value="Mirror Finish Diamond Polishing">Mirror Finish Diamond Polishing</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-[10px] font-bold text-gray-600 uppercase block mb-1">Site Details / Dimensions</label>
+                <textarea
+                  rows={2}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder="e.g. 1500 sq.ft living room flooring in Jubilee Hills..."
+                  className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs text-gray-800 focus:bg-white focus:border-brand-500 focus:outline-hidden resize-none"
+                />
+              </div>
+
+              {/* AWS S3 File Uploader */}
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-bold text-gray-600 uppercase flex items-center justify-between">
+                  <span>Site Photo / Blueprint (AWS S3 Cloud)</span>
+                  <span className="text-[9px] text-gray-400 font-normal">JPG, PNG, PDF up to 10MB</span>
+                </label>
+
+                {uploadedS3Url ? (
+                  <div className="p-2.5 rounded-xl border border-emerald-200 bg-emerald-50/50 flex items-center justify-between">
+                    <div className="flex items-center gap-2 overflow-hidden">
+                      <img src={uploadedS3Url} alt="Uploaded" className="w-10 h-10 object-cover rounded-lg border border-emerald-300 shrink-0" />
+                      <div className="truncate">
+                        <span className="text-[11px] font-bold text-emerald-800 block truncate">Attachment Stored on S3</span>
+                        <span className="text-[9px] text-emerald-600 block truncate">rudra-infra.s3.ap-south-2.amazonaws.com</span>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setUploadedS3Url('')}
+                      className="p-1 hover:bg-emerald-100 rounded text-emerald-700"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <label className="flex items-center justify-center gap-2 p-3 border-2 border-dashed border-gray-200 rounded-xl bg-gray-50 hover:bg-gray-100 cursor-pointer transition text-gray-600 text-xs font-semibold">
+                    {isUploading ? (
+                      <Loader2 className="w-4 h-4 animate-spin text-brand-500" />
+                    ) : (
+                      <Upload className="w-4 h-4 text-brand-500" />
+                    )}
+                    <span>{isUploading ? 'Uploading to AWS S3...' : 'Choose Blueprint / Photo'}</span>
+                    <input
+                      type="file"
+                      accept="image/*,application/pdf"
+                      onChange={handleFileUpload}
+                      disabled={isUploading}
+                      className="hidden"
+                    />
+                  </label>
+                )}
+
+                {uploadError && (
+                  <p className="text-[10px] text-red-500 font-semibold">{uploadError}</p>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting || isUploading}
+                className="w-full py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-black shadow-xs transition flex items-center justify-center gap-2"
+              >
+                {isSubmitting ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Send className="w-3.5 h-3.5" />
+                )}
+                <span>{isSubmitting ? 'Submitting...' : 'Send Consultation Request'}</span>
+              </button>
+            </form>
+          )}
         </div>
 
         {/* Company Overview Card */}
