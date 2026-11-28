@@ -120,9 +120,67 @@ export default function CustomersAdminPage() {
           </div>
         </div>
 
-        {/* Customer Table */}
+        {/* Customer Table & Mobile Cards */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-2xs overflow-hidden">
-          <div className="overflow-x-auto">
+          {/* Mobile Card List (< sm) */}
+          <div className="block sm:hidden divide-y divide-gray-100">
+            {filteredCustomers.length === 0 ? (
+              <div className="py-12 text-center text-xs text-gray-400">
+                No customer records found.
+              </div>
+            ) : (
+              filteredCustomers.map((c) => (
+                <div key={c.id} className="p-4 space-y-3 text-xs">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <div className="font-bold text-gray-900 text-sm">{c.name}</div>
+                      <div className="text-[10px] text-gray-400 mt-0.5">ID: {c.id} &bull; {c.phone}</div>
+                    </div>
+                    <span
+                      className={`px-2 py-0.5 text-[9.5px] font-bold rounded-full ${
+                        c.status === 'Active'
+                          ? 'bg-emerald-50 text-emerald-700'
+                          : 'bg-rose-50 text-rose-700'
+                      }`}
+                    >
+                      {c.status}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-2 bg-slate-50 p-2.5 rounded-xl text-center">
+                    <div>
+                      <span className="text-[9.5px] text-gray-400 block font-semibold">LOCATION</span>
+                      <span className="font-medium text-gray-700 truncate block">{c.city || 'India'}</span>
+                    </div>
+                    <div>
+                      <span className="text-[9.5px] text-gray-400 block font-semibold">ORDERS</span>
+                      <span className="font-bold text-gray-900">{c.totalOrders}</span>
+                    </div>
+                    <div>
+                      <span className="text-[9.5px] text-gray-400 block font-semibold">LIFETIME SPEND</span>
+                      <span className="font-black text-brand-600">₹{(c.totalSpent || 0).toLocaleString()}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end pt-1">
+                    <button
+                      onClick={() => handleToggleStatus(c.id, c.status)}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
+                        c.status === 'Active'
+                          ? 'bg-rose-50 hover:bg-rose-100 text-rose-700'
+                          : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700'
+                      }`}
+                    >
+                      {c.status === 'Active' ? 'Block Access' : 'Unblock Access'}
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Desktop Table View (>= sm) */}
+          <div className="hidden sm:block overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-50 border-b border-gray-100 text-gray-400 text-[11px] uppercase tracking-wider">
                 <tr>

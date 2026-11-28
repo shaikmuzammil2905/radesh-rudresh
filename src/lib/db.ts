@@ -53,7 +53,24 @@ interface CMSDatabase {
   auditLogs: AuditLog[];
 }
 
-const DB_FILE_PATH = path.join(process.cwd(), 'src', 'data', 'cms_store.json');
+// Helper function to resolve persistent writable path across local and serverless (Vercel)
+function getDbFilePath(): string {
+  if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
+    const tmpPath = path.join('/tmp', 'cms_store.json');
+    if (!fs.existsSync(tmpPath)) {
+      const srcPath = path.join(process.cwd(), 'src', 'data', 'cms_store.json');
+      if (fs.existsSync(srcPath)) {
+        try {
+          fs.copyFileSync(srcPath, tmpPath);
+        } catch {}
+      }
+    }
+    return tmpPath;
+  }
+  return path.join(process.cwd(), 'src', 'data', 'cms_store.json');
+}
+
+const DB_FILE_PATH = getDbFilePath();
 
 const INITIAL_PROJECTS: Project[] = [
   {
@@ -517,12 +534,13 @@ function loadDatabase(): CMSDatabase {
       const data = fs.readFileSync(DB_FILE_PATH, 'utf-8');
       inMemoryDB = JSON.parse(data);
       if (inMemoryDB) {
-        if (!inMemoryDB.partners) inMemoryDB.partners = INITIAL_PARTNERS;
-        if (!inMemoryDB.vendors) inMemoryDB.vendors = INITIAL_VENDORS;
-        if (!inMemoryDB.customers) inMemoryDB.customers = INITIAL_CUSTOMERS;
-        if (!inMemoryDB.coupons) inMemoryDB.coupons = INITIAL_COUPONS;
-        if (!inMemoryDB.supportTickets) inMemoryDB.supportTickets = INITIAL_SUPPORT_TICKETS;
-        if (!inMemoryDB.withdrawals) inMemoryDB.withdrawals = INITIAL_WITHDRAWALS;
+        let needsSave = false;
+        if (!inMemoryDB.partners) { inMemoryDB.partners = INITIAL_PARTNERS; needsSave = true; }
+        if (!inMemoryDB.vendors) { inMemoryDB.vendors = INITIAL_VENDORS; needsSave = true; }
+        if (!inMemoryDB.customers) { inMemoryDB.customers = INITIAL_CUSTOMERS; needsSave = true; }
+        if (!inMemoryDB.coupons) { inMemoryDB.coupons = INITIAL_COUPONS; needsSave = true; }
+        if (!inMemoryDB.supportTickets) { inMemoryDB.supportTickets = INITIAL_SUPPORT_TICKETS; needsSave = true; }
+        if (!inMemoryDB.withdrawals) { inMemoryDB.withdrawals = INITIAL_WITHDRAWALS; needsSave = true; }
         if (inMemoryDB.products) {
           inMemoryDB.products = inMemoryDB.products.map((p) => {
             const base = p.vendorBasePrice || p.pricePerSqFt || 1000;
@@ -537,6 +555,11 @@ function loadDatabase(): CMSDatabase {
               published: p.published !== undefined ? p.published : true,
             };
           });
+        }
+        if (needsSave) {
+          try {
+            saveDatabase(inMemoryDB);
+          } catch {}
         }
       }
       return inMemoryDB!;

@@ -1,10 +1,21 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getWorkers, saveWorker, deleteWorker } from '@/lib/db';
 import { Worker } from '@/types';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET() {
   const workers = getWorkers();
-  return NextResponse.json({ success: true, workers });
+  return NextResponse.json(
+    { success: true, workers: workers || [] },
+    {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      },
+    }
+  );
 }
 
 export async function POST(req: Request) {
@@ -28,7 +39,7 @@ export async function POST(req: Request) {
       distanceKm: Number(body.distanceKm) || 2.5,
       isOnline: body.isOnline !== undefined ? Boolean(body.isOnline) : true,
       isAvailableNow: body.isAvailableNow !== undefined ? Boolean(body.isAvailableNow) : true,
-      photo: body.photo || '/assets/worker_ramesh_kumar.png',
+      photo: body.photo || '/assets/artisan_1.png',
       serviceArea: body.serviceArea || 'Hyderabad & Secunderabad',
       verified: Boolean(body.verified ?? true),
       portfolioImages: body.portfolioImages || ['/assets/worker_laying_tile.png'],
@@ -38,6 +49,11 @@ export async function POST(req: Request) {
     };
 
     const saved = saveWorker(worker);
+    try {
+      revalidatePath('/');
+      revalidatePath('/admin/workers');
+    } catch {}
+
     return NextResponse.json({ success: true, worker: saved });
   } catch (err: any) {
     return NextResponse.json({ success: false, message: err?.message }, { status: 500 });
@@ -49,10 +65,14 @@ export async function DELETE(req: Request) {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');
     if (!id) {
-      return NextResponse.json({ success: false, message: 'Missing worker ID' }, { status: 400 });
+      return NextResponse.json({ success: false, message: 'Worker ID required' }, { status: 400 });
     }
-    const success = deleteWorker(id);
-    return NextResponse.json({ success });
+    const ok = deleteWorker(id);
+    try {
+      revalidatePath('/');
+      revalidatePath('/admin/workers');
+    } catch {}
+    return NextResponse.json({ success: ok });
   } catch (err: any) {
     return NextResponse.json({ success: false, message: err?.message }, { status: 500 });
   }

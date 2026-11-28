@@ -982,5 +982,122 @@
       "user": "System",
       "timestamp": "2026-11-24T07:02:15.489Z"
     }
+  ],
+  "vendors": [
+    {
+      "id": "vend-1",
+      "name": "Shree Marble Traders",
+      "businessName": "Shree Marble Traders Pvt. Ltd.",
+      "businessType": "Marble & Granite",
+      "phone": "+91 98290 11223",
+      "email": "sales@shreemarble.com",
+      "location": "Jaipur, RJ",
+      "kycStatus": "Verified",
+      "status": "Active",
+      "productsCount": 24,
+      "totalSales": 4850000,
+      "walletBalance": 395000,
+      "commissionRate": 8,
+      "joinedDate": "Jan 15, 2025"
+    },
+    {
+      "id": "vend-2",
+      "name": "Kailash Stone World",
+      "businessName": "Kailash Natural Stones Corp.",
+      "businessType": "Marble & Stone",
+      "phone": "+91 94140 44556",
+      "email": "kailash@stoneworld.in",
+      "location": "Udaipur, RJ",
+      "kycStatus": "Verified",
+      "status": "Active",
+      "productsCount": 18,
+      "totalSales": 3120000,
+      "walletBalance": 240000,
+      "commissionRate": 7,
+      "joinedDate": "Jan 18, 2025"
+    },
+    {
+      "id": "vend-3",
+      "name": "Mewar Marble Co.",
+      "businessName": "Mewar Quarry & Exports",
+      "businessType": "Italian Marble",
+      "phone": "+91 98281 77889",
+      "email": "exports@mewarmarble.com",
+      "location": "Kishangarh, RJ",
+      "kycStatus": "Pending",
+      "status": "Pending",
+      "productsCount": 12,
+      "totalSales": 1890000,
+      "walletBalance": 152000,
+      "commissionRate": 8,
+      "joinedDate": "Jan 28, 2025"
+    },
+    {
+      "id": "vend-4",
+      "name": "Royal Marble Emporium",
+      "businessName": "Royal Stones Hyderabad",
+      "businessType": "Imported Marble",
+      "phone": "+91 98490 29050",
+      "email": "royal@hyderabadmarble.com",
+      "location": "Hyderabad, TS",
+      "kycStatus": "Verified",
+      "status": "Active",
+      "productsCount": 32,
+      "totalSales": 6420000,
+      "walletBalance": 520000,
+      "commissionRate": 8,
+      "joinedDate": "Jan 05, 2025"
+    },
+    {
+      "id": "vend-5",
+      "name": "Deccan Natural Stones",
+      "businessName": "Deccan Granite Mines Ltd.",
+      "businessType": "Granite & Tiles",
+      "phone": "+91 99881 22334",
+      "email": "info@deccanstone.com",
+      "location": "Warangal, TS",
+      "kycStatus": "Verified",
+      "status": "Active",
+      "productsCount": 15,
+      "totalSales": 2750000,
+      "walletBalance": 210000,
+      "commissionRate": 7.5,
+      "joinedDate": "Jan 10, 2025"
+    }
+  ],
+  "withdrawals": [
+    {
+      "id": "WDR-101",
+      "beneficiaryName": "Kailash Stone World",
+      "beneficiaryType": "Vendor",
+      "amount": 45000,
+      "bankName": "HDFC Bank - ••••4421",
+      "accountNumber": "••••••••4421",
+      "ifsc": "HDFC0001234",
+      "status": "Pending",
+      "requestedAt": "Jan 29, 2025"
+    },
+    {
+      "id": "WDR-102",
+      "beneficiaryName": "Ramesh Sharma",
+      "beneficiaryType": "Worker",
+      "amount": 8500,
+      "bankName": "SBI - ••••9912",
+      "accountNumber": "••••••••9912",
+      "ifsc": "SBIN0005678",
+      "status": "Pending",
+      "requestedAt": "Jan 28, 2025"
+    },
+    {
+      "id": "WDR-103",
+      "beneficiaryName": "Mewar Marble Co.",
+      "beneficiaryType": "Vendor",
+      "amount": 120000,
+      "bankName": "ICICI Bank - ••••1188",
+      "accountNumber": "••••••••1188",
+      "ifsc": "ICIC0003456",
+      "status": "Pending",
+      "requestedAt": "Jan 25, 2025"
+    }
   ]
 }

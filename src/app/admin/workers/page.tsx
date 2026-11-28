@@ -125,9 +125,91 @@ export default function WorkersAdminPage() {
           </div>
         </div>
 
-        {/* Worker Table */}
+        {/* Worker Table & Mobile Cards */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-2xs overflow-hidden">
-          <div className="overflow-x-auto">
+          {/* Mobile Card List (< sm) */}
+          <div className="block sm:hidden divide-y divide-gray-100">
+            {filtered.length === 0 ? (
+              <div className="py-12 text-center text-xs text-gray-400">
+                No artisan workers match your filters.
+              </div>
+            ) : (
+              filtered.map((w) => (
+                <div key={w.id} className="p-4 space-y-3 text-xs">
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2.5">
+                      <img
+                        src={w.photo || '/assets/artisan_1.png'}
+                        alt={w.name}
+                        className="w-10 h-10 rounded-full object-cover border"
+                      />
+                      <div>
+                        <div className="font-bold text-gray-900 text-sm">{w.name}</div>
+                        <div className="text-[10px] text-gray-400">{w.phone}</div>
+                      </div>
+                    </div>
+                    <span
+                      className={`px-2 py-0.5 text-[9.5px] font-bold rounded-full ${
+                        w.status === 'Approved'
+                          ? 'bg-emerald-50 text-emerald-700'
+                          : w.status === 'Pending'
+                          ? 'bg-amber-50 text-amber-700'
+                          : 'bg-rose-50 text-rose-700'
+                      }`}
+                    >
+                      {w.status}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-2 bg-slate-50 p-2.5 rounded-xl text-center">
+                    <div>
+                      <span className="text-[9.5px] text-gray-400 block font-semibold">TRADE</span>
+                      <span className="font-bold text-purple-700 truncate block text-[10.5px]">
+                        {w.serviceCategory || w.role}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-[9.5px] text-gray-400 block font-semibold">CITY</span>
+                      <span className="font-medium text-gray-800">{w.city}</span>
+                    </div>
+                    <div>
+                      <span className="text-[9.5px] text-gray-400 block font-semibold">DAILY WAGE</span>
+                      <span className="font-black text-gray-900">₹{w.dailyRate}/d</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-end gap-2 pt-1">
+                    {w.status === 'Pending' && (
+                      <button
+                        onClick={() => handleUpdateStatus(w.id, 'Approved')}
+                        className="px-3.5 py-1.5 bg-emerald-600 text-white rounded-xl font-bold text-xs"
+                      >
+                        Approve
+                      </button>
+                    )}
+                    {w.status === 'Approved' ? (
+                      <button
+                        onClick={() => handleUpdateStatus(w.id, 'Rejected')}
+                        className="px-3.5 py-1.5 bg-rose-50 text-rose-700 rounded-xl font-bold text-xs"
+                      >
+                        Suspend
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleUpdateStatus(w.id, 'Approved')}
+                        className="px-3.5 py-1.5 bg-emerald-50 text-emerald-700 rounded-xl font-bold text-xs"
+                      >
+                        Activate
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Desktop Table View (>= sm) */}
+          <div className="hidden sm:block overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-50 border-b border-gray-100 text-gray-400 text-[11px] uppercase tracking-wider">
                 <tr>

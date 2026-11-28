@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { AdminSidebar } from '@/components/admin/AdminSidebar';
 import { AdminProvider, useAdmin } from '@/context/AdminContext';
@@ -9,6 +9,16 @@ import { X } from 'lucide-react';
 function AdminLayoutInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { mobileSidebarOpen, setMobileSidebarOpen } = useAdmin();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to top whenever navigating to a different admin section
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({ top: 0, behavior: 'instant' });
+    }
+    // Also ensure mobile sidebar closes on page navigation
+    setMobileSidebarOpen(false);
+  }, [pathname, setMobileSidebarOpen]);
 
   // If on login page, render clean full-screen view without admin sidebar
   if (pathname === '/admin/login') {
@@ -16,7 +26,7 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50 w-full font-sans">
+    <div className="flex min-h-screen bg-slate-50 w-full font-sans overflow-x-hidden">
       {/* Desktop Sidebar (Fixed) */}
       <div className="hidden lg:block shrink-0">
         <AdminSidebar />
@@ -45,9 +55,12 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
         </div>
       )}
 
-      {/* Main Content Workspace */}
-      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
-        <main className="flex-1 p-2.5 sm:p-5 lg:p-6 w-full max-w-[1700px] mx-auto">{children}</main>
+      {/* Main Content Workspace with Instant Scroll-to-Top on Page Nav */}
+      <div
+        ref={scrollContainerRef}
+        className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto overflow-x-hidden"
+      >
+        <main className="flex-1 p-2 sm:p-5 lg:p-6 w-full max-w-[1700px] mx-auto">{children}</main>
       </div>
     </div>
   );

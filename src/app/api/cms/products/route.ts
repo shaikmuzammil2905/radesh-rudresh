@@ -1,10 +1,21 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getProducts, saveProduct, deleteProduct } from '@/lib/db';
 import { Product } from '@/types';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET() {
   const products = getProducts();
-  return NextResponse.json({ success: true, products });
+  return NextResponse.json(
+    { success: true, products: products || [] },
+    {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      },
+    }
+  );
 }
 
 export async function POST(req: Request) {
@@ -40,6 +51,11 @@ export async function POST(req: Request) {
     };
 
     const saved = saveProduct(product);
+    try {
+      revalidatePath('/');
+      revalidatePath('/admin/products');
+    } catch {}
+
     return NextResponse.json({ success: true, product: saved });
   } catch (err: any) {
     return NextResponse.json({ success: false, message: err?.message }, { status: 500 });
@@ -51,10 +67,14 @@ export async function DELETE(req: Request) {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get('id');
     if (!id) {
-      return NextResponse.json({ success: false, message: 'Missing product ID' }, { status: 400 });
+      return NextResponse.json({ success: false, message: 'Product ID required' }, { status: 400 });
     }
-    const success = deleteProduct(id);
-    return NextResponse.json({ success });
+    const ok = deleteProduct(id);
+    try {
+      revalidatePath('/');
+      revalidatePath('/admin/products');
+    } catch {}
+    return NextResponse.json({ success: ok });
   } catch (err: any) {
     return NextResponse.json({ success: false, message: err?.message }, { status: 500 });
   }
