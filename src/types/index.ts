@@ -30,6 +30,12 @@ export interface Product {
   galleryImages: string[];
   featured?: boolean;
   bestSeller?: boolean;
+  vendorBasePrice?: number;
+  commissionPercent?: number;
+  commissionAmount?: number;
+  vendorId?: string;
+  approvalStatus?: 'Approved' | 'Pending' | 'Rejected';
+  published?: boolean;
 }
 
 export type WorkerCategory = 
@@ -109,6 +115,8 @@ export interface ProductOrder {
   siteAddress: string;
   contactName: string;
   contactPhone: string;
+  customerName?: string;
+  customerPhone?: string;
   paymentMethod: 'UPI' | 'Credit/Debit Card' | 'Net Banking' | 'Cash on Delivery' | 'Razorpay Online';
   subtotal: number;
   deliveryCharges: number;
@@ -275,6 +283,9 @@ export interface Partner {
 
   // Worker specific
   category?: WorkerCategory;
+  serviceCategory?: string;
+  role?: string;
+  dailyRate?: number;
   skill?: string;
   ratePerDay?: number;
   ratePerHour?: number;
@@ -286,6 +297,83 @@ export interface Partner {
   vehicleNumber?: string;
   drivingLicenseNumber?: string;
   maxCapacityTons?: number;
+}
+
+export interface Vendor {
+  id: string;
+  name: string;
+  businessName: string;
+  businessType: string;
+  phone: string;
+  email: string;
+  location: string;
+  city?: string;
+  state?: string;
+  gstNumber?: string;
+  kycStatus: 'Verified' | 'Pending' | 'Rejected' | 'Approved';
+  status: 'Active' | 'Pending' | 'Suspended' | 'Rejected';
+  productsCount: number;
+  totalSales: number;
+  walletBalance: number;
+  commissionRate: number; // e.g. 8%
+  joinedDate: string;
+  kycDocUrl?: string;
+}
+
+export interface Customer {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  location: string;
+  city?: string;
+  state?: string;
+  status: 'Active' | 'Blocked';
+  totalOrders: number;
+  totalSpent: number;
+  totalBookings: number;
+  joinedDate: string;
+}
+
+export interface CouponOffer {
+  id: string;
+  code: string;
+  title?: string;
+  discountType: 'Percentage' | 'Fixed';
+  discountValue: number;
+  discountPercent?: number;
+  minOrder: number;
+  minOrderAmount?: number;
+  maxDiscount: number;
+  status: 'Active' | 'Expired';
+  active?: boolean;
+  usageCount: number;
+  usedCount?: number;
+  validUntil: string;
+  validTill?: string;
+}
+
+export interface SupportTicket {
+  id: string;
+  customerName: string;
+  customerPhone: string;
+  category: 'Order Issue' | 'Payment Issue' | 'Product Issue' | 'Worker Booking' | 'Refund' | 'General';
+  subject: string;
+  status: 'Open' | 'In Progress' | 'Resolved' | 'Closed';
+  priority: 'High' | 'Medium' | 'Low';
+  createdAt: string;
+}
+
+export interface WithdrawalRequest {
+  id: string;
+  beneficiaryName: string;
+  beneficiaryType: 'Vendor' | 'Worker';
+  amount: number;
+  bankName: string;
+  accountNumber: string;
+  ifsc: string;
+  status: 'Pending' | 'Approved' | 'Completed' | 'Rejected';
+  requestedAt: string;
 }
 
 export type ActiveScreen = 

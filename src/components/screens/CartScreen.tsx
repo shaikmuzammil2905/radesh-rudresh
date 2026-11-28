@@ -209,7 +209,7 @@ export const CartScreen: React.FC = () => {
       </div>
 
       {/* Sticky Proceed to Checkout Button */}
-      <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/95 backdrop-blur-md border-t border-gray-200 p-3.5 z-50 shadow-lg">
+      <div className="fixed bottom-16 sm:bottom-0 left-0 right-0 max-w-md mx-auto bg-white/95 backdrop-blur-md border-t border-gray-200 p-3.5 z-50 shadow-lg">
         <div className="flex items-center justify-between gap-3 px-1">
           <div>
             <span className="text-[10px] text-gray-500 uppercase font-semibold block">Total Amount</span>

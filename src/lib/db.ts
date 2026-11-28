@@ -15,6 +15,11 @@ import {
   ProductOrder,
   WorkerBooking,
   Partner,
+  Vendor,
+  Customer,
+  CouponOffer,
+  SupportTicket,
+  WithdrawalRequest,
 } from '@/types';
 import {
   INITIAL_PRODUCTS,
@@ -39,6 +44,11 @@ interface CMSDatabase {
   bookings: WorkerBooking[];
   payments: PaymentRecord[];
   partners: Partner[];
+  vendors: Vendor[];
+  customers: Customer[];
+  coupons: CouponOffer[];
+  supportTickets: SupportTicket[];
+  withdrawals: WithdrawalRequest[];
   settings: SiteSettings;
   auditLogs: AuditLog[];
 }
@@ -242,6 +252,260 @@ const INITIAL_PARTNERS: Partner[] = [
   },
 ];
 
+const INITIAL_VENDORS: Vendor[] = [
+  {
+    id: 'vend-1',
+    name: 'Shree Marble Traders',
+    businessName: 'Shree Marble Traders Pvt. Ltd.',
+    businessType: 'Marble & Granite',
+    phone: '+91 98290 11223',
+    email: 'sales@shreemarble.com',
+    location: 'Jaipur, RJ',
+    kycStatus: 'Verified',
+    status: 'Active',
+    productsCount: 24,
+    totalSales: 4850000,
+    walletBalance: 395000,
+    commissionRate: 8,
+    joinedDate: 'Jan 15, 2025',
+    kycDocUrl: 'https://rudra-infra.s3.ap-south-2.amazonaws.com/kyc/shree_gst.pdf',
+  },
+  {
+    id: 'vend-2',
+    name: 'Kailash Stone World',
+    businessName: 'Kailash Natural Stones Corp.',
+    businessType: 'Marble & Stone',
+    phone: '+91 94140 44556',
+    email: 'kailash@stoneworld.in',
+    location: 'Udaipur, RJ',
+    kycStatus: 'Verified',
+    status: 'Active',
+    productsCount: 18,
+    totalSales: 3120000,
+    walletBalance: 240000,
+    commissionRate: 7,
+    joinedDate: 'Jan 18, 2025',
+    kycDocUrl: 'https://rudra-infra.s3.ap-south-2.amazonaws.com/kyc/kailash_gst.pdf',
+  },
+  {
+    id: 'vend-3',
+    name: 'Mewar Marble Co.',
+    businessName: 'Mewar Quarry & Exports',
+    businessType: 'Italian Marble',
+    phone: '+91 98281 77889',
+    email: 'exports@mewarmarble.com',
+    location: 'Kishangarh, RJ',
+    kycStatus: 'Pending',
+    status: 'Pending',
+    productsCount: 12,
+    totalSales: 1890000,
+    walletBalance: 152000,
+    commissionRate: 8,
+    joinedDate: 'Jan 28, 2025',
+    kycDocUrl: 'https://rudra-infra.s3.ap-south-2.amazonaws.com/kyc/mewar_trade.pdf',
+  },
+  {
+    id: 'vend-4',
+    name: 'Royal Marble Emporium',
+    businessName: 'Royal Stones Hyderabad',
+    businessType: 'Imported Marble',
+    phone: '+91 98490 29050',
+    email: 'royal@hyderabadmarble.com',
+    location: 'Hyderabad, TS',
+    kycStatus: 'Verified',
+    status: 'Active',
+    productsCount: 32,
+    totalSales: 6420000,
+    walletBalance: 520000,
+    commissionRate: 8,
+    joinedDate: 'Jan 05, 2025',
+  },
+  {
+    id: 'vend-5',
+    name: 'Deccan Natural Stones',
+    businessName: 'Deccan Granite Mines Ltd.',
+    businessType: 'Granite & Tiles',
+    phone: '+91 99881 22334',
+    email: 'info@deccanstone.com',
+    location: 'Warangal, TS',
+    kycStatus: 'Verified',
+    status: 'Active',
+    productsCount: 15,
+    totalSales: 2750000,
+    walletBalance: 210000,
+    commissionRate: 7.5,
+    joinedDate: 'Jan 10, 2025',
+  },
+];
+
+const INITIAL_CUSTOMERS: Customer[] = [
+  {
+    id: 'cust-1',
+    name: 'Rajesh Verma',
+    phone: '+91 98490 12345',
+    email: 'rajesh.verma@infrahyderabad.in',
+    location: 'Jubilee Hills, Hyderabad',
+    status: 'Active',
+    totalOrders: 6,
+    totalSpent: 691200,
+    totalBookings: 3,
+    joinedDate: 'Jan 10, 2025',
+  },
+  {
+    id: 'cust-2',
+    name: 'Neha Sharma',
+    phone: '+91 99880 54321',
+    email: 'neha.sharma@designstudio.com',
+    location: 'Banjara Hills, Hyderabad',
+    status: 'Active',
+    totalOrders: 4,
+    totalSpent: 124750,
+    totalBookings: 2,
+    joinedDate: 'Jan 14, 2025',
+  },
+  {
+    id: 'cust-3',
+    name: 'Arvind Builders',
+    phone: '+91 94401 98765',
+    email: 'arvind@arvindbuilders.com',
+    location: 'Gachibowli, Hyderabad',
+    status: 'Active',
+    totalOrders: 9,
+    totalSpent: 427900,
+    totalBookings: 5,
+    joinedDate: 'Jan 05, 2025',
+  },
+  {
+    id: 'cust-4',
+    name: 'Om Infra Co.',
+    phone: '+91 98221 66554',
+    email: 'procurement@ominfra.com',
+    location: 'HITEC City, Hyderabad',
+    status: 'Active',
+    totalOrders: 12,
+    totalSpent: 986400,
+    totalBookings: 8,
+    joinedDate: 'Jan 02, 2025',
+  },
+  {
+    id: 'cust-5',
+    name: 'Muzammil Shaik',
+    phone: '+91 99887 76655',
+    email: 'muzam@admedtech.com',
+    location: 'Jubilee Hills, Hyderabad',
+    status: 'Active',
+    totalOrders: 2,
+    totalSpent: 70800,
+    totalBookings: 1,
+    joinedDate: 'Nov 20, 2026',
+  },
+];
+
+const INITIAL_COUPONS: CouponOffer[] = [
+  {
+    id: 'cpn-1',
+    code: 'RUDRA5000',
+    discountType: 'Fixed',
+    discountValue: 5000,
+    minOrder: 50000,
+    maxDiscount: 5000,
+    status: 'Active',
+    usageCount: 42,
+    validUntil: '31 Dec 2026',
+  },
+  {
+    id: 'cpn-2',
+    code: 'MARBLE10',
+    discountType: 'Percentage',
+    discountValue: 10,
+    minOrder: 25000,
+    maxDiscount: 15000,
+    status: 'Active',
+    usageCount: 88,
+    validUntil: '31 Dec 2026',
+  },
+  {
+    id: 'cpn-3',
+    code: 'FITTINGFREE',
+    discountType: 'Fixed',
+    discountValue: 1000,
+    minOrder: 15000,
+    maxDiscount: 1000,
+    status: 'Active',
+    usageCount: 29,
+    validUntil: '30 Nov 2026',
+  },
+];
+
+const INITIAL_SUPPORT_TICKETS: SupportTicket[] = [
+  {
+    id: 'TICK-101',
+    customerName: 'Rajesh Verma',
+    customerPhone: '+91 98490 12345',
+    category: 'Order Issue',
+    subject: 'Request crane transit schedule update for Jubilee Hills site',
+    status: 'Open',
+    priority: 'High',
+    createdAt: '28 Jan 2025',
+  },
+  {
+    id: 'TICK-102',
+    customerName: 'Neha Sharma',
+    customerPhone: '+91 99880 54321',
+    category: 'Worker Booking',
+    subject: 'Request 2 additional tile fitters for tomorrow morning shift',
+    status: 'In Progress',
+    priority: 'Medium',
+    createdAt: '27 Jan 2025',
+  },
+  {
+    id: 'TICK-103',
+    customerName: 'Kailash Stone World',
+    customerPhone: '+91 94140 44556',
+    category: 'Payment Issue',
+    subject: 'Vendor wallet payout settlement inquiry',
+    status: 'Resolved',
+    priority: 'Low',
+    createdAt: '25 Jan 2025',
+  },
+];
+
+const INITIAL_WITHDRAWALS: WithdrawalRequest[] = [
+  {
+    id: 'WDR-901',
+    beneficiaryName: 'Shree Marble Traders',
+    beneficiaryType: 'Vendor',
+    amount: 150000,
+    bankName: 'HDFC Bank',
+    accountNumber: '••••••••4812',
+    ifsc: 'HDFC0001234',
+    status: 'Pending',
+    requestedAt: 'Jan 29, 2025',
+  },
+  {
+    id: 'WDR-902',
+    beneficiaryName: 'Ramesh Kumar (Artisan)',
+    beneficiaryType: 'Worker',
+    amount: 14200,
+    bankName: 'State Bank of India',
+    accountNumber: '••••••••9031',
+    ifsc: 'SBIN0005678',
+    status: 'Approved',
+    requestedAt: 'Jan 28, 2025',
+  },
+  {
+    id: 'WDR-903',
+    beneficiaryName: 'Kailash Stone World',
+    beneficiaryType: 'Vendor',
+    amount: 85000,
+    bankName: 'ICICI Bank',
+    accountNumber: '••••••••7721',
+    ifsc: 'ICIC0003456',
+    status: 'Completed',
+    requestedAt: 'Jan 25, 2025',
+  },
+];
+
 // In-memory cache
 let inMemoryDB: CMSDatabase | null = null;
 
@@ -252,8 +516,28 @@ function loadDatabase(): CMSDatabase {
     if (fs.existsSync(DB_FILE_PATH)) {
       const data = fs.readFileSync(DB_FILE_PATH, 'utf-8');
       inMemoryDB = JSON.parse(data);
-      if (inMemoryDB && !inMemoryDB.partners) {
-        inMemoryDB.partners = INITIAL_PARTNERS;
+      if (inMemoryDB) {
+        if (!inMemoryDB.partners) inMemoryDB.partners = INITIAL_PARTNERS;
+        if (!inMemoryDB.vendors) inMemoryDB.vendors = INITIAL_VENDORS;
+        if (!inMemoryDB.customers) inMemoryDB.customers = INITIAL_CUSTOMERS;
+        if (!inMemoryDB.coupons) inMemoryDB.coupons = INITIAL_COUPONS;
+        if (!inMemoryDB.supportTickets) inMemoryDB.supportTickets = INITIAL_SUPPORT_TICKETS;
+        if (!inMemoryDB.withdrawals) inMemoryDB.withdrawals = INITIAL_WITHDRAWALS;
+        if (inMemoryDB.products) {
+          inMemoryDB.products = inMemoryDB.products.map((p) => {
+            const base = p.vendorBasePrice || p.pricePerSqFt || 1000;
+            const comm = p.commissionPercent ?? 8;
+            const commAmt = p.commissionAmount ?? Math.round((base * comm) / 100 * 10) / 10;
+            return {
+              ...p,
+              vendorBasePrice: base,
+              commissionPercent: comm,
+              commissionAmount: commAmt,
+              approvalStatus: p.approvalStatus || 'Approved',
+              published: p.published !== undefined ? p.published : true,
+            };
+          });
+        }
       }
       return inMemoryDB!;
     }
@@ -275,6 +559,11 @@ function loadDatabase(): CMSDatabase {
     bookings: INITIAL_BOOKINGS,
     payments: [],
     partners: INITIAL_PARTNERS,
+    vendors: INITIAL_VENDORS,
+    customers: INITIAL_CUSTOMERS,
+    coupons: INITIAL_COUPONS,
+    supportTickets: INITIAL_SUPPORT_TICKETS,
+    withdrawals: INITIAL_WITHDRAWALS,
     settings: INITIAL_SETTINGS,
     auditLogs: INITIAL_AUDIT_LOGS,
   };
@@ -303,16 +592,33 @@ export function getProducts(): Product[] {
 
 export function saveProduct(product: Product): Product {
   const db = loadDatabase();
-  const index = db.products.findIndex((p) => p.id === product.id);
+
+  // Pricing & Commission Engine (Vendor Base Price + Commission = Customer Price)
+  const base = Number(product.vendorBasePrice || product.pricePerSqFt || 1000);
+  const commPercent = Number(product.commissionPercent ?? 8);
+  const commAmount = Math.round((base * commPercent) / 100 * 10) / 10;
+  const finalPrice = Math.round(base + commAmount);
+
+  const updatedProduct: Product = {
+    ...product,
+    vendorBasePrice: base,
+    commissionPercent: commPercent,
+    commissionAmount: commAmount,
+    pricePerSqFt: finalPrice,
+    approvalStatus: product.approvalStatus || 'Approved',
+    published: product.published !== undefined ? product.published : true,
+  };
+
+  const index = db.products.findIndex((p) => p.id === updatedProduct.id);
   if (index >= 0) {
-    db.products[index] = product;
-    addAuditLog('UPDATE_PRODUCT', `Updated product: ${product.name} (₹${product.pricePerSqFt})`);
+    db.products[index] = updatedProduct;
+    addAuditLog('UPDATE_PRODUCT', `Updated product: ${updatedProduct.name} - Selling: ₹${finalPrice} (Base: ₹${base} + Comm ${commPercent}%)`);
   } else {
-    db.products.unshift(product);
-    addAuditLog('CREATE_PRODUCT', `Created new product: ${product.name}`);
+    db.products.unshift(updatedProduct);
+    addAuditLog('CREATE_PRODUCT', `Created product: ${updatedProduct.name} - Selling: ₹${finalPrice}`);
   }
   saveDatabase(db);
-  return product;
+  return updatedProduct;
 }
 
 export function deleteProduct(productId: string): boolean {
@@ -637,6 +943,124 @@ export function updatePartnerStatus(
   addAuditLog('UPDATE_PARTNER_STATUS', `Partner ${id} status set to ${status}`);
   saveDatabase(db);
   return db.partners[index];
+}
+
+// ---------------- VENDORS ----------------
+export function getVendors(): Vendor[] {
+  return loadDatabase().vendors;
+}
+
+export function saveVendor(vendor: Vendor): Vendor {
+  const db = loadDatabase();
+  const index = db.vendors.findIndex((v) => v.id === vendor.id);
+  if (index >= 0) {
+    db.vendors[index] = vendor;
+    addAuditLog('UPDATE_VENDOR', `Updated vendor: ${vendor.name} (${vendor.businessName})`);
+  } else {
+    db.vendors.unshift(vendor);
+    addAuditLog('CREATE_VENDOR', `Added vendor: ${vendor.name}`);
+  }
+  saveDatabase(db);
+  return vendor;
+}
+
+export function updateVendorStatus(
+  id: string,
+  status: 'Active' | 'Pending' | 'Suspended',
+  kycStatus?: 'Verified' | 'Pending' | 'Rejected'
+): Vendor | null {
+  const db = loadDatabase();
+  const index = db.vendors.findIndex((v) => v.id === id);
+  if (index < 0) return null;
+  db.vendors[index].status = status;
+  if (kycStatus) {
+    db.vendors[index].kycStatus = kycStatus;
+  }
+  addAuditLog('UPDATE_VENDOR_STATUS', `Vendor ${id} status set to ${status} (KYC: ${kycStatus || db.vendors[index].kycStatus})`);
+  saveDatabase(db);
+  return db.vendors[index];
+}
+
+export function deleteVendor(id: string): boolean {
+  const db = loadDatabase();
+  const target = db.vendors.find((v) => v.id === id);
+  if (!target) return false;
+  db.vendors = db.vendors.filter((v) => v.id !== id);
+  addAuditLog('DELETE_VENDOR', `Deleted vendor: ${target.name}`);
+  saveDatabase(db);
+  return true;
+}
+
+// ---------------- CUSTOMERS ----------------
+export function getCustomers(): Customer[] {
+  return loadDatabase().customers;
+}
+
+export function updateCustomerStatus(id: string, status: 'Active' | 'Blocked'): Customer | null {
+  const db = loadDatabase();
+  const index = db.customers.findIndex((c) => c.id === id);
+  if (index < 0) return null;
+  db.customers[index].status = status;
+  addAuditLog('UPDATE_CUSTOMER_STATUS', `Customer ${id} status set to ${status}`);
+  saveDatabase(db);
+  return db.customers[index];
+}
+
+// ---------------- OFFERS & COUPONS ----------------
+export function getCoupons(): CouponOffer[] {
+  return loadDatabase().coupons;
+}
+
+export function saveCoupon(coupon: CouponOffer): CouponOffer {
+  const db = loadDatabase();
+  const index = db.coupons.findIndex((c) => c.id === coupon.id);
+  if (index >= 0) {
+    db.coupons[index] = coupon;
+    addAuditLog('UPDATE_COUPON', `Updated coupon code: ${coupon.code}`);
+  } else {
+    db.coupons.unshift(coupon);
+    addAuditLog('CREATE_COUPON', `Created coupon code: ${coupon.code}`);
+  }
+  saveDatabase(db);
+  return coupon;
+}
+
+export function deleteCoupon(id: string): boolean {
+  const db = loadDatabase();
+  db.coupons = db.coupons.filter((c) => c.id !== id);
+  addAuditLog('DELETE_COUPON', `Deleted coupon ${id}`);
+  saveDatabase(db);
+  return true;
+}
+
+// ---------------- SUPPORT TICKETS ----------------
+export function getSupportTickets(): SupportTicket[] {
+  return loadDatabase().supportTickets;
+}
+
+export function updateSupportTicketStatus(id: string, status: SupportTicket['status']): SupportTicket | null {
+  const db = loadDatabase();
+  const index = db.supportTickets.findIndex((t) => t.id === id);
+  if (index < 0) return null;
+  db.supportTickets[index].status = status;
+  addAuditLog('UPDATE_TICKET', `Ticket ${id} status set to ${status}`);
+  saveDatabase(db);
+  return db.supportTickets[index];
+}
+
+// ---------------- WITHDRAWALS & WALLETS ----------------
+export function getWithdrawals(): WithdrawalRequest[] {
+  return loadDatabase().withdrawals;
+}
+
+export function updateWithdrawalStatus(id: string, status: WithdrawalRequest['status']): WithdrawalRequest | null {
+  const db = loadDatabase();
+  const index = db.withdrawals.findIndex((w) => w.id === id);
+  if (index < 0) return null;
+  db.withdrawals[index].status = status;
+  addAuditLog('UPDATE_WITHDRAWAL', `Withdrawal ${id} status set to ${status}`);
+  saveDatabase(db);
+  return db.withdrawals[index];
 }
 
 export function updatePartnerDuty(id: string, isOnline: boolean): Partner | null {

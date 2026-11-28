@@ -14,7 +14,6 @@ export const BottomNav: React.FC = () => {
     'booking-confirmation',
     'book-worker',
     'checkout',
-    'cart',
     'product-detail',
     'worker-profile'
   ];

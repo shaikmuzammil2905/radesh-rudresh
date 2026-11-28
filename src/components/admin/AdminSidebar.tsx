@@ -5,42 +5,60 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard,
-  Layers,
-  Sparkles,
+  Store,
   Users,
-  Briefcase,
-  Image as ImageIcon,
-  HardDrive,
-  MessageSquare,
-  CreditCard,
+  UserCheck,
+  PackageCheck,
+  ShoppingBag,
+  TrendingUp,
+  CheckCircle2,
+  FileBarChart2,
+  Wallet,
   Settings,
   ExternalLink,
   LogOut,
-  ShoppingBag,
-  Truck,
+  Sparkles,
+  ShieldAlert,
+  Headphones,
+  Tag,
+  Building2,
 } from 'lucide-react';
 
 interface SidebarProps {
   onCloseMobile?: () => void;
+  pendingApprovalsCount?: number;
 }
 
-export const AdminSidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
+export const AdminSidebar: React.FC<SidebarProps> = ({ onCloseMobile, pendingApprovalsCount = 12 }) => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const navItems = [
+  // 11 Core Navigation Items matching Reference UI (image copy 17.png) and Scope of Work
+  const primaryNav = [
     { label: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
-    { label: 'Homepage CMS', href: '/admin/pages', icon: Layers },
-    { label: 'Products & Marble', href: '/admin/products', icon: Sparkles },
-    { label: 'Master Artisans', href: '/admin/services', icon: Users },
-    { label: 'Partners & Fleet', href: '/admin/partners', icon: Truck },
-    { label: 'Projects & Portfolio', href: '/admin/projects', icon: Briefcase },
-    { label: 'Stone Gallery', href: '/admin/gallery', icon: ImageIcon },
-    { label: 'Media Library (S3)', href: '/admin/media', icon: HardDrive },
-    { label: 'Customer Enquiries', href: '/admin/enquiries', icon: MessageSquare },
-    { label: 'Orders & Bookings', href: '/admin/orders', icon: ShoppingBag },
-    { label: 'Razorpay Payments', href: '/admin/payments', icon: CreditCard },
-    { label: 'Website Settings', href: '/admin/settings', icon: Settings },
+    { label: 'Vendors', href: '/admin/vendors', icon: Store },
+    { label: 'Workers', href: '/admin/workers', icon: Users },
+    { label: 'Customers', href: '/admin/customers', icon: UserCheck },
+    { label: 'Products', href: '/admin/products', icon: PackageCheck },
+    { label: 'Orders', href: '/admin/orders', icon: ShoppingBag },
+    { label: 'Sales', href: '/admin/sales', icon: TrendingUp },
+    {
+      label: 'Approvals',
+      href: '/admin/approvals',
+      icon: CheckCircle2,
+      badge: pendingApprovalsCount > 0 ? String(pendingApprovalsCount) : undefined,
+    },
+    { label: 'Reports', href: '/admin/reports', icon: FileBarChart2 },
+    { label: 'Wallet', href: '/admin/wallet', icon: Wallet },
+    { label: 'Settings', href: '/admin/settings', icon: Settings },
+  ];
+
+  // Additional Operations Tools
+  const secondaryNav = [
+    { label: 'Offers & Coupons', href: '/admin/offers', icon: Tag },
+    { label: 'Support & Tickets', href: '/admin/support', icon: Headphones },
+    { label: 'Sub-Admins & Staff', href: '/admin/staff', icon: ShieldAlert },
+    { label: 'Homepage CMS', href: '/admin/pages', icon: Sparkles },
   ];
 
   const handleLogout = async () => {
@@ -51,56 +69,72 @@ export const AdminSidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
   };
 
   return (
-    <aside className="w-64 bg-slate-900 text-slate-200 flex flex-col justify-between shrink-0 h-screen sticky top-0 border-r border-slate-800 z-30 select-none">
+    <aside className="w-64 bg-[#0B0F19] text-slate-300 flex flex-col justify-between shrink-0 h-screen sticky top-0 border-r border-slate-800/80 z-30 select-none shadow-2xl">
       {/* Brand Header */}
-      <div>
-        <div className="p-4 border-b border-slate-800/80 flex items-center justify-between">
-          <Link href="/admin/dashboard" className="flex items-center gap-2.5">
-            <img
-              src="/assets/rr_monogram.png"
-              alt="Radhesh & Rudresh"
-              className="w-8 h-8 object-contain filter drop-shadow"
-            />
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="p-4 sm:p-5 border-b border-slate-800/80 flex items-center justify-between bg-[#080B12]">
+          <Link href="/admin/dashboard" className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-500 via-pink-600 to-rose-500 flex items-center justify-center p-1.5 shadow-md shadow-brand-500/20">
+              <img
+                src="/assets/rr_monogram.png"
+                alt="Radhesh & Rudresh"
+                className="w-full h-full object-contain filter brightness-200 invert"
+                onError={(e) => {
+                  (e.currentTarget as HTMLElement).style.display = 'none';
+                }}
+              />
+            </div>
             <div>
-              <div className="font-black text-xs tracking-wider text-pink-400 uppercase">
-                RADHESH & RUDRESH
+              <div className="font-black text-xs tracking-wider text-white uppercase flex items-center gap-1.5">
+                <span>RADHESH & RUDRESH</span>
               </div>
-              <div className="text-[9px] font-bold tracking-widest text-slate-400 uppercase">
-                ENTERPRISE CMS
+              <div className="text-[9.5px] font-bold tracking-widest text-brand-400 uppercase">
+                SUPER ADMIN PANEL
               </div>
             </div>
           </Link>
         </div>
 
         {/* Navigation Menu */}
-        <nav className="p-3 space-y-1 overflow-y-auto max-h-[calc(100vh-170px)]">
-          <div className="px-3 pt-2 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-            Content & Catalog
+        <nav className="p-3 space-y-1 overflow-y-auto flex-1 custom-scrollbar">
+          <div className="px-3 pt-2 pb-1.5 text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
+            Main Navigation
           </div>
-          {navItems.slice(0, 7).map((item) => {
+          {primaryNav.map((item) => {
             const Icon = item.icon;
-            const isActive = pathname === item.href;
+            const isActive = pathname === item.href || (item.href !== '/admin/dashboard' && pathname?.startsWith(item.href));
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={onCloseMobile}
-                className={`flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
+                className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all group ${
                   isActive
-                    ? 'bg-gradient-to-r from-brand-500 to-pink-600 text-white shadow-sm font-bold'
-                    : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                    ? 'bg-brand-500 text-white shadow-md shadow-brand-500/25 font-bold'
+                    : 'text-slate-300 hover:bg-slate-800/70 hover:text-white'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
-                <span>{item.label}</span>
+                <div className="flex items-center gap-3">
+                  <Icon className={`w-4 h-4 transition-transform group-hover:scale-110 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                  <span>{item.label}</span>
+                </div>
+                {item.badge && (
+                  <span
+                    className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                      isActive ? 'bg-white text-brand-600' : 'bg-brand-500/20 text-brand-400 border border-brand-500/40'
+                    }`}
+                  >
+                    {item.badge}
+                  </span>
+                )}
               </Link>
             );
           })}
 
-          <div className="px-3 pt-4 pb-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-            Operations & Financials
+          <div className="px-3 pt-4 pb-1.5 text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
+            Operations & Media
           </div>
-          {navItems.slice(7).map((item) => {
+          {secondaryNav.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
             return (
@@ -110,11 +144,11 @@ export const AdminSidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
                 onClick={onCloseMobile}
                 className={`flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
                   isActive
-                    ? 'bg-gradient-to-r from-brand-500 to-pink-600 text-white shadow-sm font-bold'
-                    : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                    ? 'bg-slate-800 text-brand-400 font-bold'
+                    : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                <Icon className={`w-4 h-4 ${isActive ? 'text-brand-400' : 'text-slate-400'}`} />
                 <span>{item.label}</span>
               </Link>
             );
@@ -122,27 +156,35 @@ export const AdminSidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
         </nav>
       </div>
 
-      {/* Footer Actions */}
-      <div className="p-3 border-t border-slate-800/80 bg-slate-950/60 space-y-1.5">
-        <Link
-          href="/"
-          target="_blank"
-          className="flex items-center justify-between w-full px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition"
-        >
-          <span className="flex items-center gap-2">
-            <ExternalLink className="w-3.5 h-3.5 text-pink-400" />
-            <span>View Public Website</span>
-          </span>
-          <span className="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-400">Live</span>
-        </Link>
+      {/* Skyline & Footer */}
+      <div className="p-3 border-t border-slate-800/80 bg-[#080B12]">
+        {/* City Skyline Decorative Graphic */}
+        <div className="mb-3 px-2 py-2 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between text-[11px]">
+          <div className="flex items-center gap-2">
+            <Building2 className="w-4 h-4 text-brand-400" />
+            <span className="text-slate-300 font-medium">Jaipur HQ & Hubs</span>
+          </div>
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="System Live" />
+        </div>
 
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-2 w-full px-3 py-2 rounded-xl text-xs font-semibold text-rose-400 hover:bg-rose-950/30 transition text-left"
-        >
-          <LogOut className="w-3.5 h-3.5" />
-          <span>Sign Out</span>
-        </button>
+        <div className="flex items-center justify-between gap-1 pt-1">
+          <Link
+            href="/"
+            target="_blank"
+            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-slate-800/80 hover:bg-slate-800 text-slate-300 hover:text-white rounded-xl text-xs font-bold transition"
+            title="Open Public Customer Marketplace"
+          >
+            <ExternalLink className="w-3.5 h-3.5" />
+            <span>Storefront</span>
+          </Link>
+          <button
+            onClick={handleLogout}
+            className="p-2 text-slate-400 hover:text-rose-400 hover:bg-slate-800/80 rounded-xl transition cursor-pointer"
+            title="Logout"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
+        </div>
       </div>
     </aside>
   );
