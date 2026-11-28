@@ -55,7 +55,8 @@ export const HomeScreen: React.FC = () => {
 
   // Dynamic CMS Synchronization with Backend
   useEffect(() => {
-    fetch('/api/cms/pages')
+    // Fetch with cache: no-store to immediately receive changes made in Admin Panel
+    fetch('/api/cms/pages', { cache: 'no-store' })
       .then((r) => r.json())
       .then((data) => {
         if (data.success) {
@@ -65,7 +66,7 @@ export const HomeScreen: React.FC = () => {
       })
       .catch(() => {});
 
-    fetch('/api/cms/products')
+    fetch('/api/cms/products', { cache: 'no-store' })
       .then((r) => r.json())
       .then((data) => {
         if (data.success && data.products && data.products.length > 0) {
@@ -75,7 +76,7 @@ export const HomeScreen: React.FC = () => {
       })
       .catch(() => {});
 
-    fetch('/api/cms/workers')
+    fetch('/api/cms/workers', { cache: 'no-store' })
       .then((r) => r.json())
       .then((data) => {
         if (data.success && data.workers && data.workers.length > 0) {

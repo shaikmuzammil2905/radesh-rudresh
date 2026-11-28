@@ -41,12 +41,18 @@ export const DrawerMenu: React.FC = () => {
   const handleNav = (screen: any) => {
     setIsDrawerOpen(false);
     navigateTo(screen);
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
   };
 
   const handleCategoryNav = (cat: ProductCategory) => {
     setSelectedCategory(cat);
     setIsDrawerOpen(false);
     navigateTo('products');
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
   };
 
   return (

@@ -145,10 +145,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const navigateTo = (screen: ActiveScreen) => {
-    if (screen === currentScreen) return;
+    if (screen === currentScreen) {
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      }
+      return;
+    }
     setScreenHistory((prev) => [...prev, screen]);
     setCurrentScreen(screen);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
   };
 
   const goBack = () => {
