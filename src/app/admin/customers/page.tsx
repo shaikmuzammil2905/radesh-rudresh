@@ -30,7 +30,7 @@ export default function CustomersAdminPage() {
       const res = await fetch('/api/cms/customers');
       if (res.ok) {
         const data = await res.json();
-        setCustomers(data);
+        setCustomers(Array.isArray(data) ? data : (data.customers || []));
       }
     } catch (e) {
       console.error(e);
@@ -61,12 +61,21 @@ export default function CustomersAdminPage() {
     }
   };
 
-  const filteredCustomers = customers.filter((c) => {
+  const filteredCustomers = (customers || []).filter((c) => {
+    if (!c) return false;
+    const name = c.name || '';
+    const phone = c.phone || '';
+    const email = c.email || '';
+    const city = c.city || '';
+    const loc = c.location || '';
+    const q = search.toLowerCase();
+
     const matchesSearch =
-      c.name.toLowerCase().includes(search.toLowerCase()) ||
-      c.phone.includes(search) ||
-      (c.email && c.email.toLowerCase().includes(search.toLowerCase())) ||
-      (c.city && c.city.toLowerCase().includes(search.toLowerCase()));
+      name.toLowerCase().includes(q) ||
+      phone.includes(search) ||
+      email.toLowerCase().includes(q) ||
+      city.toLowerCase().includes(q) ||
+      loc.toLowerCase().includes(q);
     const matchesStatus = statusFilter === 'All' || c.status === statusFilter;
     return matchesSearch && matchesStatus;
   });

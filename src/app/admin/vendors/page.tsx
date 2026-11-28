@@ -35,7 +35,7 @@ export default function VendorsAdminPage() {
       const res = await fetch('/api/cms/vendors');
       if (res.ok) {
         const data = await res.json();
-        setVendors(data);
+        setVendors(Array.isArray(data) ? data : (data.vendors || []));
       }
     } catch (e) {
       console.error(e);
@@ -66,13 +66,21 @@ export default function VendorsAdminPage() {
     }
   };
 
-  const filteredVendors = vendors.filter((v) => {
+  const filteredVendors = (vendors || []).filter((v) => {
+    if (!v) return false;
+    const name = v.name || '';
+    const biz = v.businessName || '';
+    const ph = v.phone || '';
+    const city = v.city || '';
+    const loc = v.location || '';
+    const q = search.toLowerCase();
+
     const matchesSearch =
-      v.businessName.toLowerCase().includes(search.toLowerCase()) ||
-      v.name.toLowerCase().includes(search.toLowerCase()) ||
-      v.phone.includes(search) ||
-      (v.city && v.city.toLowerCase().includes(search.toLowerCase())) ||
-      (v.location && v.location.toLowerCase().includes(search.toLowerCase()));
+      biz.toLowerCase().includes(q) ||
+      name.toLowerCase().includes(q) ||
+      ph.includes(search) ||
+      city.toLowerCase().includes(q) ||
+      loc.toLowerCase().includes(q);
     const matchesStatus = statusFilter === 'All' || v.status === statusFilter || v.kycStatus === statusFilter;
     return matchesSearch && matchesStatus;
   });

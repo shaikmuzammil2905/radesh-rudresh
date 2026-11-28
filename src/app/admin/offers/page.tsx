@@ -20,7 +20,7 @@ export default function OffersAdminPage() {
       const res = await fetch('/api/cms/coupons');
       if (res.ok) {
         const data = await res.json();
-        setCoupons(data);
+        setCoupons(Array.isArray(data) ? data : (data.coupons || []));
       }
     } catch (e) {
       console.error(e);

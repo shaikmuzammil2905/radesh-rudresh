@@ -31,8 +31,9 @@ export default function WorkersAdminPage() {
       const res = await fetch('/api/cms/partners');
       if (res.ok) {
         const data = await res.json();
+        const list: Partner[] = Array.isArray(data) ? data : (data.partners || []);
         // Filter only worker/artisan type
-        setWorkers(data.filter((p: Partner) => p.type === 'Worker' || (p as any).type === 'artisan' || p.role === 'artisan'));
+        setWorkers(list.filter((p: Partner) => p.type === 'Worker' || (p as any).type === 'artisan' || p.role === 'artisan'));
       }
     } catch (e) {
       console.error(e);
