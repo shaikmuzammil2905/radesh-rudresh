@@ -82,6 +82,11 @@ export interface WorkerBooking {
   workerName: string;
   workerSkill: string;
   workerPhoto: string;
+  customerName?: string;
+  customerPhone?: string;
+  scheduledDate?: string;
+  scheduledTimeSlot?: string;
+  category?: WorkerCategory | string;
   requirementType: 'Per Day' | 'Per Hour' | 'Project Based';
   numberOfWorkers: number;
   date: string;

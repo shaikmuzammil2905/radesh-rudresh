@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { AdminHeader } from '@/components/admin/AdminHeader';
 import { ProductOrder, WorkerBooking } from '@/types';
-import { ShoppingBag, Users, Calendar, MapPin, Phone, CheckCircle, Clock } from 'lucide-react';
+import { ShoppingBag, Users, MapPin, Phone, CheckCircle, Clock } from 'lucide-react';
 
 export default function AdminOrdersPage() {
   const [tab, setTab] = useState<'orders' | 'bookings'>('orders');
@@ -13,11 +13,15 @@ export default function AdminOrdersPage() {
   useEffect(() => {
     async function loadData() {
       try {
-        const [dashRes] = await Promise.all([
-          fetch('/api/cms/pages').catch(() => null),
-        ]);
-        // Default seed data is loaded via mock if not modified
-      } catch (err) {}
+        const res = await fetch('/api/cms/orders');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.orders) setOrders(data.orders);
+          if (data.bookings) setBookings(data.bookings);
+        }
+      } catch (err) {
+        console.error('Failed to load orders/bookings:', err);
+      }
     }
     loadData();
   }, []);
@@ -57,112 +61,97 @@ export default function AdminOrdersPage() {
       </div>
 
       {tab === 'orders' ? (
-        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-2xs p-5 space-y-4">
-          <h2 className="text-sm font-bold text-gray-900">Live Customer Supply Orders</h2>
+        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-2xs p-4 sm:p-5 space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-bold text-gray-900">Live Customer Supply Orders ({orders.length})</h2>
+            <span className="text-xs text-brand-600 font-bold bg-pink-50 px-2.5 py-0.5 rounded-full">Real-time Sync</span>
+          </div>
 
           <div className="divide-y divide-gray-100 text-xs">
-            {[
-              {
-                id: 'ORD-94812',
-                customer: 'Vikramaditya Reddy',
-                phone: '+91 98490 12345',
-                items: 'Italian White Marble (100 Sq.ft), Black Galaxy Granite (100 Sq.ft)',
-                amount: 60000,
-                status: 'Confirmed',
-                date: '24 Nov 2026',
-                address: 'Plot 45, Road 36, Jubilee Hills, Hyderabad',
-              },
-              {
-                id: 'ORD-94811',
-                customer: 'G. Suresh Rao',
-                phone: '+91 99890 87654',
-                items: 'Statuario Marble Slab (250 Sq.ft)',
-                amount: 162500,
-                status: 'Dispatched',
-                date: '23 Nov 2026',
-                address: 'Near Outer Ring Road, Gachibowli, Hyderabad',
-              },
-            ].map((ord) => (
-              <div key={ord.id} className="py-4 space-y-2">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono font-black text-gray-900">{ord.id}</span>
-                    <span className="bg-blue-50 text-blue-700 font-bold px-2 py-0.5 rounded-full text-[10px]">
-                      {ord.status}
-                    </span>
+            {orders.length === 0 ? (
+              <div className="py-8 text-center text-gray-400">No customer supply orders recorded yet.</div>
+            ) : (
+              orders.map((ord) => (
+                <div key={ord.id} className="py-4 space-y-2">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono font-black text-brand-600">#{ord.id}</span>
+                      <span className={`font-bold px-2.5 py-0.5 rounded-full text-[10px] ${
+                        ord.status === 'Delivered' ? 'bg-emerald-50 text-emerald-700' :
+                        ord.status === 'Dispatched' ? 'bg-blue-50 text-blue-700' : 'bg-amber-50 text-amber-700'
+                      }`}>
+                        {ord.status}
+                      </span>
+                      {ord.paymentStatus && (
+                        <span className="bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold px-2 py-0.5 rounded-full text-[9.5px]">
+                          {ord.paymentStatus}
+                        </span>
+                      )}
+                    </div>
+                    <div className="font-black text-sm text-gray-900">₹{(ord.totalAmount || 0).toLocaleString('en-IN')}</div>
                   </div>
-                  <div className="font-black text-sm text-gray-900">₹{ord.amount.toLocaleString('en-IN')}</div>
-                </div>
 
-                <div className="text-gray-700 font-medium">{ord.items}</div>
+                  <div className="text-gray-800 font-semibold">
+                    {Array.isArray(ord.items) ? ord.items.map((i: any) => `${i.product?.name || 'Marble'} (${i.areaSqFt} Sq.ft)`).join(', ') : 'Custom Stone Slabs'}
+                  </div>
 
-                <div className="flex flex-wrap items-center gap-4 text-gray-400 text-[11px] pt-1">
-                  <span>Customer: <strong className="text-gray-700">{ord.customer}</strong> ({ord.phone})</span>
-                  <span>&middot;</span>
-                  <span className="flex items-center gap-1">
-                    <MapPin className="w-3 h-3 text-brand-500" />
-                    <span>{ord.address}</span>
-                  </span>
-                  <span>&middot;</span>
-                  <span>{ord.date}</span>
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-gray-500 text-[11px] pt-1">
+                    <span>Customer: <strong className="text-gray-800">{ord.contactName || ord.customerName || 'Customer'}</strong> ({ord.contactPhone || ord.customerPhone || 'N/A'})</span>
+                    {ord.siteAddress && (
+                      <span className="flex items-center gap-1">
+                        <MapPin className="w-3 h-3 text-brand-500" />
+                        <span>{ord.siteAddress}</span>
+                      </span>
+                    )}
+                    <span>&bull;</span>
+                    <span>{ord.createdAt ? new Date(ord.createdAt).toLocaleDateString() : 'Recent'}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-2xs p-5 space-y-4">
-          <h2 className="text-sm font-bold text-gray-900">Scheduled Worker Artisan Appointments</h2>
+        <div className="bg-white rounded-2xl border border-gray-200/80 shadow-2xs p-4 sm:p-5 space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-bold text-gray-900">Scheduled Worker Artisan Appointments ({bookings.length})</h2>
+            <span className="text-xs text-brand-600 font-bold bg-pink-50 px-2.5 py-0.5 rounded-full">Real-time Sync</span>
+          </div>
 
           <div className="divide-y divide-gray-100 text-xs">
-            {[
-              {
-                id: 'BKG-7712',
-                worker: 'Ramesh Kumar',
-                skill: 'Master Marble Cutter & Installer',
-                customer: 'Ananya Sharma',
-                phone: '+91 94401 54321',
-                date: '25 Nov 2026 (09:00 AM - 05:00 PM)',
-                rate: '₹850 / day',
-                status: 'Accepted',
-                site: 'Flat 402, Royal Palms, Banjara Hills, Hyderabad',
-              },
-              {
-                id: 'BKG-7711',
-                worker: 'Mohammed Arif',
-                skill: 'Italian Marble Mirror Polisher',
-                customer: 'Raghavendra Varma',
-                phone: '+91 98888 77766',
-                date: '26 Nov 2026 (Full Day)',
-                rate: '₹950 / day',
-                status: 'Confirmed',
-                site: 'Villa 18, Palm Meadows, Madhapur, Hyderabad',
-              },
-            ].map((bkg) => (
-              <div key={bkg.id} className="py-4 space-y-2">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono font-black text-gray-900">{bkg.id}</span>
-                    <span className="bg-emerald-50 text-emerald-700 font-bold px-2 py-0.5 rounded-full text-[10px]">
-                      {bkg.status}
-                    </span>
+            {bookings.length === 0 ? (
+              <div className="py-8 text-center text-gray-400">No artisan bookings yet.</div>
+            ) : (
+              bookings.map((b) => (
+                <div key={b.id} className="py-4 space-y-2">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono font-black text-purple-600">#{b.id}</span>
+                      <span className="bg-purple-50 text-purple-700 font-bold px-2 py-0.5 rounded-full text-[10px]">
+                        {b.status}
+                      </span>
+                    </div>
+                    <div className="font-black text-sm text-gray-900">₹{(b.totalAmount || 0).toLocaleString('en-IN')}</div>
                   </div>
-                  <div className="font-black text-brand-600">{bkg.rate}</div>
-                </div>
 
-                <div className="font-bold text-gray-800">
-                  Assigned Artisan: <span className="text-brand-600">{bkg.worker}</span> ({bkg.skill})
-                </div>
+                  <div className="text-gray-800 font-semibold">
+                    Worker: <strong className="text-gray-900">{b.workerName || 'Artisan Specialist'}</strong> ({b.workerSkill || b.category || 'Stone Installer'})
+                  </div>
 
-                <div className="flex flex-wrap items-center gap-4 text-gray-400 text-[11px] pt-1">
-                  <span>Customer: <strong className="text-gray-700">{bkg.customer}</strong> ({bkg.phone})</span>
-                  <span>&middot;</span>
-                  <span>Date: <strong className="text-gray-700">{bkg.date}</strong></span>
-                  <span>&middot;</span>
-                  <span>Site: {bkg.site}</span>
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-gray-500 text-[11px] pt-1">
+                    <span>Client: <strong className="text-gray-800">{b.customerName || 'Customer'}</strong> ({b.customerPhone || 'Contact on file'})</span>
+                    <span>&bull;</span>
+                    <span>Slot: {b.scheduledDate || b.date} ({b.scheduledTimeSlot || b.timeSlot})</span>
+                    {b.siteAddress && (
+                      <span className="flex items-center gap-1">
+                        <MapPin className="w-3 h-3 text-brand-500" />
+                        <span>{b.siteAddress}</span>
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       )}

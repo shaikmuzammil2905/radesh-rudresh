@@ -574,7 +574,82 @@ export default function AdminDashboardPage() {
             </Link>
           </div>
 
-          <div className="overflow-x-auto pt-3">
+          {/* Mobile Product Pricing Cards (< md) */}
+          <div className="block md:hidden divide-y divide-gray-100 pt-2">
+            {products.slice(0, 6).map((p) => {
+              const base = p.vendorBasePrice || p.pricePerSqFt;
+              const commPct = p.commissionPercent || 10;
+              const commAmt = p.commissionAmount || Math.round((base * commPct) / 100);
+              const finalSelling = p.pricePerSqFt;
+
+              return (
+                <div key={p.id} className="py-3.5 space-y-2.5">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={p.image}
+                      alt={p.name}
+                      className="w-12 h-12 rounded-xl object-cover border border-gray-100 shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="font-bold text-gray-900 text-sm truncate">{p.name}</div>
+                      <div className="text-[11px] text-gray-500">
+                        {p.category} &bull; {p.vendorName || 'Direct Quarry'}
+                      </div>
+                    </div>
+                    <span
+                      className={`px-2 py-0.5 text-[9.5px] font-bold rounded-full shrink-0 ${
+                        p.published !== false && p.approvalStatus !== 'Pending'
+                          ? 'bg-emerald-50 text-emerald-700'
+                          : 'bg-amber-50 text-amber-700'
+                      }`}
+                    >
+                      {p.approvalStatus || 'Approved'}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-2 bg-slate-50 p-2.5 rounded-xl text-center">
+                    <div>
+                      <span className="text-[9.5px] text-gray-400 block font-semibold">BASE</span>
+                      <span className="font-bold text-gray-800 text-xs">₹{base}</span>
+                    </div>
+                    <div>
+                      <span className="text-[9.5px] text-gray-400 block font-semibold">MARGIN</span>
+                      <span className="font-bold text-emerald-600 text-xs">+{commPct}%</span>
+                    </div>
+                    <div>
+                      <span className="text-[9.5px] text-gray-400 block font-semibold">SELLING</span>
+                      <span className="font-black text-brand-600 text-xs">₹{finalSelling}/sq.ft</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-end gap-2 pt-1">
+                    <button
+                      onClick={() => {
+                        setEditingProduct(p);
+                        setNewCommissionPercent(p.commissionPercent || 10);
+                      }}
+                      className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs rounded-xl transition inline-flex items-center gap-1.5"
+                    >
+                      <Edit2 className="w-3.5 h-3.5" />
+                      <span>Set Price</span>
+                    </button>
+                    {p.approvalStatus === 'Pending' && (
+                      <button
+                        onClick={() => handleApproveProduct(p)}
+                        className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl transition inline-flex items-center gap-1.5"
+                      >
+                        <Check className="w-3.5 h-3.5" />
+                        <span>Approve</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Desktop Product Pricing Table (>= md) */}
+          <div className="hidden md:block overflow-x-auto pt-3">
             <table className="w-full text-left text-xs">
               <thead>
                 <tr className="text-gray-400 border-b border-gray-100 text-[11px]">
@@ -667,7 +742,7 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* RECENT ORDERS / TRANSACTIONS TABLE */}
-        <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-2xs">
+        <div className="bg-white rounded-2xl p-4 sm:p-5 border border-gray-100 shadow-2xs">
           <div className="flex items-center justify-between pb-3 border-b border-gray-100">
             <div>
               <h3 className="text-sm font-black text-gray-900">Recent Customer Orders</h3>
@@ -678,7 +753,42 @@ export default function AdminDashboardPage() {
             </Link>
           </div>
 
-          <div className="overflow-x-auto pt-3">
+          {/* Mobile Orders Card List (< md) */}
+          <div className="block md:hidden divide-y divide-gray-100 pt-2">
+            {recentOrders.length === 0 ? (
+              <div className="py-6 text-center text-xs text-gray-400">No customer orders yet.</div>
+            ) : (
+              recentOrders.map((ord) => (
+                <div key={ord.id} className="py-3.5 space-y-2 text-xs">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono font-bold text-brand-600">#{ord.id}</span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="px-2 py-0.5 text-[9.5px] font-bold rounded-full bg-emerald-50 text-emerald-700">
+                        {ord.paymentStatus}
+                      </span>
+                      <span className="px-2 py-0.5 text-[9.5px] font-bold rounded-full bg-blue-50 text-blue-700">
+                        {ord.status}
+                      </span>
+                    </div>
+                  </div>
+                  <div>
+                    <span className="font-bold text-gray-900 text-sm">{ord.customerName || ord.contactName}</span>
+                    <span className="text-[10.5px] text-gray-400 block">{ord.customerPhone || ord.contactPhone}</span>
+                  </div>
+                  <div className="text-gray-700 font-medium">
+                    {ord.items.map((i) => i.product.name).join(', ')}
+                  </div>
+                  <div className="flex items-center justify-between pt-1">
+                    <span className="font-black text-sm text-gray-900">₹{ord.totalAmount.toLocaleString()}</span>
+                    <span className="text-[10px] text-gray-400">{new Date(ord.createdAt).toLocaleDateString()}</span>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Desktop Orders Table (>= md) */}
+          <div className="hidden md:block overflow-x-auto pt-3">
             <table className="w-full text-left text-xs">
               <thead>
                 <tr className="text-gray-400 border-b border-gray-100 text-[11px]">

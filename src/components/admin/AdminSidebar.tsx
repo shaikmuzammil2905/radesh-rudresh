@@ -33,7 +33,7 @@ export const AdminSidebar: React.FC<SidebarProps> = ({ onCloseMobile, pendingApp
   const pathname = usePathname();
   const router = useRouter();
 
-  // 11 Core Navigation Items matching Reference UI (image copy 17.png) and Scope of Work
+  // 11 Core Navigation Items matching Reference UI and Scope of Work
   const primaryNav = [
     { label: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
     { label: 'Vendors', href: '/admin/vendors', icon: Store },
@@ -61,6 +61,14 @@ export const AdminSidebar: React.FC<SidebarProps> = ({ onCloseMobile, pendingApp
     { label: 'Homepage CMS', href: '/admin/pages', icon: Sparkles },
   ];
 
+  const handleNav = (e: React.MouseEvent, href: string) => {
+    e.preventDefault();
+    if (onCloseMobile) {
+      onCloseMobile();
+    }
+    router.push(href);
+  };
+
   const handleLogout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
@@ -73,7 +81,11 @@ export const AdminSidebar: React.FC<SidebarProps> = ({ onCloseMobile, pendingApp
       {/* Brand Header */}
       <div className="flex-1 flex flex-col overflow-hidden">
         <div className="p-4 sm:p-5 border-b border-slate-800/80 flex items-center justify-between bg-[#080B12]">
-          <Link href="/admin/dashboard" className="flex items-center gap-3">
+          <Link
+            href="/admin/dashboard"
+            onClick={(e) => handleNav(e, '/admin/dashboard')}
+            className="flex items-center gap-3"
+          >
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-500 via-pink-600 to-rose-500 flex items-center justify-center p-1.5 shadow-md shadow-brand-500/20">
               <img
                 src="/assets/rr_monogram.png"
@@ -102,32 +114,40 @@ export const AdminSidebar: React.FC<SidebarProps> = ({ onCloseMobile, pendingApp
           </div>
           {primaryNav.map((item) => {
             const Icon = item.icon;
-            const isActive = pathname === item.href || (item.href !== '/admin/dashboard' && pathname?.startsWith(item.href));
+            const isActive =
+              pathname === item.href ||
+              (item.href !== '/admin/dashboard' && pathname?.startsWith(item.href));
+
             return (
-              <Link
+              <button
                 key={item.href}
-                href={item.href}
-                onClick={onCloseMobile}
-                className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all group ${
+                onClick={(e) => handleNav(e, item.href)}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all group text-left cursor-pointer ${
                   isActive
                     ? 'bg-brand-500 text-white shadow-md shadow-brand-500/25 font-bold'
                     : 'text-slate-300 hover:bg-slate-800/70 hover:text-white'
                 }`}
               >
                 <div className="flex items-center gap-3">
-                  <Icon className={`w-4 h-4 transition-transform group-hover:scale-110 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                  <Icon
+                    className={`w-4 h-4 transition-transform group-hover:scale-110 ${
+                      isActive ? 'text-white' : 'text-slate-400'
+                    }`}
+                  />
                   <span>{item.label}</span>
                 </div>
                 {item.badge && (
                   <span
                     className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                      isActive ? 'bg-white text-brand-600' : 'bg-brand-500/20 text-brand-400 border border-brand-500/40'
+                      isActive
+                        ? 'bg-white text-brand-600'
+                        : 'bg-brand-500/20 text-brand-400 border border-brand-500/40'
                     }`}
                   >
                     {item.badge}
                   </span>
                 )}
-              </Link>
+              </button>
             );
           })}
 
@@ -138,11 +158,10 @@ export const AdminSidebar: React.FC<SidebarProps> = ({ onCloseMobile, pendingApp
             const Icon = item.icon;
             const isActive = pathname === item.href;
             return (
-              <Link
+              <button
                 key={item.href}
-                href={item.href}
-                onClick={onCloseMobile}
-                className={`flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
+                onClick={(e) => handleNav(e, item.href)}
+                className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all text-left cursor-pointer ${
                   isActive
                     ? 'bg-slate-800 text-brand-400 font-bold'
                     : 'text-slate-400 hover:bg-slate-800/60 hover:text-slate-200'
@@ -150,7 +169,7 @@ export const AdminSidebar: React.FC<SidebarProps> = ({ onCloseMobile, pendingApp
               >
                 <Icon className={`w-4 h-4 ${isActive ? 'text-brand-400' : 'text-slate-400'}`} />
                 <span>{item.label}</span>
-              </Link>
+              </button>
             );
           })}
         </nav>
@@ -158,7 +177,7 @@ export const AdminSidebar: React.FC<SidebarProps> = ({ onCloseMobile, pendingApp
 
       {/* Skyline & Footer */}
       <div className="p-3 border-t border-slate-800/80 bg-[#080B12]">
-        {/* City Skyline Decorative Graphic */}
+        {/* City Skyline Graphic */}
         <div className="mb-3 px-2 py-2 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between text-[11px]">
           <div className="flex items-center gap-2">
             <Building2 className="w-4 h-4 text-brand-400" />

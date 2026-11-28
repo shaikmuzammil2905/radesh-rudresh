@@ -57,22 +57,60 @@ export default function SalesAdminPage() {
         </div>
 
         {/* Ledger Breakdown */}
-        <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-2xs">
-          <div className="flex items-center justify-between pb-4 border-b border-gray-100">
+        <div className="bg-white rounded-2xl p-4 sm:p-6 border border-gray-100 shadow-2xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-gray-100 gap-3">
             <div>
               <h3 className="text-sm font-black text-gray-900">Recent Financial Settlements</h3>
               <p className="text-xs text-gray-500">Direct quarry vendor and contractor bank disbursements</p>
             </div>
             <button
               onClick={() => alert('Exporting CSV Ledger for FY 2025-26...')}
-              className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl text-xs flex items-center gap-1.5 transition"
+              className="px-3.5 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl text-xs flex items-center gap-1.5 transition self-start sm:self-auto"
             >
               <Download className="w-3.5 h-3.5" />
               <span>Export CSV</span>
             </button>
           </div>
 
-          <div className="overflow-x-auto pt-3">
+          {/* Mobile Card List (< sm) */}
+          <div className="block sm:hidden divide-y divide-gray-100 pt-2">
+            {[
+              { ref: 'TXN-9921', name: 'Shree Marble Traders', type: 'Vendor Payout', gross: 280000, fee: 28000, net: 252000, status: 'Completed' },
+              { ref: 'TXN-9920', name: 'Kailash Stone World', type: 'Vendor Payout', gross: 450000, fee: 45000, net: 405000, status: 'Completed' },
+              { ref: 'TXN-9919', name: 'Ramesh Sharma (Artisan)', type: 'Worker Wage', gross: 12500, fee: 1250, net: 11250, status: 'Completed' },
+              { ref: 'TXN-9918', name: 'Mewar Marble Co.', type: 'Vendor Payout', gross: 320000, fee: 32000, net: 288000, status: 'Completed' },
+            ].map((row, i) => (
+              <div key={i} className="py-3.5 space-y-2 text-xs">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono font-bold text-gray-900">{row.ref}</span>
+                  <span className="px-2 py-0.5 text-[9.5px] font-bold rounded-full bg-emerald-50 text-emerald-700">
+                    {row.status}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-gray-800 text-sm">{row.name}</span>
+                  <span className="text-[10px] text-gray-400">{row.type}</span>
+                </div>
+                <div className="grid grid-cols-3 gap-2 bg-slate-50 p-2.5 rounded-xl text-center">
+                  <div>
+                    <span className="text-[9.5px] text-gray-400 block font-semibold">GROSS</span>
+                    <span className="font-bold text-gray-800">₹{row.gross.toLocaleString()}</span>
+                  </div>
+                  <div>
+                    <span className="text-[9.5px] text-gray-400 block font-semibold">MARGIN</span>
+                    <span className="font-bold text-brand-600">-₹{row.fee.toLocaleString()}</span>
+                  </div>
+                  <div>
+                    <span className="text-[9.5px] text-gray-400 block font-semibold">NET PAYOUT</span>
+                    <span className="font-black text-emerald-600">₹{row.net.toLocaleString()}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop Table (>= sm) */}
+          <div className="hidden sm:block overflow-x-auto pt-3">
             <table className="w-full text-left text-xs">
               <thead className="text-gray-400 border-b border-gray-100 text-[11px]">
                 <tr>

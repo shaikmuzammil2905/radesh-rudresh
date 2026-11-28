@@ -129,7 +129,92 @@ export default function VendorsAdminPage() {
 
         {/* Vendors Grid / Table */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-2xs overflow-hidden">
-          <div className="overflow-x-auto">
+          {/* Mobile Card List View (< sm) */}
+          <div className="block sm:hidden divide-y divide-gray-100">
+            {filteredVendors.length === 0 ? (
+              <div className="py-12 text-center text-xs text-gray-400">
+                No marble vendors match your filter criteria.
+              </div>
+            ) : (
+              filteredVendors.map((v) => (
+                <div key={v.id} className="p-4 space-y-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <h4 className="font-bold text-gray-900 text-sm">{v.businessName}</h4>
+                      <div className="text-[11px] text-gray-500 mt-0.5">{v.name} &bull; {v.phone}</div>
+                    </div>
+                    <span
+                      className={`px-2 py-0.5 text-[10px] font-bold rounded-full shrink-0 ${
+                        v.status === 'Active'
+                          ? 'bg-emerald-50 text-emerald-700'
+                          : v.status === 'Suspended'
+                          ? 'bg-rose-50 text-rose-700'
+                          : 'bg-amber-50 text-amber-700'
+                      }`}
+                    >
+                      {v.status}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 text-xs bg-slate-50 p-2.5 rounded-xl">
+                    <div>
+                      <span className="text-[10px] text-gray-400 block font-semibold">LOCATION</span>
+                      <span className="text-gray-800 font-medium">{v.city ? `${v.city}, ${v.state || 'RJ'}` : v.location || 'RJ'}</span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-gray-400 block font-semibold">GST / KYC</span>
+                      <span className={`text-[10px] font-bold ${v.kycStatus === 'Approved' || v.kycStatus === 'Verified' ? 'text-emerald-600' : 'text-amber-600'}`}>
+                        KYC {v.kycStatus}
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-gray-400 block font-semibold">COMMISSION</span>
+                      <span className="text-brand-600 font-bold">{v.commissionRate}%</span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-gray-400 block font-semibold">SALES</span>
+                      <span className="font-bold text-gray-900">₹{(v.totalSales || 0).toLocaleString()}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-end gap-2 pt-1">
+                    <button
+                      onClick={() => setSelectedVendor(v)}
+                      className="px-3 py-1.5 bg-gray-100 text-gray-700 font-bold rounded-xl text-xs"
+                    >
+                      View KYC
+                    </button>
+                    {v.kycStatus === 'Pending' && (
+                      <button
+                        onClick={() => handleUpdateStatus(v.id, 'Active', 'Approved')}
+                        className="px-3 py-1.5 bg-emerald-600 text-white font-bold rounded-xl text-xs"
+                      >
+                        Approve
+                      </button>
+                    )}
+                    {v.status === 'Active' ? (
+                      <button
+                        onClick={() => handleUpdateStatus(v.id, 'Suspended')}
+                        className="px-3 py-1.5 bg-rose-50 text-rose-700 font-bold rounded-xl text-xs"
+                      >
+                        Suspend
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleUpdateStatus(v.id, 'Active', 'Approved')}
+                        className="px-3 py-1.5 bg-emerald-50 text-emerald-700 font-bold rounded-xl text-xs"
+                      >
+                        Activate
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Desktop Table View (>= sm) */}
+          <div className="hidden sm:block overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead className="bg-slate-50 border-b border-gray-100 text-gray-400 text-[11px] uppercase tracking-wider">
                 <tr>

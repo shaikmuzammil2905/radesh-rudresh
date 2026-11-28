@@ -233,6 +233,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setOrders((prev) => [newOrder, ...prev]);
     setLastConfirmedOrder(newOrder);
     clearCart();
+
+    // Directly sync new customer order to backend CMS & Admin Panel
+    fetch('/api/cms/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'order', order: newOrder }),
+    }).catch(() => {});
+
     return newOrder;
   };
 
@@ -247,6 +255,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     };
     setBookings((prev) => [newBooking, ...prev]);
     setLastConfirmedBooking(newBooking);
+
+    // Directly sync new artisan booking to backend CMS & Admin Panel
+    fetch('/api/cms/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'booking', booking: newBooking }),
+    }).catch(() => {});
+
     return newBooking;
   };
 
