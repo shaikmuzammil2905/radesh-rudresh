@@ -17,6 +17,7 @@ import {
   User,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useAdmin } from '@/context/AdminContext';
 
 interface HeaderProps {
   title: string;
@@ -33,9 +34,18 @@ export const AdminHeader: React.FC<HeaderProps> = ({
   onToggleMobileMenu,
   onSearch,
 }) => {
+  const { toggleMobileSidebar } = useAdmin();
   const [searchVal, setSearchVal] = useState('');
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+
+  const handleToggle = () => {
+    if (onToggleMobileMenu) {
+      onToggleMobileMenu();
+    } else {
+      toggleMobileSidebar();
+    }
+  };
 
   const notifications = [
     { id: 1, title: 'New Vendor Registered', time: '5m ago', desc: 'Mewar Marble Co. submitted GST & Aadhaar for approval' },
@@ -48,15 +58,13 @@ export const AdminHeader: React.FC<HeaderProps> = ({
     <header className="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-gray-200/80 px-4 sm:px-6 py-3 flex items-center justify-between shadow-2xs">
       {/* Left: Mobile Toggle & Breadcrumbs / Title */}
       <div className="flex items-center gap-3">
-        {onToggleMobileMenu && (
-          <button
-            onClick={onToggleMobileMenu}
-            className="lg:hidden p-2 -ml-2 text-gray-700 hover:text-brand-500 rounded-lg hover:bg-gray-100 transition"
-            aria-label="Toggle navigation"
-          >
-            <Menu className="w-5 h-5" />
-          </button>
-        )}
+        <button
+          onClick={handleToggle}
+          className="lg:hidden p-2 -ml-2 text-gray-700 hover:text-brand-500 rounded-lg hover:bg-gray-100 transition cursor-pointer"
+          aria-label="Open Admin Navigation Menu"
+        >
+          <Menu className="w-5 h-5 text-gray-800" />
+        </button>
 
         <div>
           {/* Breadcrumb matching Reference UI */}

@@ -1,12 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { usePathname } from 'next/navigation';
 import { AdminSidebar } from '@/components/admin/AdminSidebar';
+import { AdminProvider, useAdmin } from '@/context/AdminContext';
+import { X } from 'lucide-react';
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+function AdminLayoutInner({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+  const { mobileSidebarOpen, setMobileSidebarOpen } = useAdmin();
 
   // If on login page, render clean full-screen view without admin sidebar
   if (pathname === '/admin/login') {
@@ -15,28 +17,46 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="flex min-h-screen bg-slate-50 w-full font-sans">
-      {/* Desktop Sidebar */}
+      {/* Desktop Sidebar (Fixed) */}
       <div className="hidden lg:block shrink-0">
         <AdminSidebar />
       </div>
 
-      {/* Mobile Drawer Sidebar */}
+      {/* Mobile Drawer Menu Bar with all Admin Sections */}
       {mobileSidebarOpen && (
         <div className="fixed inset-0 z-50 flex lg:hidden">
+          {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
+            className="fixed inset-0 bg-black/70 backdrop-blur-xs transition-opacity duration-300"
             onClick={() => setMobileSidebarOpen(false)}
           />
-          <div className="relative z-10">
+
+          {/* Drawer Panel */}
+          <div className="relative z-10 w-72 max-w-[85vw] h-full shadow-2xl flex flex-col animate-in slide-in-from-left duration-200">
+            <button
+              onClick={() => setMobileSidebarOpen(false)}
+              className="absolute top-4 right-3 text-slate-400 hover:text-white p-1.5 rounded-lg bg-slate-800 z-50"
+              aria-label="Close Admin Menu"
+            >
+              <X className="w-4 h-4" />
+            </button>
             <AdminSidebar onCloseMobile={() => setMobileSidebarOpen(false)} />
           </div>
         </div>
       )}
 
-      {/* Main Content Area */}
+      {/* Main Content Workspace */}
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
-        <main className="flex-1 p-3 sm:p-5 lg:p-6 w-full max-w-[1700px] mx-auto">{children}</main>
+        <main className="flex-1 p-2.5 sm:p-5 lg:p-6 w-full max-w-[1700px] mx-auto">{children}</main>
       </div>
     </div>
+  );
+}
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <AdminProvider>
+      <AdminLayoutInner>{children}</AdminLayoutInner>
+    </AdminProvider>
   );
 }
