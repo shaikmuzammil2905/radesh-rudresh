@@ -208,9 +208,64 @@ export default function AdminProductsPage() {
         </button>
       </div>
 
-      {/* Products Table (Past Data + Actions) */}
+      {/* Products Display (Mobile Single-Line Cards + Desktop Table) */}
       <div className="bg-white rounded-2xl border border-gray-200/80 shadow-2xs overflow-hidden">
-        <div className="overflow-x-auto">
+        {/* Mobile Single-Line Clean View (< sm) */}
+        <div className="block sm:hidden divide-y divide-gray-100">
+          {filteredProducts.length === 0 ? (
+            <div className="py-12 text-center text-xs text-gray-400">
+              No products found matching your search.
+            </div>
+          ) : (
+            filteredProducts.map((p) => (
+              <div key={p.id} className="p-3.5 flex items-center justify-between gap-3 hover:bg-gray-50/70 transition">
+                {/* Left: Thumbnail + Single-Line Info */}
+                <div className="flex items-center gap-3 min-w-0 flex-1">
+                  <div className="w-12 h-12 rounded-xl border border-gray-200 bg-gray-100 overflow-hidden shrink-0">
+                    <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="font-bold text-gray-900 text-xs truncate leading-snug">{p.name}</div>
+                    <div className="text-[10px] text-gray-500 truncate flex items-center gap-1.5 mt-0.5">
+                      <span className="font-semibold text-brand-600">{p.category}</span>
+                      <span>&bull;</span>
+                      <span>{p.finish || 'Polished'}</span>
+                    </div>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="font-black text-gray-900 text-xs">₹{p.pricePerSqFt}<span className="text-[9.5px] font-normal text-gray-400">/sq.ft</span></span>
+                      <span className={`text-[8.5px] font-bold px-1.5 py-0.2 rounded ${
+                        p.stockStatus === 'In Stock' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
+                      }`}>
+                        {p.stockStatus}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right: Quick Action Buttons */}
+                <div className="flex items-center gap-1 shrink-0">
+                  <button
+                    onClick={() => handleOpenEdit(p)}
+                    className="p-2 text-gray-600 hover:text-brand-600 bg-gray-100 hover:bg-pink-50 rounded-xl transition"
+                    title="Edit product"
+                  >
+                    <Edit2 className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    onClick={() => setDeleteId(p.id)}
+                    className="p-2 text-gray-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition"
+                    title="Delete product"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* Desktop Table View (>= sm) */}
+        <div className="hidden sm:block overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-gray-50/80 text-gray-500 font-bold border-b border-gray-200">
               <tr>
